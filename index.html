@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Karthik Ravishankar — Portfolio</title>
+<meta name="description" content="Consulting Engineer at Cisco. AI Builder, MCP Developer, Speaker.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: #0a0a0f;
+  color: #e2e8f0;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+
+/* ===== CSS VARIABLES ===== */
+:root {
+  --accent-1: #3b82f6;
+  --accent-2: #06b6d4;
+  --accent-3: #8b5cf6;
+  --glass-bg: rgba(255,255,255,0.03);
+  --glass-border: rgba(255,255,255,0.08);
+  --glass-hover: rgba(255,255,255,0.06);
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --section-gap: 100px;
+}
+
+/* ===== PARTICLE CANVAS ===== */
+#particles {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ===== NAVBAR ===== */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 16px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  backdrop-filter: blur(20px);
+  background: rgba(10,10,15,0.8);
+  border-bottom: 1px solid var(--glass-border);
+  transition: all 0.3s ease;
+}
+nav.scrolled { background: rgba(10,10,15,0.95); }
+.nav-logo {
+  font-weight: 700;
+  font-size: 1.1rem;
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.nav-links { display: flex; gap: 28px; }
+.nav-links a {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: color 0.3s;
+  letter-spacing: 0.02em;
+}
+.nav-links a:hover { color: var(--text-primary); }
+.nav-hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; }
+.nav-hamburger span { width: 24px; height: 2px; background: var(--text-secondary); transition: 0.3s; }
+
+/* ===== SECTIONS ===== */
+section {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.section-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent-2);
+  margin-bottom: 8px;
+}
+.section-heading {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 48px;
+}
+
+/* ===== HERO ===== */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 80px;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  border-radius: 100px;
+  background: rgba(59,130,246,0.1);
+  border: 1px solid rgba(59,130,246,0.2);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--accent-1);
+  margin-bottom: 24px;
+  width: fit-content;
+}
+.hero-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; animation: pulse-dot 2s infinite; }
+@keyframes pulse-dot { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+.hero-name {
+  font-size: clamp(2.8rem, 6vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+.hero-name .gradient {
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2), var(--accent-3));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% 200%;
+  animation: gradient-shift 4s ease infinite;
+}
+@keyframes gradient-shift { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+.hero-typed {
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  color: var(--text-secondary);
+  margin-bottom: 32px;
+  min-height: 2em;
+}
+.hero-typed .cursor { display: inline-block; width: 2px; height: 1.2em; background: var(--accent-1); margin-left: 2px; vertical-align: text-bottom; animation: blink 1s step-end infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.hero-socials { display: flex; gap: 12px; margin-bottom: 48px; }
+.hero-socials a {
+  display: flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  transition: all 0.3s;
+}
+.hero-socials a:hover { background: var(--glass-hover); border-color: var(--accent-1); color: var(--accent-1); transform: translateY(-2px); }
+.hero-stats { display: flex; gap: 40px; flex-wrap: wrap; }
+.hero-stat .number {
+  font-size: 2rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero-stat .label { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
+.scroll-indicator {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  animation: float 3s ease-in-out infinite;
+}
+.scroll-indicator .arrow { width: 20px; height: 20px; border-right: 2px solid var(--text-muted); border-bottom: 2px solid var(--text-muted); transform: rotate(45deg); }
+@keyframes float { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(10px)} }
+
+/* ===== EXPERIENCE ===== */
+#experience { padding-top: var(--section-gap); }
+.timeline { position: relative; padding-left: 32px; }
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--accent-1), var(--accent-2), transparent);
+}
+.timeline-item { position: relative; margin-bottom: 40px; }
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -37px; top: 8px;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--accent-1);
+  border: 2px solid #0a0a0f;
+  box-shadow: 0 0 12px rgba(59,130,246,0.4);
+}
+.timeline-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+.timeline-role { font-size: 1.25rem; font-weight: 700; color: var(--text-primary); }
+.timeline-date { font-size: 0.8rem; font-weight: 500; color: var(--accent-2); font-family: 'JetBrains Mono', monospace; }
+.timeline-company { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 16px; }
+.exp-category {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-1);
+  margin: 16px 0 8px;
+}
+.exp-list { list-style: none; }
+.exp-list li {
+  position: relative;
+  padding-left: 16px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+.exp-list li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--accent-2);
+  font-size: 0.8rem;
+}
+.exp-list li strong { color: var(--text-primary); font-weight: 600; }
+
+/* ===== PROJECTS ===== */
+#projects { padding-top: var(--section-gap); }
+.projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+.project-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 28px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.project-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(59,130,246,0.3);
+  background: var(--glass-hover);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 40px rgba(59,130,246,0.05);
+}
+.project-card:hover::before { opacity: 1; }
+.project-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+.project-name { font-size: 1.1rem; font-weight: 700; color: var(--text-primary); }
+.project-date { font-size: 0.75rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; white-space: nowrap; }
+.project-desc { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 16px; }
+.project-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.project-tag {
+  padding: 3px 10px;
+  border-radius: 100px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  background: rgba(59,130,246,0.1);
+  color: var(--accent-1);
+  border: 1px solid rgba(59,130,246,0.15);
+}
+.project-badge {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 3px 10px;
+  border-radius: 100px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: rgba(234,179,8,0.1);
+  color: #eab308;
+  border: 1px solid rgba(234,179,8,0.2);
+}
+
+/* ===== SKILLS ===== */
+#skills { padding-top: var(--section-gap); }
+.skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 24px; }
+.skill-group {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 24px;
+}
+.skill-group-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-2);
+  margin-bottom: 14px;
+}
+.skill-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.skill-pill {
+  padding: 5px 14px;
+  border-radius: 100px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: var(--text-secondary);
+  transition: all 0.3s;
+}
+.skill-pill:hover { background: rgba(59,130,246,0.1); border-color: rgba(59,130,246,0.3); color: var(--accent-1); }
+
+/* ===== ACHIEVEMENTS ===== */
+#achievements { padding-top: var(--section-gap); }
+.achievements-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(480px, 1fr)); gap: 24px; }
+.achievement-block {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 28px;
+}
+.achievement-block-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 18px;
+}
+.achievement-block-title .icon { font-size: 1.3rem; }
+.achievement-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  gap: 12px;
+}
+.achievement-item:last-child { border-bottom: none; }
+.achievement-item .name { font-size: 0.85rem; color: var(--text-secondary); }
+.achievement-item .name strong { color: var(--text-primary); font-weight: 600; }
+.achievement-item .date { font-size: 0.75rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; white-space: nowrap; }
+.pub-doi { font-size: 0.8rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; margin-top: 4px; }
+
+/* ===== FOOTER ===== */
+footer {
+  position: relative;
+  z-index: 1;
+  margin-top: var(--section-gap);
+  padding: 48px 24px;
+  text-align: center;
+  border-top: 1px solid var(--glass-border);
+}
+.footer-socials { display: flex; justify-content: center; gap: 16px; margin-bottom: 20px; }
+.footer-socials a {
+  display: flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: var(--text-secondary);
+  transition: all 0.3s;
+}
+.footer-socials a:hover { border-color: var(--accent-1); color: var(--accent-1); transform: translateY(-2px); }
+.footer-text { font-size: 0.8rem; color: var(--text-muted); }
+.resume-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+  padding: 10px 24px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+.resume-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(59,130,246,0.3); }
+
+/* ===== SCROLL REVEAL ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  nav { padding: 14px 20px; }
+  .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: rgba(10,10,15,0.98); flex-direction: column; padding: 20px; gap: 16px; border-bottom: 1px solid var(--glass-border); }
+  .nav-links.open { display: flex; }
+  .nav-hamburger { display: flex; }
+  section { padding: 0 16px; }
+  .hero-stats { gap: 24px; }
+  .hero-stat .number { font-size: 1.5rem; }
+  .projects-grid { grid-template-columns: 1fr; }
+  .achievements-grid { grid-template-columns: 1fr; }
+  .skills-grid { grid-template-columns: 1fr 1fr; }
+  .section-heading { font-size: 1.8rem; }
+  .timeline { padding-left: 24px; }
+}
+@media (max-width: 480px) {
+  .skills-grid { grid-template-columns: 1fr; }
+  .hero-socials a { width: 40px; height: 40px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Particle Background -->
+<canvas id="particles"></canvas>
+
+<!-- Navbar -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">KR</a>
+  <div class="nav-links" id="navLinks">
+    <a href="#experience">Experience</a>
+    <a href="#education">Education</a>
+    <a href="#projects">Projects</a>
+    <a href="#skills">Skills</a>
+    <a href="#achievements">Achievements</a>
+  </div>
+  <div class="nav-hamburger" id="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section id="hero">
+  <h1 class="hero-name">Hi, I'm <span class="gradient">Karthik</span></h1>
+  <div class="hero-typed"><span id="typed-text"></span><span class="cursor"></span></div>
+  <div class="hero-socials">
+    <a href="https://github.com/karthikkk16" target="_blank" aria-label="GitHub">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+    </a>
+    <a href="https://linkedin.com/in/karthikraviii" target="_blank" aria-label="LinkedIn">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+    </a>
+    <a href="mailto:karthikravi141@gmail.com" aria-label="Email">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+    </a>
+  </div>
+  <div class="scroll-indicator">
+    SCROLL
+    <div class="arrow"></div>
+  </div>
+</section>
+
+<!-- ===== EXPERIENCE ===== -->
+<section id="experience">
+  <div class="reveal">
+    <p class="section-title">Career</p>
+    <h2 class="section-heading">Experience</h2>
+  </div>
+  <div class="timeline">
+    <!-- Consulting Engineer -->
+    <div class="timeline-item reveal">
+      <div class="timeline-header">
+        <span class="timeline-role">Consulting Engineer</span>
+        <span class="timeline-date">Jul 2024 — Present</span>
+      </div>
+      <div class="timeline-company">Cisco Systems — Customer Experience (CX) · Bengaluru, India</div>
+
+      <div class="exp-category">Automation & Network Testing</div>
+      <ul class="exp-list">
+        <li>Develop and maintain <strong>20+ automated test suites</strong> for Verizon's enterprise network services across IOS-XR and IOS-XE platforms, covering optics validation, EPNM monitoring, and L2/L3 service configurations.</li>
+        <li>Built <strong>CX MoP Automation</strong> — a web application (Flask + Netmiko) that automates Method of Procedure execution: SSH data collection, intelligent interface parsing, auto-generated port mapping (Excel) and MoP documents (Word), reducing manual migration prep from hours to minutes.</li>
+      </ul>
+
+      <div class="exp-category">Tools & Observability</div>
+      <ul class="exp-list">
+        <li>Set up <strong>Splunk Enterprise from scratch</strong> — integrated 16+ test projects and network devices, built dashboards for test KPIs, automation adoption monitoring, and testcase reuse tracking.</li>
+        <li>Built a <strong>Project Timeline Estimator</strong> tool to forecast execution timelines based on historical benchmarks, improving project planning accuracy for stakeholders.</li>
+        <li>Built a <strong>Weekly Status Overview Dashboard</strong> tracking project-level metrics across 16 active projects for Verizon leadership.</li>
+      </ul>
+
+      <div class="exp-category">Enablement & Leadership</div>
+      <ul class="exp-list">
+        <li>Delivered <strong>15+ technical sessions</strong> on AI, Splunk, and automation across Verizon, SVS India, APJC CX Tech Bytes, and CX Lighthouse AI Labs.</li>
+        <li>Authored complete lab guides and workshop content for CX Lighthouse AI Labs — <strong>5 hands-on sessions</strong> covering MCP, GitHub Copilot, APIs, and custom agent building.</li>
+        <li>Conducted a <strong>5-day AI/ML bootcamp</strong> for new hires; onboarded 50+ engineers onto AI-assisted development workflows using Claude Code.</li>
+      </ul>
+    </div>
+
+    <!-- Technical Intern I -->
+    <div class="timeline-item reveal">
+      <div class="timeline-header">
+        <span class="timeline-role">Technical Intern I</span>
+        <span class="timeline-date">Jan 2024 — Jun 2024</span>
+      </div>
+      <div class="timeline-company">Cisco Systems — Customer Experience (CX) · Bengaluru, India</div>
+      <ul class="exp-list">
+        <li>Built an <strong>NSVT YAML Generator</strong> web application to streamline network service validation test setup.</li>
+        <li>Created training datasets from network CLI logs for an <strong>AIOps customer project</strong>.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== EDUCATION ===== -->
+<section id="education" class="section">
+  <h2 class="section-title reveal">Education</h2>
+  <div class="timeline">
+    <div class="timeline-item reveal">
+      <div class="timeline-header">
+        <span class="timeline-role">B.Tech in AI & Data Science</span>
+        <span class="timeline-date">Sep 2020 — May 2024</span>
+      </div>
+      <div class="timeline-company">Sona College of Technology · Salem, India</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROJECTS ===== -->
+<section id="projects">
+  <div class="reveal">
+    <p class="section-title">What I've Built</p>
+    <h2 class="section-heading">Projects</h2>
+  </div>
+  <div class="projects-grid">
+
+    <div class="project-card reveal">
+      <div class="project-card-header">
+        <span class="project-name">EcoVisionaries</span>
+        <span class="project-date">Apr 2026</span>
+      </div>
+      <p class="project-desc">AI-powered Slack moderator bot for Work on Climate (40K+ members). 5-stage pipeline with intent extraction, HyDE profile generation, multi-source retrieval, and LLM re-ranking. Achieved <strong>72% precision</strong> vs 33% with naive RAG.</p>
+      <div class="project-tags">
+        <span class="project-tag">TypeScript</span>
+        <span class="project-tag">Slack Bolt</span>
+        <span class="project-tag">PostgreSQL</span>
+        <span class="project-tag">pgvector</span>
+      </div>
+      <div class="project-badge">🏆 Tech4Social Good — 1st Runner-up</div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-card-header">
+        <span class="project-name">MCP AI Studio</span>
+        <span class="project-date">Nov 2025</span>
+      </div>
+      <p class="project-desc">Framework for AI-powered network operations, enabling natural language interaction with network devices and enterprise systems through Claude AI, MCP servers, and RAG pipelines.</p>
+      <div class="project-tags">
+        <span class="project-tag">Python</span>
+        <span class="project-tag">Claude AI</span>
+        <span class="project-tag">MCP</span>
+        <span class="project-tag">RAG</span>
+        <span class="project-tag">Cisco APIs</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-card-header">
+        <span class="project-name">Topic Search MCP</span>
+        <span class="project-date">Nov 2025</span>
+      </div>
+      <p class="project-desc">Containerized MCP server for AI-powered search across Cisco CDETS bugs, Techzone articles, and documentation. Published internally and adopted across multiple Cisco teams.</p>
+      <div class="project-tags">
+        <span class="project-tag">Python</span>
+        <span class="project-tag">Podman</span>
+        <span class="project-tag">MCP</span>
+        <span class="project-tag">Cisco Topic API</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-card-header">
+        <span class="project-name">Webex RAG Bot</span>
+        <span class="project-date">Jan 2026</span>
+      </div>
+      <p class="project-desc">AI-powered knowledge retrieval bot integrating Webex Spaces data with RAG pipelines for enterprise knowledge management.</p>
+      <div class="project-tags">
+        <span class="project-tag">Python</span>
+        <span class="project-tag">RAG</span>
+        <span class="project-tag">Circuit API</span>
+        <span class="project-tag">Webex APIs</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-card-header">
+        <span class="project-name">NetAuto MCP</span>
+        <span class="project-date">Mar 2026</span>
+      </div>
+      <p class="project-desc">MCP server enabling AI-driven interaction with network devices through natural language. Built for the Innovation League AI Hackathon.</p>
+      <div class="project-tags">
+        <span class="project-tag">Python</span>
+        <span class="project-tag">MCP</span>
+        <span class="project-tag">Netmiko</span>
+        <span class="project-tag">Claude AI</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-card-header">
+        <span class="project-name">Toxicity Search Engine</span>
+        <span class="project-date">Nov 2023</span>
+      </div>
+      <p class="project-desc">Web search engine with integrated toxicity detection, classifying search results for harmful content using deep learning models.</p>
+      <div class="project-tags">
+        <span class="project-tag">Python</span>
+        <span class="project-tag">NLP</span>
+        <span class="project-tag">Deep Learning</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== SKILLS ===== -->
+<section id="skills">
+  <div class="reveal">
+    <p class="section-title">Toolkit</p>
+    <h2 class="section-heading">Technical Skills</h2>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-group reveal">
+      <div class="skill-group-title">Languages</div>
+      <div class="skill-pills">
+        <span class="skill-pill">Python</span>
+        <span class="skill-pill">TypeScript</span>
+        <span class="skill-pill">SQL</span>
+        <span class="skill-pill">Bash</span>
+        <span class="skill-pill">SPL (Splunk)</span>
+      </div>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-title">AI & ML</div>
+      <div class="skill-pills">
+        <span class="skill-pill">Agentic AI</span>
+        <span class="skill-pill">RAG Pipelines</span>
+        <span class="skill-pill">Prompt Engineering</span>
+        <span class="skill-pill">Generative AI</span>
+        <span class="skill-pill">LLMs</span>
+        <span class="skill-pill">MCP Servers</span>
+      </div>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-title">Frameworks & Tools</div>
+      <div class="skill-pills">
+        <span class="skill-pill">LangChain</span>
+        <span class="skill-pill">Google ADK</span>
+        <span class="skill-pill">A2A Protocol</span>
+        <span class="skill-pill">Flask</span>
+        <span class="skill-pill">Claude Code</span>
+        <span class="skill-pill">Robot Framework</span>
+      </div>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-title">Platforms & Data</div>
+      <div class="skill-pills">
+        <span class="skill-pill">Splunk Enterprise</span>
+        <span class="skill-pill">Docker</span>
+        <span class="skill-pill">Podman</span>
+        <span class="skill-pill">Git / GitHub</span>
+        <span class="skill-pill">PostgreSQL</span>
+        <span class="skill-pill">MongoDB</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ACHIEVEMENTS ===== -->
+<section id="achievements">
+  <div class="reveal">
+    <p class="section-title">Recognition</p>
+    <h2 class="section-heading">Achievements</h2>
+  </div>
+  <div class="achievements-grid">
+
+    <!-- Awards -->
+    <div class="achievement-block reveal">
+      <div class="achievement-block-title"><span class="icon">🏆</span> Awards</div>
+      <div class="achievement-item"><span class="name"><strong>CX Tech4Social Good Hackathon</strong> — First Runner-up</span><span class="date">Apr 2026</span></div>
+      <div class="achievement-item"><span class="name"><strong>AI Ideation Award</strong> — Cisco SVS</span><span class="date">Mar 2026</span></div>
+      <div class="achievement-item"><span class="name"><strong>SVS Rising Star Award</strong> — Cisco SVS</span><span class="date">Dec 2025</span></div>
+      <div class="achievement-item"><span class="name"><strong>Best Team Impact Award</strong> (Verizon) — Cisco SVS</span><span class="date">Dec 2025</span></div>
+      <div class="achievement-item"><span class="name"><strong>AI Challenge Winner</strong> — Cisco WISE India</span><span class="date">Dec 2025</span></div>
+      <div class="achievement-item"><span class="name"><strong>Automation Genie Award</strong> — Cisco SVS</span><span class="date">Sep 2025</span></div>
+      <div class="achievement-item"><span class="name"><strong>IC Champion Award</strong> — Cisco SVS</span><span class="date">Sep 2025</span></div>
+      <div class="achievement-item"><span class="name"><strong>1st Place</strong> — Verve-a-thon Gen AI Hackathon</span><span class="date">Sep 2023</span></div>
+      <div class="achievement-item"><span class="name"><strong>Best Paper Presentation</strong> — IEEE ICCDS 2024</span><span class="date">May 2024</span></div>
+    </div>
+
+    <!-- Certifications + Publication + Speaking -->
+    <div class="achievement-block reveal">
+      <div class="achievement-block-title"><span class="icon">📜</span> Certifications</div>
+      <div class="achievement-item"><span class="name"><strong>Cisco CCNP Automation</strong></span><span class="date">Feb 2026</span></div>
+      <div class="achievement-item"><span class="name"><strong>Cisco DevNet Specialist</strong> — Core (DEVCOR)</span><span class="date">Feb 2026</span></div>
+      <div class="achievement-item"><span class="name"><strong>Cisco DevNet Specialist</strong> — Service Provider (SPAUTO)</span><span class="date">Feb 2026</span></div>
+      <div class="achievement-item"><span class="name"><strong>Splunk Core Certified User</strong> (SPLK-1001)</span><span class="date">Feb 2026</span></div>
+      <div class="achievement-item"><span class="name"><strong>AI Tech Practitioner</strong> — Cisco</span><span class="date">Feb 2026</span></div>
+
+      <div class="achievement-block-title" style="margin-top:24px"><span class="icon">📄</span> Publication</div>
+      <div class="achievement-item">
+        <span class="name"><strong>A Deep Learning Framework for Detecting Underwater Trash</strong><br><span class="pub-doi">IEEE ICCDS 2024 · DOI: 10.1109/ICCDS60734.2024.10560433</span></span>
+        <span class="date">May 2024</span>
+      </div>
+
+      <div class="achievement-block-title" style="margin-top:24px"><span class="icon">🎤</span> Speaking</div>
+      <div class="achievement-item"><span class="name"><strong>"AI for your Future"</strong> — WISE India Flagship Event</span><span class="date">Apr 2026</span></div>
+      <div class="achievement-item"><span class="name"><strong>CX Tech Bytes APJC</strong> — AI enablement session</span><span class="date"></span></div>
+      <div class="achievement-item"><span class="name"><strong>CX Lighthouse AI Labs</strong> — 5 hands-on workshop sessions</span><span class="date"></span></div>
+      <div class="achievement-item"><span class="name"><strong>SVS Splunk Enablement Series</strong> — multi-session training</span><span class="date"></span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <a href="Karthik-Ravishankar-Resume.pdf" class="resume-btn" download>↓ Download Resume</a>
+  <div class="footer-socials">
+    <a href="https://github.com/karthikkk16" target="_blank">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+    </a>
+    <a href="https://linkedin.com/in/karthikraviii" target="_blank">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+    </a>
+    <a href="mailto:karthikravi141@gmail.com">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+    </a>
+  </div>
+  <p class="footer-text">© 2026 Karthik Ravishankar · Built with ❤️</p>
+</footer>
+
+<script>
+// ===== PARTICLE BACKGROUND =====
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let particles = [];
+function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resize();
+window.addEventListener('resize', resize);
+
+class Particle {
+  constructor() { this.reset(); }
+  reset() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 1.5 + 0.5;
+    this.speedX = (Math.random() - 0.5) * 0.3;
+    this.speedY = (Math.random() - 0.5) * 0.3;
+    this.opacity = Math.random() * 0.4 + 0.1;
+  }
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+    if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(59, 130, 246, ${this.opacity})`;
+    ctx.fill();
+  }
+}
+
+for (let i = 0; i < 80; i++) particles.push(new Particle());
+
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => { p.update(); p.draw(); });
+  // Draw connections
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 120) {
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.strokeStyle = `rgba(59, 130, 246, ${0.06 * (1 - dist / 120)})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+// ===== TYPING EFFECT =====
+const phrases = [
+  'Consulting Engineer @ Cisco',
+  'AI Enthusiast',
+  'Automation Builder',
+  'Emerging Speaker'
+];
+let phraseIdx = 0, charIdx = 0, deleting = false;
+const typedEl = document.getElementById('typed-text');
+
+function typeEffect() {
+  const current = phrases[phraseIdx];
+  if (!deleting) {
+    typedEl.textContent = current.substring(0, charIdx + 1);
+    charIdx++;
+    if (charIdx === current.length) { setTimeout(() => { deleting = true; typeEffect(); }, 2000); return; }
+    setTimeout(typeEffect, 60);
+  } else {
+    typedEl.textContent = current.substring(0, charIdx - 1);
+    charIdx--;
+    if (charIdx === 0) { deleting = false; phraseIdx = (phraseIdx + 1) % phrases.length; setTimeout(typeEffect, 500); return; }
+    setTimeout(typeEffect, 30);
+  }
+}
+typeEffect();
+
+// ===== SCROLL REVEAL =====
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ===== NAV SCROLL EFFECT =====
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+});
+</script>
+</body>
+</html>
