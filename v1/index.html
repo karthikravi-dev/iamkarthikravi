@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Karthik Ravishankar</title>
+<meta name="description" content="Consulting engineer at Cisco in Bengaluru. Builds AI agents and MCP servers that talk to live networks.">
+<meta name="theme-color" content="#133621">
+<link rel="canonical" href="https://karthikravi.in/v1/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://karthikravi.in/v1/">
+<meta property="og:title" content="Karthik Ravishankar">
+<meta property="og:description" content="Consulting engineer at Cisco in Bengaluru. Builds AI agents and MCP servers that talk to live networks.">
+<meta property="og:image" content="https://karthikravi.in/v1/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23133621'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-family='Helvetica,Arial,sans-serif' font-size='34' font-weight='600' fill='%23f4d96c'%3EKR%3C/text%3E%3C/svg%3E">
+<script>document.documentElement.classList.add('js')</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500&display=swap">
+<style>
+/* Layout: one 12-column grid on tight margins; type does the work, colour fields separate chapters.
+   Single committed look (green ground, gold ink), so no light/dark switch. */
+:root {
+  color-scheme: dark;
+  --bg: #133621;          /* bottle green ground */
+  --surface: #1a4429;     /* one tone step up */
+  --deep: #0e2a19;        /* console and interface fragments */
+  --ink: #f4d96c;         /* gold: all type */
+  --muted: #c9b968;       /* soft gold, 5.6:1 on surface */
+  --accent: #f4d96c;
+  --accent-ink: #133621;  /* green on gold */
+  --inv-muted: #3d5a34;   /* soft ink on the gold field */
+  --stripe: rgba(244, 217, 108, 0.06);
+
+  --font: "Hanken Grotesk", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace; /* taste-skill-ignore: literal code and tool calls only */
+
+  --step-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+  --step-head: clamp(2rem, 1.3rem + 3.2vw, 4rem);
+  --step-display: clamp(2.5rem, 1rem + 4.6vw, 5rem);
+  --step-poster: clamp(3.5rem, 10vw, 9.5rem);
+  --step-hero: clamp(4rem, 15.6vw, 17.5rem);
+
+  --margin: clamp(1rem, 2.2vw, 2rem);
+  --gutter: clamp(0.75rem, 1.4vw, 1.5rem);
+  --section: clamp(4.5rem, 7vw, 7.5rem);
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
+  --t-press: 140ms;
+  --t-hover: 180ms;
+  --t-ui: 240ms;
+  --t-reveal: 800ms;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: var(--step-body);
+  line-height: 1.45;
+  letter-spacing: -0.005em;
+  font-kerning: normal;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+h1, h2, h3, p, ul, ol, dl, dd, figure { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+h1, h2, h3 { font-weight: 500; text-wrap: balance; }
+p { text-wrap: pretty; }
+a { color: inherit; }
+b { font-weight: 500; }
+img { max-width: 100%; display: block; }
+code, pre { font-family: var(--mono); }
+::selection { background: var(--ink); color: var(--accent-ink); }
+a, button, input { touch-action: manipulation; -webkit-tap-highlight-color: rgba(244, 217, 108, 0.18); }
+:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+
+.wrap {
+  padding-left: max(var(--margin), env(safe-area-inset-left, 0px));
+  padding-right: max(var(--margin), env(safe-area-inset-right, 0px));
+}
+.grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); }
+.grid > * { min-width: 0; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.skip { position: absolute; left: var(--margin); top: -100px; z-index: 20; background: var(--ink); color: var(--accent-ink); padding: 12px 16px; }
+.skip:focus { top: calc(12px + env(safe-area-inset-top, 0px)); }
+
+/* ---------- controls ---------- */
+.link {
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.22em;
+  text-decoration-thickness: 0.07em;
+  transition: text-decoration-color var(--t-hover) ease;
+}
+.link--quiet { text-decoration-color: currentColor; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 52px; padding: 0 28px;
+  background: var(--ink); color: var(--accent-ink);
+  font: 500 var(--step-body)/1 var(--font);
+  text-decoration: none; border: 0; border-radius: 0; cursor: pointer;
+  transition: transform var(--t-press) var(--ease-out), background-color var(--t-hover) ease, color var(--t-hover) ease;
+}
+.btn:active { transform: scale(0.97); }
+.btn--dark { background: var(--accent-ink); color: var(--ink); }
+@media (hover: hover) and (pointer: fine) {
+  .link:hover { text-decoration-color: currentColor; }
+  .btn:hover { background: #ffe892; }
+  .btn--dark:hover { background: #0e2a19; }
+}
+
+/* ---------- header ---------- */
+.top {
+  position: absolute; inset: 0 0 auto; z-index: 5;
+  display: flex; justify-content: space-between; align-items: baseline; gap: 16px;
+  padding-block: calc(22px + env(safe-area-inset-top, 0px)) 0;
+  font-size: var(--step-body);
+}
+.wordmark { text-decoration: none; font-weight: 500; }
+.top__links { display: flex; gap: clamp(14px, 2vw, 28px); flex-wrap: wrap; justify-content: flex-end; }
+.top__links a { text-decoration-color: transparent; }
+
+/* ---------- hero ---------- */
+.hero {
+  min-height: 100svh;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  padding-block: 17svh 28px;
+}
+.hero__name {
+  font-size: var(--step-hero);
+  line-height: 0.86;
+  letter-spacing: -0.055em;
+  font-weight: 500;
+  align-self: start;
+}
+.lines .line { display: block; overflow: hidden; padding-bottom: 0.09em; margin-bottom: -0.09em; }
+.lines [data-line] { display: block; }
+.line--b { text-align: right; }
+.hero__foot {
+  display: flex; justify-content: space-between; align-items: flex-end; gap: 24px 48px; flex-wrap: wrap;
+}
+.hero__lede { font-size: var(--step-lead); line-height: 1.3; max-width: 30ch; }
+.hero__actions { display: flex; align-items: center; gap: 28px; }
+
+/* ---------- agent ---------- */
+.agent {
+  background: var(--ink); color: var(--accent-ink);
+  padding-block: var(--section);
+}
+.agent__grid { row-gap: 48px; align-items: start; }
+.agent__intro { grid-column: 1 / span 4; display: grid; gap: 22px; }
+.h-section { font-size: var(--step-head); line-height: 0.95; letter-spacing: -0.045em; }
+.agent__text { font-size: var(--step-lead); line-height: 1.32; }
+.agent__small { font-size: var(--step-body); color: var(--inv-muted); max-width: 38ch; }
+.agent__tools { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 6px; color: var(--inv-muted); }
+.agent__tools code { font-size: var(--step-small); }
+
+.console {
+  grid-column: 6 / -1;
+  background: var(--deep); color: var(--ink);
+  border-radius: 10px;
+  display: grid; grid-template-rows: auto 1fr auto auto;
+  font-size: 15px; line-height: 1.5;
+  overflow: hidden;
+}
+.console__bar {
+  display: flex; justify-content: space-between; gap: 12px;
+  padding: 14px 20px; background: var(--bg);
+  color: var(--muted);
+}
+.console__name { color: var(--ink); font-weight: 500; }
+.console__state { display: inline-flex; align-items: center; gap: 8px; }
+.console__state::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--muted); }
+.console.is-busy .console__state::before { background: var(--ink); }
+.console__log {
+  height: clamp(340px, 46svh, 480px);
+  overflow-y: auto; overscroll-behavior: contain;
+  padding: 22px 20px 8px;
+  display: flex; flex-direction: column; gap: 16px;
+  scrollbar-width: thin; scrollbar-color: rgba(244, 217, 108, 0.3) transparent;
+}
+.turn { display: grid; gap: 4px; max-width: 62ch; }
+.turn p { margin: 0; }
+.who { font-size: 13px; color: var(--muted); }
+.turn--user p { color: var(--ink); font-weight: 500; }
+.turn--agent p { color: var(--ink); }
+.turn--tool {
+  border-left: 2px solid rgba(244, 217, 108, 0.35);
+  padding: 2px 0 2px 12px;
+  color: var(--muted);
+}
+.turn--tool code { font-size: 13.5px; color: var(--ink); word-break: break-word; }
+.turn--tool .arrow { color: var(--muted); }
+.turn--tool .meta { font-size: 13px; }
+.hits { display: grid; gap: 2px; margin-top: 4px; font-size: 14px; color: var(--muted); }
+.hits li { display: flex; justify-content: space-between; gap: 16px; }
+.hits span { font-variant-numeric: tabular-nums; }
+.caret { display: inline-block; width: 0.55em; height: 1.05em; vertical-align: -0.15em; background: var(--ink); margin-left: 2px; }
+.console__chips {
+  display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 20px 4px;
+}
+.chip {
+  flex: none; font: 14px/1 var(--font); color: var(--ink);
+  background: var(--surface); border: 0; border-radius: 999px;
+  min-height: 36px; padding: 0 14px; cursor: pointer;
+  transition: background-color var(--t-hover) ease, transform var(--t-press) var(--ease-out);
+}
+.chip:active { transform: scale(0.97); }
+@media (hover: hover) and (pointer: fine) { .chip:hover { background: #245534; } }
+.console__form { display: flex; gap: 10px; padding: 12px 20px 20px; }
+.console__form input {
+  flex: 1; min-width: 0; min-height: 48px;
+  background: var(--bg); color: var(--ink);
+  border: 1px solid rgba(244, 217, 108, 0.25); border-radius: 6px; /* taste-skill-ignore: form field */
+  padding: 0 14px; font: 16px var(--font);
+}
+.console__form input::placeholder { color: var(--muted); opacity: 1; }
+.console__form input:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
+.btn--console { min-height: 48px; padding: 0 22px; border-radius: 6px; }
+
+/* ---------- numbers ---------- */
+.numbers { padding-block: var(--section); }
+.numbers__lead { font-size: var(--step-head); line-height: 0.95; letter-spacing: -0.045em; margin-bottom: clamp(40px, 5vw, 72px); }
+.numbers__grid { row-gap: 48px; }
+.num { grid-column: span 3; display: grid; gap: 14px; align-content: start; }
+.num--1 { margin-top: clamp(0px, 6vw, 96px); }
+.num--2 { margin-top: clamp(0px, 3vw, 48px); }
+.num--3 { margin-top: clamp(0px, 9vw, 144px); }
+.num__fig { font-size: var(--step-poster); line-height: 0.85; letter-spacing: -0.06em; }
+.num__text { font-size: var(--step-body); max-width: 24ch; }
+.fig { color: var(--ink); font-weight: 500; font-variant-numeric: lining-nums tabular-nums; white-space: nowrap; }
+
+/* ---------- work ---------- */
+.work { padding-block: var(--section); }
+.work__list { grid-column: 1 / span 8; }
+.h-small { font-size: var(--step-lead); margin-bottom: 40px; }
+.projects { display: grid; }
+.proj__name {
+  all: unset; cursor: pointer; display: block;
+  font-size: var(--step-display); line-height: 1; letter-spacing: -0.045em; font-weight: 500;
+  padding-block: 10px; color: var(--muted);
+  transition: color var(--t-hover) ease;
+}
+.proj__name:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+.proj.is-active .proj__name { color: var(--ink); }
+.proj { display: grid; grid-template-columns: auto 1fr; align-items: baseline; column-gap: 24px; }
+.proj__meta { font-size: var(--step-body); }
+.proj.is-active .proj__meta { color: var(--ink); }
+.proj__media, .proj__body { display: none; }
+.frame { grid-column: 9 / -1; }
+.frame__sticky { position: sticky; top: 15vh; display: grid; }
+.frame__item {
+  grid-area: 1 / 1; display: grid; gap: 18px; align-content: start;
+  opacity: 0; visibility: hidden;
+  transition: opacity 220ms ease, visibility 0s linear 220ms;
+}
+.frame__item.is-active { opacity: 1; visibility: visible; transition: opacity 220ms ease; }
+.frame .proj__media { display: block; aspect-ratio: 4 / 4.2; }
+.proj__desc { font-size: var(--step-body); }
+.proj__stack, .proj__award { font-size: var(--step-small); color: var(--muted); }
+.proj__award { color: var(--ink); }
+
+/* interface fragments (data-ui keeps its own borders and type) */
+.proj__media { position: relative; background: var(--deep); border-radius: 8px; overflow: hidden; }
+.proj__media > img { width: 100%; height: 100%; object-fit: cover; }
+.ui {
+  height: 100%; padding: 18px; display: flex; flex-direction: column; gap: 12px;
+  font-size: 14px; line-height: 1.45; color: var(--ink);
+}
+.ui-head { display: flex; justify-content: space-between; color: var(--muted); font-size: 13px; margin: -18px -18px 0; padding: 12px 18px; background: var(--bg); }
+.ui-msg b { font-weight: 500; }
+.ui-msg i { font-style: normal; font-size: 13px; color: var(--muted); background: var(--surface); padding: 1px 6px; border-radius: 4px; margin-left: 4px; }
+.ui-msg p { margin-top: 2px; }
+.ui-msg--bot { padding-left: 12px; border-left: 2px solid rgba(244, 217, 108, 0.35); }
+.ui-rank { display: grid; gap: 4px; margin-top: 8px; }
+.ui-rank li { display: flex; justify-content: space-between; gap: 12px; background: var(--surface); padding: 6px 10px; border-radius: 4px; }
+.ui-rank li span:last-child { font-variant-numeric: tabular-nums; color: var(--muted); }
+.ui-q { font-weight: 500; }
+.ui-a { color: var(--ink); }
+.ui-code { margin: 0; background: var(--bg); padding: 12px; border-radius: 6px; font-size: 13px; line-height: 1.55; overflow-x: auto; white-space: pre; color: var(--muted); }
+.ui-code--cli { color: var(--ink); }
+.ui-field { background: var(--bg); border-radius: 6px; padding: 10px 12px; }
+.ui-results { display: grid; gap: 10px; }
+.ui-results li { display: grid; gap: 2px; }
+.ui-results em { font-style: normal; font-size: 13px; color: var(--muted); }
+.ui-note { font-size: 13px; color: var(--muted); margin-top: auto; }
+.ui-table { border-collapse: collapse; width: 100%; font-size: 13px; font-variant-numeric: tabular-nums; }
+.ui-table th { text-align: left; font-weight: 500; color: var(--muted); padding: 6px 4px; border-bottom: 1px solid rgba(244, 217, 108, 0.2); }
+.ui-table td { padding: 7px 4px; border-bottom: 1px solid rgba(244, 217, 108, 0.08); }
+
+/* photo slots */
+.ph { position: relative; background: var(--surface); display: grid; place-items: end start; overflow: hidden; }
+.ph__note { padding: 16px 18px; font-size: var(--step-small); color: var(--muted); max-width: 32ch; }
+.ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ph.has-img .ph__note { display: none; }
+.ph--portrait { aspect-ratio: 4 / 5; max-width: 100%; }
+.ph--band { aspect-ratio: 3 / 1; max-width: 100%; margin-top: var(--section); }
+
+/* ---------- pipeline ---------- */
+.pipe { background: var(--surface); padding-block: var(--section); }
+.pipe__intro { font-size: var(--step-lead); line-height: 1.3; max-width: 34ch; margin-bottom: clamp(48px, 5vw, 72px); }
+.pipe__steps { row-gap: 56px; }
+.step { grid-column-end: -1; display: grid; gap: 12px; }
+.step--0 { grid-column-start: 1; }
+.step--1 { grid-column-start: 3; }
+.step--2 { grid-column-start: 5; }
+.step--3 { grid-column-start: 7; }
+.step__line { font-size: var(--step-display); line-height: 1; letter-spacing: -0.045em; }
+.step__note { font-size: var(--step-body); max-width: 34ch; }
+.score { margin-top: clamp(72px, 9vw, 140px); display: grid; gap: 14px; max-width: 980px; }
+.score__row { display: grid; grid-template-columns: 9.5em 1fr 4ch; align-items: center; gap: 16px; }
+.score__label { font-size: var(--step-body); }
+.score__bar { height: 36px; background: var(--bg); display: block; position: relative; }
+.score__bar > span { position: absolute; inset: 0 auto 0 0; width: 100%; background: var(--ink); transform-origin: left; transform: scaleX(var(--v)); }
+.score__row + .score__row .score__bar > span { background: var(--muted); }
+.score__val { font-size: var(--step-lead); font-variant-numeric: tabular-nums; text-align: right; }
+.score figcaption { font-size: var(--step-small); color: var(--muted); margin-top: 6px; }
+
+/* ---------- about ---------- */
+.about { padding-block: var(--section); }
+.about__row { row-gap: 40px; align-items: start; }
+.about__side { grid-column: 1 / span 4; display: grid; gap: 28px; }
+.facts { display: grid; gap: 18px; }
+.facts dt { font-size: var(--step-small); color: var(--muted); }
+.facts dd { font-size: var(--step-body); }
+.about__main { grid-column: 5 / -1; display: grid; gap: 1.1em; }
+.about__text { font-size: clamp(1.375rem, 0.9rem + 1.3vw, 2.25rem); line-height: 1.28; letter-spacing: -0.02em; max-width: 34ch; }
+.about__row--record { margin-top: clamp(80px, 9vw, 120px); }
+.about__word { grid-column: 1 / span 4; font-size: var(--step-body); }
+.about__list { grid-column: span 4; display: grid; gap: 14px; align-content: start; }
+.about__list:last-child { grid-column: span 4; }
+.list-h { font-size: var(--step-body); color: var(--muted); margin-top: 12px; }
+.list-h:first-child { margin-top: 0; }
+.record { display: grid; gap: 10px; font-size: var(--step-body); }
+.record li { display: flex; justify-content: space-between; gap: 20px; }
+.yr { color: var(--muted); font-variant-numeric: tabular-nums; flex: none; }
+
+/* ---------- talks ---------- */
+.talks { padding-block: var(--section) 0; }
+.talks__intro { font-size: var(--step-lead); margin-bottom: 40px; }
+.talks__list { display: grid; }
+.talk { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; }
+.talk__word {
+  font-size: var(--step-poster); line-height: 0.95; letter-spacing: -0.055em; font-weight: 500;
+  transition: transform var(--t-ui) var(--ease-out);
+}
+.talk__detail { font-size: var(--step-body); max-width: 30ch; text-align: right; }
+@media (hover: hover) and (pointer: fine) {
+  .talk:hover .talk__word { transform: translateX(0.12em); }
+  .talk:hover .talk__detail { color: var(--ink); }
+}
+
+/* ---------- awards ---------- */
+.awards { padding-block: var(--section); }
+.awards__h { font-size: var(--step-head); line-height: 0.98; letter-spacing: -0.045em; display: grid; margin-bottom: 72px; }
+.awards__h .indent { padding-left: 16.66%; }
+.table-scroll { overflow-x: auto; }
+.awards__table { width: 100%; border-collapse: collapse; font-size: var(--step-body); }
+.awards__table th { text-align: left; font-weight: 400; font-size: var(--step-small); color: var(--muted); padding: 0 14px 14px; }
+.awards__table td { padding: 14px; vertical-align: baseline; }
+.awards__table tbody tr:nth-child(odd) { background: var(--stripe); }
+.awards__table tr.gap td { padding-top: 34px; }
+.t-year { width: 12%; font-variant-numeric: tabular-nums; color: var(--muted); }
+.t-award { width: 30%; font-weight: 500; }
+.t-for { width: 36%; color: var(--muted); }
+.t-by { text-align: right; }
+.awards__table th:last-child { text-align: right; }
+
+/* ---------- contact ---------- */
+.contact { background: var(--ink); color: var(--accent-ink); }
+.contact__inner {
+  min-height: 100svh; display: grid; grid-template-rows: auto 1fr auto; row-gap: 48px;
+  padding-block: clamp(40px, 6vw, 72px) 28px;
+}
+.contact__lead { font-size: var(--step-lead); line-height: 1.3; max-width: 26ch; font-weight: 400; }
+.contact__mail { align-self: end; display: grid; justify-items: start; gap: 24px; padding-bottom: 6vh; }
+.contact__addr {
+  font-size: clamp(2.4rem, 7.6vw, 8.6rem); line-height: 1; letter-spacing: -0.05em; font-weight: 400;
+  text-decoration: none; overflow-wrap: anywhere;
+  transition: color var(--t-hover) ease;
+}
+@media (hover: hover) and (pointer: fine) { .contact__addr:hover { color: var(--inv-muted); } }
+.contact__copied { font-size: var(--step-small); min-height: 1.2em; }
+.contact__corners { display: flex; justify-content: space-between; align-items: end; gap: 16px; flex-wrap: wrap; font-size: var(--step-body); }
+.contact__links { display: flex; gap: 22px; flex-wrap: wrap; }
+
+/* ---------- footer ---------- */
+.foot { padding-top: 28px; overflow: hidden; }
+.foot__row { display: flex; justify-content: space-between; gap: 16px; font-size: var(--step-body); }
+.foot__name {
+  font-size: clamp(3rem, 10.2vw, 11.5rem); line-height: 0.8; letter-spacing: -0.055em; font-weight: 500;
+  white-space: nowrap; margin-top: clamp(48px, 7vw, 110px);
+  height: 0.68em; overflow: hidden;
+}
+.foot__name span { display: block; }
+
+/* ---------- phone and tablet ---------- */
+@media (max-width: 900px) {
+  .agent__intro, .console { grid-column: 1 / -1; }
+  .work__list { grid-column: 1 / -1; }
+  .frame { display: none; }
+  .projects { gap: 48px; }
+  .proj { grid-template-columns: 1fr; }
+  .proj__media { display: block; order: -1; margin-bottom: 14px; }
+  .proj__media.has-img { aspect-ratio: 16 / 11; }
+  .proj__name { color: var(--ink); padding-block: 0 4px; font-size: clamp(2.2rem, 9.5vw, 4rem); }
+  .proj__meta { color: var(--ink); }
+  .proj__body { display: grid; gap: 8px; margin-top: 12px; }
+  .about__side, .about__main, .about__word, .about__list, .about__list:last-child { grid-column: 1 / -1; }
+  .about__side { max-width: none; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; }
+  .step--1 { grid-column-start: 2; }
+  .step--2 { grid-column-start: 3; }
+  .step--3 { grid-column-start: 4; }
+}
+@media (max-width: 600px) {
+  .top__links a:not(:last-child):not(:first-child) { display: none; }
+  .hero { min-height: 82svh; padding-block: 15svh 24px; }
+  .hero__name { font-size: 18.2vw; line-height: 0.9; }
+  .num { grid-column: span 6; margin-top: 0 !important; }
+  .num__fig { font-size: 19vw; }
+  .ph--portrait { max-width: 62%; }
+  .line--b { text-align: left; }
+  .hero__foot { display: grid; gap: 22px; }
+  .hero__lede { font-size: 1.125rem; }
+  .hero__actions { justify-content: space-between; }
+  .hero__actions .btn { flex: 1; }
+  .step__line { font-size: 8.4vw; }
+  .step { grid-column-start: 1 !important; }
+  .step--1 { padding-left: 6vw; }
+  .step--2 { padding-left: 12vw; }
+  .step--3 { padding-left: 18vw; }
+  .score__row { grid-template-columns: 1fr 4ch; }
+  .score__label { grid-column: 1 / -1; }
+  .about__side { grid-template-columns: 1fr; }
+  .talk { flex-direction: column; gap: 6px; padding-bottom: 22px; }
+  .talk__word { font-size: 15vw; }
+  .talk__detail { text-align: left; font-size: 0.9375rem; }
+  .ph--band { aspect-ratio: 4 / 3; }
+  .awards__h { font-size: 11vw; }
+  .awards__table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .awards__table, .awards__table tbody, .awards__table tr, .awards__table td { display: block; width: auto; }
+  .awards__table tr { padding: 12px 14px; }
+  .awards__table td { padding: 0; text-align: left; }
+  .awards__table tr.gap { margin-top: 18px; }
+  .awards__table tr.gap td { padding-top: 0; }
+  .t-year:not(:empty) { font-size: 1.375rem; color: var(--ink); margin-bottom: 4px; }
+  .t-for:empty { display: none; }
+  .t-by { color: var(--muted); }
+  .contact__inner { min-height: 86svh; }
+  .contact__addr { font-size: 11.5vw; }
+  .contact__corners { display: grid; gap: 12px; }
+  .foot__name { font-size: 10.4vw; }
+}
+
+/* ---------- motion (content stays visible without script or with reduced motion) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .js .lines [data-line] { transform: translateY(105%); animation: line-up 950ms var(--ease-out) forwards; animation-delay: calc(var(--i) * 110ms + 150ms); }
+  .js [data-rise] { opacity: 0; transform: translateY(18px); animation: rise var(--t-reveal) var(--ease-out) forwards; animation-delay: calc(var(--i, 0) * 90ms + 420ms); }
+
+  .js [data-reveal] { opacity: 0; transform: translateY(24px); transition: opacity 700ms var(--ease-out), transform 900ms var(--ease-out); transition-delay: calc(var(--i, 0) * 80ms); }
+  .js [data-reveal].is-in { opacity: 1; transform: none; }
+
+  .js [data-stagger] > * { opacity: 0; transform: translateY(22px); transition: opacity 600ms var(--ease-out), transform 800ms var(--ease-out); transition-delay: calc(var(--i, 0) * 70ms); }
+  .js [data-stagger].is-in > * { opacity: 1; transform: none; }
+
+  .js .score__bar > span { transform: scaleX(0); transition: transform 1400ms var(--ease-in-out) 200ms; }
+  .js .score.is-in .score__bar > span { transform: scaleX(var(--v)); }
+  .js .score.is-in .score__row + .score__row .score__bar > span { transition-delay: 450ms; }
+
+
+  .caret { animation: blink 1s steps(1) infinite; }
+
+  @supports (animation-timeline: view()) {
+    .foot__name span { animation: name-rise linear both; animation-timeline: view(); animation-range: entry 0% cover 60%; }
+    .ph img { animation: drift linear both; animation-timeline: view(); animation-range: entry 0% exit 100%; }
+  }
+}
+@keyframes line-up { to { transform: none; } }
+@keyframes rise { to { opacity: 1; transform: none; } }
+@keyframes blink { 50% { opacity: 0; } }
+@keyframes name-rise { from { transform: translateY(40%); } to { transform: none; } }
+@keyframes drift { from { transform: scale(1.06) translateY(-2%); } to { transform: scale(1.06) translateY(2%); } }
+
+</style>
+</head>
+<body>
+<a class="skip" href="#agent">Skip to the agent</a>
+
+<header class="top wrap">
+  <a class="wordmark" href="#top">karthikravi.in</a>
+  <nav class="top__links" aria-label="Sections">
+    <a class="link" href="#agent">Agent</a>
+    <a class="link" href="#work">Work</a>
+    <a class="link" href="#talks">Talks</a>
+    <a class="link" href="/Karthik-Ravishankar-Resume.pdf">Résumé</a>
+  </nav>
+</header>
+<main>
+
+<section class="hero wrap" id="top" aria-label="Introduction">
+  <h1 class="hero__name lines">
+    <span class="line line--a"><span data-line style="--i:0">Karthik</span></span>
+    <span class="line line--b"><span data-line style="--i:1">Ravishankar</span></span>
+  </h1>
+  <div class="hero__foot">
+    <p class="hero__lede" data-rise style="--i:2">Consulting engineer at Cisco. I build AI agents and MCP servers that talk to live networks.</p>
+    <div class="hero__actions" data-rise style="--i:3">
+      <a class="link link--quiet" href="#agent">Ask my agent</a>
+      <a class="btn" href="#contact">Write to me</a>
+    </div>
+  </div>
+</section>
+
+<section class="agent" id="agent" aria-labelledby="agent-h">
+  <div class="wrap grid agent__grid">
+    <div class="agent__intro" data-reveal>
+      <h2 id="agent-h" class="h-section">Ask my agent</h2>
+      <p class="agent__text">It works the way my MCP servers do. A question picks a tool, the tool fetches real records, and the answer is built from what came back. Here the tools read my own work.</p>
+      <p class="agent__small">A scripted demo that runs in your browser. No model is called and nothing you type leaves the page.</p>
+      <ul class="agent__tools" aria-label="Tools the agent can call" translate="no"><li><code>search_projects</code></li><li><code>get_project</code></li><li><code>get_experience</code></li><li><code>list_awards</code></li><li><code>list_certifications</code></li><li><code>list_talks</code></li><li><code>get_education</code></li><li><code>get_skills</code></li><li><code>get_contact</code></li></ul>
+    </div>
+    <div class="console" data-ui data-reveal style="--i:1">
+      <div class="console__bar"><span class="console__name" translate="no">karthik-mcp</span><span class="console__state" id="console-state">Ready, 9 tools</span></div>
+      <div class="console__log" id="console-log" role="log" aria-live="polite" aria-label="Conversation with the agent">
+      <div class="turn turn--user"><span class="who">You</span><p>What has he built with MCP?</p></div>
+      <div class="turn turn--tool"><code><span class="arrow">→</span> search_projects({"topic": "mcp"})</code><span class="meta">3 results in 38&nbsp;ms</span>
+        <ul class="hits"><li>MCP AI Studio <span>2025</span></li><li>Topic Search MCP <span>2025</span></li><li>NetAuto MCP <span>2026</span></li></ul></div>
+      <div class="turn turn--agent"><span class="who">Agent</span><p>Three MCP projects. MCP AI Studio lets engineers run network operations in plain English through Claude. Topic Search MCP searches bug reports, Techzone and docs in one call, and several Cisco teams use it. NetAuto MCP gives an agent a safe way to run show commands on routers.</p><!-- matches T.search_projects output --></div>
+      </div>
+      <div class="console__chips" aria-label="Suggested questions"><button type="button" class="chip" data-q="What has he built with MCP?">What has he built with MCP?</button><button type="button" class="chip" data-q="Which hackathons has he won?">Which hackathons has he won?</button><button type="button" class="chip" data-q="Can he teach my team?">Can he teach my team?</button><button type="button" class="chip" data-q="What does he do at Cisco?">What does he do at Cisco?</button><button type="button" class="chip" data-q="What is he certified in?">What is he certified in?</button><button type="button" class="chip" data-q="Tell me about EcoVisionaries">Tell me about EcoVisionaries</button></div>
+      <form class="console__form" id="console-form" autocomplete="off">
+        <label class="sr-only" for="console-input">Ask about Karthik</label>
+        <input id="console-input" name="q" type="text" maxlength="160" placeholder="Ask about projects, awards, talks…">
+        <button class="btn btn--console" type="submit">Ask</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="numbers wrap" aria-labelledby="numbers-h">
+  <h2 id="numbers-h" class="numbers__lead" data-reveal>Since July 2024</h2>
+  <div class="grid numbers__grid" data-stagger><div class="num num--0" style="--i:0"><p class="num__fig fig" data-count="20" data-suffix="+">20+</p><p class="num__text">automated test suites I keep running on Verizon’s enterprise network.</p></div><div class="num num--1" style="--i:1"><p class="num__fig fig" data-count="16" data-suffix="">16</p><p class="num__text">projects wired into Splunk, on a setup I built from scratch.</p></div><div class="num num--2" style="--i:2"><p class="num__fig fig" data-count="15" data-suffix="+">15+</p><p class="num__text">technical sessions on AI, Splunk and automation.</p></div><div class="num num--3" style="--i:3"><p class="num__fig fig" data-count="50" data-suffix="+">50+</p><p class="num__text">engineers I put on Claude Code in a five-day bootcamp.</p></div></div>
+</section>
+
+<section class="work wrap" id="work" aria-labelledby="work-h">
+  <div class="grid">
+    <div class="work__list">
+      <h2 id="work-h" class="h-small" data-reveal>Selected work</h2>
+      <ol class="projects" data-stagger>
+    <li class="proj is-active" data-proj="ecovisionaries" style="--i:0">
+      <div class="proj__media" data-src="assets/photos/work-ecovisionaries.jpg" data-alt="EcoVisionaries">
+<div class="ui" data-ui>
+  <div class="ui-head"><span>#introductions</span><span>Work on Climate</span></div>
+  <div class="ui-msg"><b>Anaya</b><p>I run a battery recycling pilot in Pune. Looking for people in reverse logistics.</p></div>
+  <div class="ui-msg ui-msg--bot"><b>EcoVisionaries <i>app</i></b><p>Three members you should meet:</p>
+    <ul class="ui-rank">
+      <li><span>Reverse-logistics lead, EV fleet startup</span><span>0.91</span></li>
+      <li><span>Researcher, lithium recovery</span><span>0.87</span></li>
+      <li><span>Organiser, e-waste collective</span><span>0.82</span></li>
+    </ul>
+  </div>
+</div></div>
+      <button type="button" class="proj__name" aria-controls="frame-ecovisionaries" aria-pressed="true"><span>EcoVisionaries</span></button>
+      <p class="proj__meta">AI Slack bot, 2026</p>
+      <div class="proj__body"><p class="proj__desc">A Slack bot for Work on Climate, a community of 40,000, that finds the members you should meet. A five-stage pipeline (intent extraction, HyDE profiles, multi-source retrieval, LLM re-ranking) reached 72% precision against 33% for naive RAG.</p><p class="proj__stack">TypeScript, Slack Bolt, PostgreSQL, pgvector</p><p class="proj__award">First runner-up, CX Tech4Social Good hackathon</p></div>
+    </li>
+    <li class="proj" data-proj="mcp-ai-studio" style="--i:1">
+      <div class="proj__media" data-src="assets/photos/work-mcp-ai-studio.jpg" data-alt="MCP AI Studio">
+<div class="ui" data-ui>
+  <div class="ui-head"><span>MCP AI Studio</span><span>3 servers</span></div>
+  <p class="ui-q">Which BGP neighbours on edge-r1 are down?</p>
+  <pre class="ui-code"><code>→ netops.bgp_summary(device="edge-r1")
+← 12 neighbours, 2 idle</code></pre>
+  <p class="ui-a">Two are idle, 10.20.4.1 and 10.20.4.9, both on line card 0/2. Check the optics there first.</p>
+</div></div>
+      <button type="button" class="proj__name" aria-controls="frame-mcp-ai-studio" aria-pressed="false"><span>MCP AI Studio</span></button>
+      <p class="proj__meta">Network AI framework, 2025</p>
+      <div class="proj__body"><p class="proj__desc">A framework for AI-assisted network operations. Engineers ask in plain English; Claude picks MCP tools that talk to devices and enterprise systems, and RAG pipelines bring in the documentation.</p><p class="proj__stack">Python, Claude, MCP, RAG, Cisco APIs</p></div>
+    </li>
+    <li class="proj" data-proj="topic-search-mcp" style="--i:2">
+      <div class="proj__media" data-src="assets/photos/work-topic-search.jpg" data-alt="Topic Search MCP">
+<div class="ui" data-ui>
+  <div class="ui-field">optics flap after reload, 400G</div>
+  <ul class="ui-results">
+    <li><em>Bug</em><span>Link flaps on 400G optics after a line-card reload</span></li>
+    <li><em>Techzone</em><span>Reading optic power levels on IOS-XR</span></li>
+    <li><em>Doc</em><span>Optics and transceiver command reference</span></li>
+  </ul>
+  <p class="ui-note">3 sources searched in one call</p>
+</div></div>
+      <button type="button" class="proj__name" aria-controls="frame-topic-search-mcp" aria-pressed="false"><span>Topic Search MCP</span></button>
+      <p class="proj__meta">MCP server, 2025</p>
+      <div class="proj__body"><p class="proj__desc">A containerised MCP server that lets an AI assistant search Cisco bug reports, Techzone articles and documentation in one call. Published internally and used by several Cisco teams.</p><p class="proj__stack">Python, Podman, MCP, Cisco Topic API</p><p class="proj__award">Adopted across multiple Cisco teams</p></div>
+    </li>
+    <li class="proj" data-proj="netauto-mcp" style="--i:3">
+      <div class="proj__media" data-src="assets/photos/work-netauto.jpg" data-alt="NetAuto MCP">
+<div class="ui" data-ui>
+  <pre class="ui-code ui-code--cli"><code>edge-r1#show ip int brief
+Interface   Status    Protocol
+Gi0/0/0/0   up        up
+Gi0/0/0/1   down      down
+Gi0/0/0/2   admin-dn  down</code></pre>
+  <p class="ui-a">Gi0/0/0/1 is down at layer 1. Shall I pull its optics readings?</p>
+</div></div>
+      <button type="button" class="proj__name" aria-controls="frame-netauto-mcp" aria-pressed="false"><span>NetAuto MCP</span></button>
+      <p class="proj__meta">MCP server, hackathon, 2026</p>
+      <div class="proj__body"><p class="proj__desc">An MCP server that gives an AI agent a safe way into network devices: it runs show commands over Netmiko and answers in plain language. Built for the Innovation League AI Hackathon.</p><p class="proj__stack">Python, MCP, Netmiko, Claude</p></div>
+    </li>
+    <li class="proj" data-proj="webex-rag-bot" style="--i:4">
+      <div class="proj__media" data-src="assets/photos/work-webex-bot.jpg" data-alt="Webex RAG Bot">
+<div class="ui" data-ui>
+  <div class="ui-head"><span>Lab support</span><span>Webex</span></div>
+  <div class="ui-msg"><b>You</b><p>@kb how do I book time on the lab routers?</p></div>
+  <div class="ui-msg ui-msg--bot"><b>kb</b><p>Raise a reservation in the lab tracker a day ahead. The team pinned the steps in March.</p>
+    <p class="ui-note">Sources: 2 messages, 1 file</p></div>
+</div></div>
+      <button type="button" class="proj__name" aria-controls="frame-webex-rag-bot" aria-pressed="false"><span>Webex RAG Bot</span></button>
+      <p class="proj__meta">Knowledge bot, 2026</p>
+      <div class="proj__body"><p class="proj__desc">A bot that answers questions from what a team has already said in its Webex spaces, with the messages it used as sources.</p><p class="proj__stack">Python, RAG, Circuit API, Webex APIs</p></div>
+    </li>
+    <li class="proj" data-proj="cx-mop-automation" style="--i:5">
+      <div class="proj__media" data-src="assets/photos/work-mop.jpg" data-alt="CX MoP Automation">
+<div class="ui" data-ui>
+  <div class="ui-head"><span>Port map</span><span>site-07</span></div>
+  <table class="ui-table">
+    <thead><tr><th>Old port</th><th>New port</th><th>Speed</th></tr></thead>
+    <tbody>
+      <tr><td>Gi0/1/0/4</td><td>Hu0/0/0/12</td><td>10G</td></tr>
+      <tr><td>Gi0/1/0/5</td><td>Hu0/0/0/13</td><td>10G</td></tr>
+      <tr><td>Te0/2/0/1</td><td>Hu0/0/0/20</td><td>100G</td></tr>
+    </tbody>
+  </table>
+  <p class="ui-note">Exported port-map.xlsx and MoP.docx in 41 s</p>
+</div></div>
+      <button type="button" class="proj__name" aria-controls="frame-cx-mop-automation" aria-pressed="false"><span>CX MoP Automation</span></button>
+      <p class="proj__meta">Migration tooling, Cisco, 2024</p>
+      <div class="proj__body"><p class="proj__desc">A web app that prepares network migrations: it collects data from devices over SSH, parses the interfaces, and writes the port map and the Method of Procedure. Prep that took hours now takes minutes.</p><p class="proj__stack">Python, Flask, Netmiko</p></div>
+    </li>
+    <li class="proj" data-proj="toxicity-search" style="--i:6">
+      <div class="proj__media" data-src="assets/photos/work-toxicity.jpg" data-alt="Toxicity search">
+<div class="ui" data-ui>
+  <div class="ui-field">community moderation tools</div>
+  <ul class="ui-results">
+    <li><em>Safe 0.03</em><span>A guide to moderating online forums</span></li>
+    <li><em>Safe 0.08</em><span>Open-source moderation bots compared</span></li>
+    <li><em>Flagged 0.94</em><span>Result hidden by the classifier</span></li>
+  </ul>
+</div></div>
+      <button type="button" class="proj__name" aria-controls="frame-toxicity-search" aria-pressed="false"><span>Toxicity search</span></button>
+      <p class="proj__meta">Search with NLP, 2023</p>
+      <div class="proj__body"><p class="proj__desc">A web search engine that runs every result through a deep-learning toxicity classifier before showing it.</p><p class="proj__stack">Python, NLP, deep learning</p></div>
+    </li>
+      </ol>
+    </div>
+    <aside class="frame" aria-label="Selected project">
+      <div class="frame__sticky">
+      <div class="frame__item is-active" id="frame-ecovisionaries" data-proj="ecovisionaries">
+        <div class="proj__media" data-src="assets/photos/work-ecovisionaries.jpg" data-alt="EcoVisionaries">
+<div class="ui" data-ui>
+  <div class="ui-head"><span>#introductions</span><span>Work on Climate</span></div>
+  <div class="ui-msg"><b>Anaya</b><p>I run a battery recycling pilot in Pune. Looking for people in reverse logistics.</p></div>
+  <div class="ui-msg ui-msg--bot"><b>EcoVisionaries <i>app</i></b><p>Three members you should meet:</p>
+    <ul class="ui-rank">
+      <li><span>Reverse-logistics lead, EV fleet startup</span><span>0.91</span></li>
+      <li><span>Researcher, lithium recovery</span><span>0.87</span></li>
+      <li><span>Organiser, e-waste collective</span><span>0.82</span></li>
+    </ul>
+  </div>
+</div></div>
+        <p class="proj__desc">A Slack bot for Work on Climate, a community of 40,000, that finds the members you should meet. A five-stage pipeline (intent extraction, HyDE profiles, multi-source retrieval, LLM re-ranking) reached 72% precision against 33% for naive RAG.</p><p class="proj__stack">TypeScript, Slack Bolt, PostgreSQL, pgvector</p><p class="proj__award">First runner-up, CX Tech4Social Good hackathon</p>
+      </div>
+      <div class="frame__item" id="frame-mcp-ai-studio" data-proj="mcp-ai-studio">
+        <div class="proj__media" data-src="assets/photos/work-mcp-ai-studio.jpg" data-alt="MCP AI Studio">
+<div class="ui" data-ui>
+  <div class="ui-head"><span>MCP AI Studio</span><span>3 servers</span></div>
+  <p class="ui-q">Which BGP neighbours on edge-r1 are down?</p>
+  <pre class="ui-code"><code>→ netops.bgp_summary(device="edge-r1")
+← 12 neighbours, 2 idle</code></pre>
+  <p class="ui-a">Two are idle, 10.20.4.1 and 10.20.4.9, both on line card 0/2. Check the optics there first.</p>
+</div></div>
+        <p class="proj__desc">A framework for AI-assisted network operations. Engineers ask in plain English; Claude picks MCP tools that talk to devices and enterprise systems, and RAG pipelines bring in the documentation.</p><p class="proj__stack">Python, Claude, MCP, RAG, Cisco APIs</p>
+      </div>
+      <div class="frame__item" id="frame-topic-search-mcp" data-proj="topic-search-mcp">
+        <div class="proj__media" data-src="assets/photos/work-topic-search.jpg" data-alt="Topic Search MCP">
+<div class="ui" data-ui>
+  <div class="ui-field">optics flap after reload, 400G</div>
+  <ul class="ui-results">
+    <li><em>Bug</em><span>Link flaps on 400G optics after a line-card reload</span></li>
+    <li><em>Techzone</em><span>Reading optic power levels on IOS-XR</span></li>
+    <li><em>Doc</em><span>Optics and transceiver command reference</span></li>
+  </ul>
+  <p class="ui-note">3 sources searched in one call</p>
+</div></div>
+        <p class="proj__desc">A containerised MCP server that lets an AI assistant search Cisco bug reports, Techzone articles and documentation in one call. Published internally and used by several Cisco teams.</p><p class="proj__stack">Python, Podman, MCP, Cisco Topic API</p><p class="proj__award">Adopted across multiple Cisco teams</p>
+      </div>
+      <div class="frame__item" id="frame-netauto-mcp" data-proj="netauto-mcp">
+        <div class="proj__media" data-src="assets/photos/work-netauto.jpg" data-alt="NetAuto MCP">
+<div class="ui" data-ui>
+  <pre class="ui-code ui-code--cli"><code>edge-r1#show ip int brief
+Interface   Status    Protocol
+Gi0/0/0/0   up        up
+Gi0/0/0/1   down      down
+Gi0/0/0/2   admin-dn  down</code></pre>
+  <p class="ui-a">Gi0/0/0/1 is down at layer 1. Shall I pull its optics readings?</p>
+</div></div>
+        <p class="proj__desc">An MCP server that gives an AI agent a safe way into network devices: it runs show commands over Netmiko and answers in plain language. Built for the Innovation League AI Hackathon.</p><p class="proj__stack">Python, MCP, Netmiko, Claude</p>
+      </div>
+      <div class="frame__item" id="frame-webex-rag-bot" data-proj="webex-rag-bot">
+        <div class="proj__media" data-src="assets/photos/work-webex-bot.jpg" data-alt="Webex RAG Bot">
+<div class="ui" data-ui>
+  <div class="ui-head"><span>Lab support</span><span>Webex</span></div>
+  <div class="ui-msg"><b>You</b><p>@kb how do I book time on the lab routers?</p></div>
+  <div class="ui-msg ui-msg--bot"><b>kb</b><p>Raise a reservation in the lab tracker a day ahead. The team pinned the steps in March.</p>
+    <p class="ui-note">Sources: 2 messages, 1 file</p></div>
+</div></div>
+        <p class="proj__desc">A bot that answers questions from what a team has already said in its Webex spaces, with the messages it used as sources.</p><p class="proj__stack">Python, RAG, Circuit API, Webex APIs</p>
+      </div>
+      <div class="frame__item" id="frame-cx-mop-automation" data-proj="cx-mop-automation">
+        <div class="proj__media" data-src="assets/photos/work-mop.jpg" data-alt="CX MoP Automation">
+<div class="ui" data-ui>
+  <div class="ui-head"><span>Port map</span><span>site-07</span></div>
+  <table class="ui-table">
+    <thead><tr><th>Old port</th><th>New port</th><th>Speed</th></tr></thead>
+    <tbody>
+      <tr><td>Gi0/1/0/4</td><td>Hu0/0/0/12</td><td>10G</td></tr>
+      <tr><td>Gi0/1/0/5</td><td>Hu0/0/0/13</td><td>10G</td></tr>
+      <tr><td>Te0/2/0/1</td><td>Hu0/0/0/20</td><td>100G</td></tr>
+    </tbody>
+  </table>
+  <p class="ui-note">Exported port-map.xlsx and MoP.docx in 41 s</p>
+</div></div>
+        <p class="proj__desc">A web app that prepares network migrations: it collects data from devices over SSH, parses the interfaces, and writes the port map and the Method of Procedure. Prep that took hours now takes minutes.</p><p class="proj__stack">Python, Flask, Netmiko</p>
+      </div>
+      <div class="frame__item" id="frame-toxicity-search" data-proj="toxicity-search">
+        <div class="proj__media" data-src="assets/photos/work-toxicity.jpg" data-alt="Toxicity search">
+<div class="ui" data-ui>
+  <div class="ui-field">community moderation tools</div>
+  <ul class="ui-results">
+    <li><em>Safe 0.03</em><span>A guide to moderating online forums</span></li>
+    <li><em>Safe 0.08</em><span>Open-source moderation bots compared</span></li>
+    <li><em>Flagged 0.94</em><span>Result hidden by the classifier</span></li>
+  </ul>
+</div></div>
+        <p class="proj__desc">A web search engine that runs every result through a deep-learning toxicity classifier before showing it.</p><p class="proj__stack">Python, NLP, deep learning</p>
+      </div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section class="pipe" aria-labelledby="pipe-h">
+  <div class="wrap">
+    <p class="pipe__intro" data-reveal>How EcoVisionaries finds people worth meeting in Work on Climate, a Slack community of 40,000. It took first runner-up at the CX Tech4Social Good hackathon in April 2026.</p>
+    <div class="grid pipe__steps">
+    <div class="step step--0" data-reveal style="--i:0">
+      <h2 class="step__line" id="pipe-h">First, read the ask.</h2>
+      <p class="step__note">Intent extraction turns a post in Slack into who someone is and who they want to meet.</p>
+    </div>
+    <div class="step step--1" data-reveal style="--i:1">
+      <h3 class="step__line">Then imagine the match.</h3>
+      <p class="step__note">HyDE writes the profile of an ideal connection, which is far easier to search for than a vague request.</p>
+    </div>
+    <div class="step step--2" data-reveal style="--i:2">
+      <h3 class="step__line">Search every source.</h3>
+      <p class="step__note">Member profiles, past posts and channel history, retrieved in parallel from PostgreSQL with pgvector.</p>
+    </div>
+    <div class="step step--3" data-reveal style="--i:3">
+      <h3 class="step__line">Rank, then reply.</h3>
+      <p class="step__note">A model re-ranks the shortlist against the original intent before the bot answers in the thread.</p>
+    </div>
+    </div>
+    <figure class="score" data-reveal aria-label="Precision of suggestions">
+      <div class="score__row"><span class="score__label">This pipeline</span><span class="score__bar"><span style="--v:.72"></span></span><b class="score__val">72%</b></div>
+      <div class="score__row"><span class="score__label">Naive RAG</span><span class="score__bar"><span style="--v:.33"></span></span><b class="score__val">33%</b></div>
+      <figcaption>Share of suggested connections that were a real match (precision), same test set.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="about wrap" id="about" aria-labelledby="about-h">
+  <h2 id="about-h" class="sr-only">About</h2>
+  <div class="grid about__row">
+    <div class="about__side" data-reveal>
+      <figure class="ph ph--portrait" data-src="assets/photos/portrait.jpg" data-alt="portrait of Karthik"><figcaption class="ph__note">Photo to come: portrait of Karthik</figcaption></figure>
+      <dl class="facts">
+        <div><dt>Based in</dt><dd>Bengaluru, India</dd></div>
+        <div><dt>At Cisco since</dt><dd>January 2024</dd></div>
+        <div><dt>Studied</dt><dd>AI and Data Science, Sona College of Technology, Salem</dd></div>
+      </dl>
+    </div>
+    <div class="about__main" data-reveal style="--i:1">
+      <p class="about__text">I work in Cisco’s Customer Experience team on Verizon’s enterprise network. Most days that means test automation across IOS-XR and IOS-XE, Splunk dashboards that leadership reads every week, and tools like CX MoP Automation, which turned hours of migration prep into minutes.</p>
+      <p class="about__text">The rest of the time I build agents that let engineers work with networks in plain English, and I teach other engineers to build them too.</p>
+    </div>
+  </div>
+  <div class="grid about__row about__row--record">
+    <p class="about__word" data-reveal>Record</p>
+    <div class="about__list" data-reveal style="--i:1">
+      <h3 class="list-h">Certified</h3>
+      <ul class="record"><li><span>CCNP Automation</span><span class="yr">2026</span></li><li><span>DevNet Specialist, Core (DEVCOR)</span><span class="yr">2026</span></li><li><span>DevNet Specialist, Service Provider (SPAUTO)</span><span class="yr">2026</span></li><li><span>Splunk Core Certified User</span><span class="yr">2026</span></li><li><span>AI Tech Practitioner</span><span class="yr">2026</span></li></ul>
+    </div>
+    <div class="about__list" data-reveal style="--i:2">
+      <h3 class="list-h">Published</h3>
+      <ul class="record">
+        <li><a class="link" href="https://doi.org/10.1109/ICCDS60734.2024.10560433" rel="noopener" target="_blank">A Deep Learning Framework for Detecting Underwater Trash</a><span class="yr">2024</span></li>
+        <li><span>IEEE ICCDS 2024, Best Paper Presentation</span><span class="yr">2024</span></li>
+      </ul>
+      <h3 class="list-h">Before</h3>
+      <ul class="record">
+        <li><span>Technical intern, Cisco CX: NSVT YAML Generator, AIOps training data</span><span class="yr">2024</span></li>
+        <li><span>B.Tech in Artificial Intelligence and Data Science</span><span class="yr">2020–2024</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="talks" id="talks" aria-labelledby="talks-h">
+  <div class="wrap">
+    <h2 id="talks-h" class="sr-only">Talks and teaching</h2>
+    <p class="talks__intro" data-reveal>Where I have spoken and taught since 2024.</p>
+    <ul class="talks__list" data-stagger><li class="talk" style="--i:0"><span class="talk__word">WISE India</span><span class="talk__detail">“AI for your Future”, flagship event, April 2026</span></li><li class="talk" style="--i:1"><span class="talk__word">Lighthouse</span><span class="talk__detail">Five hands-on AI labs: MCP, Copilot, APIs, agents</span></li><li class="talk" style="--i:2"><span class="talk__word">Tech Bytes</span><span class="talk__detail">AI enablement for APJC engineers</span></li><li class="talk" style="--i:3"><span class="talk__word">Bootcamp</span><span class="talk__detail">Five days of AI/ML for new hires; 50+ on Claude Code</span></li><li class="talk" style="--i:4"><span class="talk__word">Splunk</span><span class="talk__detail">Enablement series for SVS engineers</span></li><li class="talk" style="--i:5"><span class="talk__word">Verizon</span><span class="talk__detail">Sessions on AI, Splunk and automation</span></li></ul>
+  </div>
+  <figure class="ph ph--band" data-src="assets/photos/talk-wise-india.jpg" data-alt="speaking at WISE India, April 2026"><figcaption class="ph__note">Photo to come: speaking at WISE India, April 2026</figcaption></figure>
+</section>
+
+<section class="awards wrap" id="awards" aria-labelledby="awards-h">
+  <h2 id="awards-h" class="awards__h" data-reveal><span>Nine awards</span><span class="indent">since 2023</span></h2>
+  <div class="table-scroll" data-reveal style="--i:1">
+    <table class="awards__table">
+      <thead><tr><th scope="col">Year</th><th scope="col">Award</th><th scope="col">For</th><th scope="col">Given by</th></tr></thead>
+      <tbody><tr><td class="t-year">2026</td><td class="t-award">First runner-up</td><td class="t-for">CX Tech4Social Good hackathon (EcoVisionaries)</td><td class="t-by">Cisco CX</td></tr><tr><td class="t-year"></td><td class="t-award">AI Ideation Award</td><td class="t-for"></td><td class="t-by">Cisco SVS</td></tr><tr class="gap"><td class="t-year">2025</td><td class="t-award">SVS Rising Star Award</td><td class="t-for"></td><td class="t-by">Cisco SVS</td></tr><tr><td class="t-year"></td><td class="t-award">Best Team Impact Award</td><td class="t-for">Verizon project</td><td class="t-by">Cisco SVS</td></tr><tr><td class="t-year"></td><td class="t-award">AI Challenge winner</td><td class="t-for"></td><td class="t-by">Cisco WISE India</td></tr><tr><td class="t-year"></td><td class="t-award">Automation Genie Award</td><td class="t-for"></td><td class="t-by">Cisco SVS</td></tr><tr><td class="t-year"></td><td class="t-award">IC Champion Award</td><td class="t-for"></td><td class="t-by">Cisco SVS</td></tr><tr class="gap"><td class="t-year">2024</td><td class="t-award">Best Paper Presentation</td><td class="t-for">Underwater trash detection paper</td><td class="t-by">IEEE ICCDS 2024</td></tr><tr class="gap"><td class="t-year">2023</td><td class="t-award">First place</td><td class="t-for">Verve-a-thon Gen AI hackathon</td><td class="t-by">Verve-a-thon</td></tr></tbody>
+    </table>
+  </div>
+</section>
+
+<section class="contact" id="contact" aria-labelledby="contact-h">
+  <div class="wrap contact__inner">
+    <h2 id="contact-h" class="contact__lead" data-reveal>Building agents, MCP servers or network automation? Write to me.</h2>
+    <div class="contact__mail" data-reveal style="--i:1">
+      <a class="contact__addr" href="mailto:karthikravi141@gmail.com">karthikravi141@<wbr>gmail.com</a>
+      <button type="button" class="btn btn--dark" id="copy-email" data-email="karthikravi141@gmail.com">Copy address</button>
+      <span class="contact__copied" id="copy-status" role="status"></span>
+    </div>
+    <div class="contact__corners">
+      <p>Bengaluru, India</p>
+      <p class="contact__links"><a class="link" href="https://github.com/karthikkk16" rel="noopener" target="_blank">GitHub</a><a class="link" href="https://linkedin.com/in/karthikraviii" rel="noopener" target="_blank">LinkedIn</a><a class="link" href="/Karthik-Ravishankar-Resume.pdf">Résumé (PDF)</a></p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__row">
+    <p>© 2026 Karthik Ravishankar</p>
+    <a class="link" href="#top">Back to top</a>
+  </div>
+  <p class="foot__name wrap" aria-hidden="true"><span>Karthik Ravishankar</span></p>
+</footer>
+<script type="application/json" id="kb">{"profile": {"name": "Karthik Ravishankar", "role": "Consulting Engineer, Cisco Customer Experience (CX)", "city": "Bengaluru, India", "since": "Cisco since January 2024 (intern), consulting engineer since July 2024"}, "experience": [{"title": "Consulting Engineer", "org": "Cisco Systems, Customer Experience (CX)", "dates": "Jul 2024 – present", "points": ["Writes and maintains 20+ automated test suites for Verizon’s enterprise network on IOS-XR and IOS-XE: optics validation, EPNM monitoring, L2/L3 services.", "Built CX MoP Automation (Flask + Netmiko): collects data over SSH, parses interfaces, and generates the port map (Excel) and Method of Procedure (Word). Migration prep went from hours to minutes.", "Set up Splunk Enterprise from scratch and wired in 16+ test projects and network devices, with dashboards for test KPIs, automation adoption and test-case reuse.", "Built a Project Timeline Estimator from historical benchmarks and a weekly status dashboard across 16 projects for Verizon leadership.", "Ran 15+ technical sessions, wrote the labs for CX Lighthouse AI Labs, and ran a 5-day AI/ML bootcamp that put 50+ engineers on Claude Code."]}, {"title": "Technical Intern I", "org": "Cisco Systems, Customer Experience (CX)", "dates": "Jan 2024 – Jun 2024", "points": ["Built the NSVT YAML Generator to set up network service validation tests.", "Built training datasets from network CLI logs for an AIOps customer project."]}], "work": [{"id": "ecovisionaries", "short": "matches members of a 40,000-person climate Slack at 72% precision.", "aliases": ["ecovisionaries", "eco visionaries", "slack bot", "work on climate"], "name": "EcoVisionaries", "kind": "AI Slack bot", "year": "2026", "tags": ["rag", "slack", "agents", "llm", "hackathon"], "stack": "TypeScript, Slack Bolt, PostgreSQL, pgvector", "desc": "A Slack bot for Work on Climate, a community of 40,000, that finds the members you should meet. A five-stage pipeline (intent extraction, HyDE profiles, multi-source retrieval, LLM re-ranking) reached 72% precision against 33% for naive RAG.", "award": "First runner-up, CX Tech4Social Good hackathon"}, {"id": "mcp-ai-studio", "short": "lets engineers run network operations in plain English through Claude.", "aliases": ["ai studio", "mcp ai studio"], "name": "MCP AI Studio", "kind": "Network AI framework", "year": "2025", "tags": ["mcp", "rag", "network", "agents", "claude"], "stack": "Python, Claude, MCP, RAG, Cisco APIs", "desc": "A framework for AI-assisted network operations. Engineers ask in plain English; Claude picks MCP tools that talk to devices and enterprise systems, and RAG pipelines bring in the documentation.", "award": ""}, {"id": "topic-search-mcp", "short": "searches bug reports, Techzone and docs in one call, and several Cisco teams use it.", "aliases": ["topic search", "cdets", "techzone"], "name": "Topic Search MCP", "kind": "MCP server", "year": "2025", "tags": ["mcp", "search", "podman", "agents"], "stack": "Python, Podman, MCP, Cisco Topic API", "desc": "A containerised MCP server that lets an AI assistant search Cisco bug reports, Techzone articles and documentation in one call. Published internally and used by several Cisco teams.", "award": "Adopted across multiple Cisco teams"}, {"id": "netauto-mcp", "short": "gives an agent a safe way to run show commands on routers.", "aliases": ["netauto", "net auto"], "name": "NetAuto MCP", "kind": "MCP server, hackathon", "year": "2026", "tags": ["mcp", "network", "netmiko", "claude", "agents"], "stack": "Python, MCP, Netmiko, Claude", "desc": "An MCP server that gives an AI agent a safe way into network devices: it runs show commands over Netmiko and answers in plain language. Built for the Innovation League AI Hackathon.", "award": ""}, {"id": "webex-rag-bot", "short": "answers questions from a team’s own Webex history, with sources.", "aliases": ["webex bot", "webex rag", "rag bot"], "name": "Webex RAG Bot", "kind": "Knowledge bot", "year": "2026", "tags": ["rag", "webex", "llm", "search"], "stack": "Python, RAG, Circuit API, Webex APIs", "desc": "A bot that answers questions from what a team has already said in its Webex spaces, with the messages it used as sources.", "award": ""}, {"id": "cx-mop-automation", "short": "writes migration port maps and MoPs, turning hours of prep into minutes.", "aliases": ["mop", "method of procedure", "port map"], "name": "CX MoP Automation", "kind": "Migration tooling, Cisco", "year": "2024", "tags": ["network", "automation", "flask", "netmiko"], "stack": "Python, Flask, Netmiko", "desc": "A web app that prepares network migrations: it collects data from devices over SSH, parses the interfaces, and writes the port map and the Method of Procedure. Prep that took hours now takes minutes.", "award": ""}, {"id": "toxicity-search", "short": "screens every search result with a toxicity classifier.", "aliases": ["toxicity", "toxic"], "name": "Toxicity search", "kind": "Search with NLP", "year": "2023", "tags": ["nlp", "deep learning", "search"], "stack": "Python, NLP, deep learning", "desc": "A web search engine that runs every result through a deep-learning toxicity classifier before showing it.", "award": ""}], "awards": [{"year": "2026", "award": "First runner-up", "for": "CX Tech4Social Good hackathon (EcoVisionaries)", "by": "Cisco CX", "month": "Apr"}, {"year": "2026", "award": "AI Ideation Award", "for": "", "by": "Cisco SVS", "month": "Mar"}, {"year": "2025", "award": "SVS Rising Star Award", "for": "", "by": "Cisco SVS", "month": "Dec"}, {"year": "2025", "award": "Best Team Impact Award", "for": "Verizon project", "by": "Cisco SVS", "month": "Dec"}, {"year": "2025", "award": "AI Challenge winner", "for": "", "by": "Cisco WISE India", "month": "Dec"}, {"year": "2025", "award": "Automation Genie Award", "for": "", "by": "Cisco SVS", "month": "Sep"}, {"year": "2025", "award": "IC Champion Award", "for": "", "by": "Cisco SVS", "month": "Sep"}, {"year": "2024", "award": "Best Paper Presentation", "for": "Underwater trash detection paper", "by": "IEEE ICCDS 2024", "month": "May"}, {"year": "2023", "award": "First place", "for": "Verve-a-thon Gen AI hackathon", "by": "Verve-a-thon", "month": "Sep"}], "certs": [{"name": "CCNP Automation", "by": "Cisco", "year": "2026"}, {"name": "DevNet Specialist, Core (DEVCOR)", "by": "Cisco", "year": "2026"}, {"name": "DevNet Specialist, Service Provider (SPAUTO)", "by": "Cisco", "year": "2026"}, {"name": "Splunk Core Certified User", "by": "Splunk", "year": "2026"}, {"name": "AI Tech Practitioner", "by": "Cisco", "year": "2026"}], "talks": [{"word": "WISE India", "detail": "“AI for your Future”, flagship event, April 2026"}, {"word": "Lighthouse", "detail": "Five hands-on AI labs: MCP, Copilot, APIs, agents"}, {"word": "Tech Bytes", "detail": "AI enablement for APJC engineers"}, {"word": "Bootcamp", "detail": "Five days of AI/ML for new hires; 50+ on Claude Code"}, {"word": "Splunk", "detail": "Enablement series for SVS engineers"}, {"word": "Verizon", "detail": "Sessions on AI, Splunk and automation"}], "education": {"degree": "B.Tech in Artificial Intelligence and Data Science", "school": "Sona College of Technology, Salem", "dates": "2020–2024", "paper": "A Deep Learning Framework for Detecting Underwater Trash", "venue": "IEEE ICCDS 2024", "doi": "10.1109/ICCDS60734.2024.10560433"}, "skills": {"Languages": ["Python", "TypeScript", "SQL", "Bash", "SPL"], "AI": ["Agentic AI", "RAG pipelines", "MCP servers", "Prompt engineering", "LLMs"], "Frameworks": ["LangChain", "Google ADK", "A2A protocol", "Flask", "Claude Code", "Robot Framework"], "Platforms": ["Splunk Enterprise", "Docker", "Podman", "Git", "PostgreSQL", "MongoDB"]}, "tools": ["search_projects", "get_project", "get_experience", "list_awards", "list_certifications", "list_talks", "get_education", "get_skills", "get_contact"], "contact": {"email": "karthikravi141@gmail.com", "github": "https://github.com/karthikkk16", "linkedin": "https://linkedin.com/in/karthikraviii"}}</script>
+<script>
+(() => {
+  'use strict';
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+
+  /* ---------- reveal once ---------- */
+  const revealables = $$('[data-reveal], [data-stagger], .score, .ph--band');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        e.target.classList.add('is-in');
+        if (e.target.classList.contains('numbers__grid')) countUp(e.target);
+        io.unobserve(e.target);
+      }
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.08 });
+    revealables.forEach((el) => io.observe(el));
+  } else {
+    revealables.forEach((el) => el.classList.add('is-in'));
+  }
+  // Safety net: nothing stays hidden if an observer never fires (print, odd embeds).
+  window.addEventListener('load', () => setTimeout(() => revealables.forEach((el) => {
+    const r = el.getBoundingClientRect();
+    if (r.top < innerHeight && r.bottom > 0) el.classList.add('is-in');
+  }), 1200));
+
+  /* ---------- figures count up once ---------- */
+  function countUp(root) {
+    if (reduce) return;
+    $$('.fig[data-count]', root).forEach((el) => {
+      const end = +el.dataset.count, suffix = el.dataset.suffix || '';
+      const t0 = performance.now(), dur = 1100;
+      const tick = (t) => {
+        const p = Math.min(1, (t - t0) / dur), eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(end * eased) + suffix;
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
+  }
+
+  /* ---------- work index with preview ---------- */
+  const projs = $$('.proj'), frames = $$('.frame__item');
+  function activate(id) {
+    projs.forEach((p) => {
+      const on = p.dataset.proj === id;
+      p.classList.toggle('is-active', on);
+      $('.proj__name', p).setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    frames.forEach((f) => f.classList.toggle('is-active', f.dataset.proj === id));
+  }
+  projs.forEach((p) => {
+    const b = $('.proj__name', p);
+    const go = () => activate(p.dataset.proj);
+    b.addEventListener('mouseenter', go);
+    b.addEventListener('focus', go);
+    b.addEventListener('click', go);
+  });
+
+  /* ---------- photo slots: drop a file into assets/photos and it appears ---------- */
+  $$('[data-src]').forEach((slot) => {
+    const img = new Image();
+    img.decoding = 'async';
+    img.loading = 'lazy';
+    img.alt = slot.dataset.alt || '';
+    img.onload = () => {
+      if (slot.classList.contains('proj__media')) slot.replaceChildren(img);
+      else slot.appendChild(img);
+      slot.classList.add('has-img');
+    };
+    img.src = slot.dataset.src;
+  });
+
+  /* ---------- copy email ---------- */
+  const copyBtn = $('#copy-email'), copyStatus = $('#copy-status');
+  if (copyBtn) copyBtn.addEventListener('click', async () => {
+    const addr = copyBtn.dataset.email;
+    try {
+      await navigator.clipboard.writeText(addr);
+      copyStatus.textContent = 'Copied to your clipboard.';
+    } catch (e) {
+      const a = $('.contact__addr');
+      const range = document.createRange();
+      range.selectNodeContents(a);
+      const sel = getSelection(); sel.removeAllRanges(); sel.addRange(range);
+      copyStatus.textContent = 'Selected. Press Ctrl+C or Cmd+C to copy.';
+    }
+  });
+
+  /* ================= the agent ================= */
+  const kbEl = $('#kb');
+  const log = $('#console-log');
+  if (!kbEl || !log) return;
+  const KB = JSON.parse(kbEl.textContent);
+  const consoleEl = $('.console'), stateEl = $('#console-state');
+  const form = $('#console-form'), input = $('#console-input');
+  let busy = false;
+
+  const norm = (s) => s.toLowerCase().normalize('NFKD').replace(/[^\w\s+-]/g, ' ');
+  const words = (s) => norm(s).split(/\s+/).filter(Boolean);
+  const has = (q, list) => list.some((k) => q.includes(k));
+  const listJoin = (a) => a.length < 2 ? a.join('') : a.slice(0, -1).join(', ') + ' and ' + a[a.length - 1];
+  const NUM = ['zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
+  const cap = (n) => NUM[n] || String(n);
+
+  const TOPICS = {
+    mcp: ['mcp', 'model context', 'server'],
+    rag: ['rag', 'retrieval', 'knowledge', 'vector', 'pgvector'],
+    network: ['network', 'router', 'cisco', 'bgp', 'device', 'cli', 'netmiko', 'ios'],
+    agents: ['agent', 'agentic'],
+    slack: ['slack'],
+    webex: ['webex'],
+    nlp: ['nlp', 'toxic', 'deep learning', 'classifier'],
+    automation: ['automation', 'automate', 'migration', 'mop'],
+    search: ['search'],
+    hackathon: ['hackathon'],
+  };
+
+  /* Tools. Each returns { args, hits: [[label, right]], answer } */
+  const T = {
+    search_projects(q) {
+      let topic = Object.keys(TOPICS).find((t) => has(q, TOPICS[t]));
+      let list = KB.work;
+      if (topic) list = KB.work.filter((w) => w.tags.includes(topic) || norm(w.name + ' ' + w.desc + ' ' + w.kind).includes(topic));
+      if (!list.length) { topic = null; list = KB.work; }
+      const top = list.slice(0, topic ? 4 : 7);
+      const blurb = (w) => w.name + ' ' + w.short;
+      return {
+        args: topic ? { topic } : { limit: 7 },
+        hits: top.map((w) => [w.name, w.year]),
+        answer: topic
+          ? `${cap(top.length)} ${topic === 'mcp' ? 'MCP' : topic === 'rag' ? 'RAG' : topic} project${top.length > 1 ? 's' : ''}. ` + top.slice(0, 3).map(blurb).join(' ')
+          : `Seven projects since 2023. The ones people ask about most: ${blurb(KB.work[0])} ${blurb(KB.work[1])} The full list is in the Work section below.`,
+      };
+    },
+    get_project(q, w) {
+      return {
+        args: { id: w.id },
+        hits: [[w.kind, w.year], [w.stack, '']],
+        answer: w.desc + (w.award ? ` ${w.award}.` : ''),
+      };
+    },
+    get_experience() {
+      const [now, intern] = KB.experience;
+      return {
+        args: { company: 'Cisco' },
+        hits: KB.experience.map((e) => [e.title, e.dates]),
+        answer: `${now.title} in Cisco’s Customer Experience team since July 2024, after a six-month internship. He works on Verizon’s enterprise network: 20+ automated test suites on IOS-XR and IOS-XE, Splunk set up from scratch across 16 projects, and CX MoP Automation, which cut migration prep from hours to minutes.`,
+      };
+    },
+    list_awards(q) {
+      const hack = has(q, ['hackathon', 'hack', 'compet', 'won', 'win']);
+      const list = hack ? KB.awards.filter((a) => /hackathon|challenge|verve/i.test(a.award + a.for + a.by)) : KB.awards;
+      return {
+        args: hack ? { kind: 'competition' } : {},
+        hits: list.slice(0, 6).map((a) => [a.award + (a.for ? `, ${a.for}` : ''), a.year]),
+        answer: hack
+          ? `${cap(list.length)}. First place at the Verve-a-thon Gen AI hackathon (2023), winner of the Cisco WISE India AI Challenge (2025), and first runner-up at the CX Tech4Social Good hackathon (2026) with EcoVisionaries.`
+          : `Nine since 2023. Most recent: first runner-up at CX Tech4Social Good (April 2026) and the Cisco SVS AI Ideation Award (March 2026). In 2025 alone, five Cisco awards, including Rising Star and Best Team Impact for the Verizon project.`,
+      };
+    },
+    list_certifications() {
+      return {
+        args: {},
+        hits: KB.certs.map((c) => [c.name, c.year]),
+        answer: `Five, all earned in February 2026: ${listJoin(KB.certs.map((c) => c.name))}.`,
+      };
+    },
+    list_talks() {
+      return {
+        args: { since: 2024 },
+        hits: KB.talks.slice(0, 5).map((t) => [t.word, t.detail.split(/[,;:]/)[0]]),
+        answer: 'Yes, it is a large part of his job. 15+ technical sessions on AI, Splunk and automation, the lab guides for all five CX Lighthouse AI Labs, a five-day AI/ML bootcamp that put 50+ new engineers on Claude Code, and a talk at the WISE India flagship event in April 2026.',
+      };
+    },
+    get_education() {
+      const e = KB.education;
+      return {
+        args: {},
+        hits: [[e.degree, e.dates], [e.paper, '2024']],
+        answer: `${e.degree} from ${e.school} (${e.dates}). His paper, “${e.paper}”, was published at ${e.venue} and won Best Paper Presentation. DOI ${e.doi}.`,
+      };
+    },
+    get_skills() {
+      const s = KB.skills;
+      return {
+        args: {},
+        hits: Object.keys(s).map((k) => [k, String(s[k].length)]),
+        answer: `Mostly Python and TypeScript. For AI work: ${listJoin(s.AI.slice(0, 4))}, with ${listJoin(s.Frameworks.slice(0, 4))}. On the platform side: ${listJoin(s.Platforms.slice(0, 4))}.`,
+      };
+    },
+    get_contact() {
+      const c = KB.contact;
+      return {
+        args: {},
+        hits: [['Email', ''], ['LinkedIn', ''], ['GitHub', '']],
+        answer: `Email is quickest: ${c.email}. He is also on LinkedIn (karthikraviii) and GitHub (karthikkk16), and his résumé is linked at the top of the page.`,
+      };
+    },
+    search_records(q) {
+      const qs = words(q).filter((w) => w.length > 3);
+      const pool = [
+        ...KB.work.map((w) => ({ label: w.name, right: w.year, text: w.name + ' ' + w.desc + ' ' + w.stack, say: w.desc })),
+        ...KB.awards.map((a) => ({ label: a.award, right: a.year, text: a.award + ' ' + a.for + ' ' + a.by, say: `${a.award}${a.for ? ' for ' + a.for : ''}, ${a.by}, ${a.year}.` })),
+        ...KB.talks.map((t) => ({ label: t.word, right: '', text: t.word + ' ' + t.detail, say: `${t.word}: ${t.detail}.` })),
+        ...KB.experience.flatMap((e) => e.points.map((p) => ({ label: e.title, right: e.dates, text: p, say: p }))),
+      ];
+      const scored = pool.map((r) => ({ r, s: qs.reduce((n, w) => n + (norm(r.text).includes(w) ? 1 : 0), 0) }))
+        .filter((x) => x.s > 0).sort((a, b) => b.s - a.s).slice(0, 3);
+      if (!scored.length) return {
+        args: { query: q.trim().slice(0, 40) },
+        hits: [],
+        answer: 'Nothing in his records matches that. I can answer questions about his projects, his work at Cisco, awards, certifications, talks, education and how to reach him.',
+      };
+      return {
+        args: { query: q.trim().slice(0, 40) },
+        hits: scored.map((x) => [x.r.label, x.r.right]),
+        answer: scored.slice(0, 2).map((x) => x.r.say).join(' '),
+      };
+    },
+  };
+
+  function route(raw) {
+    const q = norm(raw);
+    const plan = [];
+    const proj = KB.work.find((w) => [w.name, ...w.aliases].some((a) => q.includes(norm(a).trim())));
+    if (proj) plan.push(['get_project', proj]);
+    if (has(q, ['hackathon', 'award', 'prize', 'won', 'win ', 'recogni', 'achiev'])) plan.push(['list_awards']);
+    if (has(q, ['certif', 'ccnp', 'devnet', 'qualif', 'exam'])) plan.push(['list_certifications']);
+    if (has(q, ['talk', 'speak', 'teach', 'train', 'workshop', 'session', 'bootcamp', 'mentor', 'lab'])) plan.push(['list_talks']);
+    if (has(q, ['cisco', 'job', 'role', 'experience', 'verizon', 'splunk', 'day to day', 'work at', 'do at', 'currently', 'company'])) plan.push(['get_experience']);
+    if (has(q, ['study', 'college', 'degree', 'educat', 'university', 'paper', 'public', 'ieee', 'research'])) plan.push(['get_education']);
+    if (has(q, ['skill', 'stack', 'language', 'python', 'typescript', 'tools does', 'framework', 'tech', 'know'])) plan.push(['get_skills']);
+    if (has(q, ['contact', 'email', 'mail', 'hire', 'reach', 'linkedin', 'github', 'resume', 'cv', 'available'])) plan.push(['get_contact']);
+    if (!proj && has(q, ['built', 'build', 'project', 'made', 'make', 'mcp', 'rag', 'agent', 'bot', 'portfolio', 'work on', 'side'])) plan.push(['search_projects']);
+    if (!plan.length) plan.push(['search_records']);
+    return plan.slice(0, 2);
+  }
+
+  const sleep = (ms) => new Promise((r) => setTimeout(r, reduce ? 0 : ms));
+  const el = (tag, cls, html) => { const n = document.createElement(tag); if (cls) n.className = cls; if (html != null) n.innerHTML = html; return n; };
+  const escH = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const scrollDown = () => { log.scrollTop = log.scrollHeight; };
+
+  async function ask(question) {
+    if (busy || !question.trim()) return;
+    busy = true;
+    consoleEl.classList.add('is-busy');
+    form.querySelector('button').disabled = true;
+
+    const u = el('div', 'turn turn--user');
+    u.append(el('span', 'who', 'You'), el('p', '', escH(question)));
+    log.append(u); scrollDown();
+
+    const plan = route(question);
+    const answers = [];
+    for (const [name, arg] of plan) {
+      stateEl.textContent = `Calling ${name}`;
+      const res = T[name](norm(question), arg);
+      const t = el('div', 'turn turn--tool');
+      const call = `<span class="arrow">→</span> ${name}(${escH(JSON.stringify(res.args))})`;
+      const codeEl = el('code', '', call); codeEl.translate = false;
+      t.append(codeEl);
+      const meta = el('span', 'meta', 'running…');
+      t.append(meta);
+      log.append(t); scrollDown();
+      const ms = 24 + Math.round(Math.random() * 60);
+      await sleep(380 + ms * 4);
+      meta.textContent = res.hits.length ? `${res.hits.length} result${res.hits.length > 1 ? 's' : ''} in ${ms} ms` : `no matches in ${ms} ms`;
+      if (res.hits.length) {
+        const ul = el('ul', 'hits');
+        res.hits.forEach(([a, b]) => { const li = el('li'); li.append(el('span', '', escH(a)), el('span', '', escH(b))); ul.append(li); });
+        t.append(ul);
+      }
+      scrollDown();
+      answers.push(res.answer);
+      await sleep(200);
+    }
+
+    stateEl.textContent = 'Writing';
+    const a = el('div', 'turn turn--agent');
+    const p = el('p');
+    a.append(el('span', 'who', 'Agent'), p);
+    log.append(a);
+    const text = answers.join(' ');
+    if (reduce) { p.textContent = text; }
+    else {
+      const caret = el('span', 'caret');
+      const parts = text.split(/(\s+)/);
+      let out = '';
+      for (let i = 0; i < parts.length; i++) {
+        out += parts[i];
+        if (i % 2 === 0) { p.textContent = out; p.append(caret); scrollDown(); await sleep(16 + Math.random() * 22); }
+      }
+      p.textContent = text;
+    }
+    scrollDown();
+    stateEl.textContent = `Ready, ${KB.tools.length} tools`;
+    consoleEl.classList.remove('is-busy');
+    form.querySelector('button').disabled = false;
+    busy = false;
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const q = input.value;
+    input.value = '';
+    ask(q);
+  });
+  $$('.chip').forEach((c) => c.addEventListener('click', () => ask(c.dataset.q)));
+
+  // The first time the console comes into view, it answers one more question by itself.
+  const starters = ['Which hackathons has he won?', 'Can he teach my team?', 'What does he do at Cisco?'];
+  if ('IntersectionObserver' in window) {
+    const once = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting)) {
+        once.disconnect();
+        setTimeout(() => ask(starters[Math.floor(Math.random() * starters.length)]), reduce ? 0 : 700);
+      }
+    }, { threshold: 0.45 });
+    once.observe(consoleEl);
+  }
+})();
+
+</script>
+</body>
+</html>
