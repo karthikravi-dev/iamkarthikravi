@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Karthik Ravishankar — Portfolio</title>
-<meta name="description" content="Consulting Engineer at Cisco CX. I build production AI tooling, MCP servers, and guardrails for AI agents.">
+<meta name="description" content="Consulting Engineer at Cisco CX. I build AI-powered tools, MCP servers, and automation that run in production.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -390,10 +390,7 @@ footer {
 .project-link:hover { color: var(--text-primary); }
 .project-desc strong { color: var(--text-primary); font-weight: 600; }
 
-/* ===== RESEARCH ===== */
-#research, #education { padding-top: var(--section-gap); }
-.research-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
-.research-kind { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-3); margin-bottom: 10px; }
+#education { padding-top: var(--section-gap); }
 
 /* ===== SCROLL REVEAL ===== */
 .reveal {
@@ -416,8 +413,7 @@ footer {
   .hero-stats { gap: 24px; }
   .hero-stat .number { font-size: 1.5rem; }
   .projects-grid { grid-template-columns: 1fr; }
-  .research-grid { grid-template-columns: 1fr; }
-  .featured-metrics { grid-template-columns: 1fr 1fr; }
+    .featured-metrics { grid-template-columns: 1fr 1fr; }
   .achievements-grid { grid-template-columns: 1fr; }
   .skills-grid { grid-template-columns: 1fr 1fr; }
   .section-heading { font-size: 1.8rem; }
@@ -440,7 +436,6 @@ footer {
   <div class="nav-links" id="navLinks">
     <a href="#experience">Experience</a>
     <a href="#projects">Projects</a>
-    <a href="#research">Research</a>
     <a href="#skills">Skills</a>
     <a href="#achievements">Achievements</a>
     <a href="#education">Education</a>
@@ -454,7 +449,7 @@ footer {
 <section id="hero">
   <h1 class="hero-name">Hi, I'm <span class="gradient">Karthik</span></h1>
   <div class="hero-typed"><span id="typed-text"></span><span class="cursor"></span></div>
-  <p class="hero-intro">Consulting Engineer at <strong>Cisco CX</strong>, working inside enterprise customer teams to ship automation, observability, and AI tooling that runs in production. I build MCP servers and agentic workflows, and I focus on <strong>guardrails and reliability for AI agents</strong>.</p>
+  <p class="hero-intro">Consulting Engineer at <strong>Cisco CX</strong>, working inside enterprise customer teams to ship automation, observability, and AI tooling that runs in production. I build AI-powered tools, MCP servers, and agentic workflows, and I lead AI enablement for engineers.</p>
   <div class="hero-socials">
     <a href="https://github.com/karthikravi-dev" target="_blank" aria-label="GitHub">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
@@ -469,7 +464,7 @@ footer {
   <div class="hero-stats">
     <div class="hero-stat"><div class="number">500+</div><div class="label">projects tracked in SVS Pulse</div></div>
     <div class="hero-stat"><div class="number">~94%</div><div class="label">fewer AI tokens per report</div></div>
-    <div class="hero-stat"><div class="number">50+</div><div class="label">engineers onboarded to Claude Code</div></div>
+    <div class="hero-stat"><div class="number">50+</div><div class="label">new hires &amp; interns trained in AI</div></div>
     <div class="hero-stat"><div class="number">15+</div><div class="label">technical sessions delivered</div></div>
   </div>
   <div class="scroll-indicator">
@@ -493,9 +488,10 @@ footer {
       </div>
       <div class="timeline-company">Cisco Systems — Customer Experience (CX) · Bengaluru, India</div>
 
-      <div class="exp-category">SVS Pulse — self-initiated, in production</div>
+      <div class="exp-category">SVS Pulse — AI-powered, self-initiated, in production</div>
       <ul class="exp-list">
-        <li>Built <strong>SVS Pulse</strong> from scratch: one view of every CXTM project for delivery managers, PMs, engineers, and leadership, covering <strong>60+ customers, 500+ projects, and 26K+ test cases</strong>. Cut customer report prep from 30–40 minutes to one click. <a class="project-link" href="#projects" style="margin-top:0">Details ↓</a></li>
+        <li>Built <strong>SVS Pulse</strong> from scratch: an AI-powered delivery intelligence platform giving delivery managers, PMs, engineers, and leadership one view of every CXTM project, covering <strong>60+ customers, 500+ projects, and 26K+ test cases</strong>. Cut customer report prep from 30–40 minutes to one click. <a class="project-link" href="#projects" style="margin-top:0">Details ↓</a></li>
+        <li>Led the <strong>SVS Pulse booth</strong> at an internal Cisco showcase, demoing it to engineers and leaders.</li>
       </ul>
 
       <div class="exp-category">Customer Delivery & Automation (Verizon)</div>
@@ -515,7 +511,8 @@ footer {
       <ul class="exp-list">
         <li>Delivered <strong>15+ technical sessions</strong> on AI, Splunk, and automation for Verizon, SVS India, APJC CX Tech Bytes, and CX Lighthouse AI Labs.</li>
         <li>Authored lab guides and workshop content for CX Lighthouse AI Labs: <strong>5 hands-on sessions</strong> on MCP, GitHub Copilot, APIs, and building custom agents.</li>
-        <li>Ran a <strong>5-day AI/ML bootcamp</strong> for new hires and onboarded <strong>50+ engineers</strong> onto AI-assisted development with Claude Code.</li>
+        <li>Ran a <strong>5-day AI/ML bootcamp</strong> for <strong>50+ new hires and interns</strong>.</li>
+        <li>Led <strong>Claude Code</strong> and <strong>Splunk</strong> enablement for my whole team.</li>
       </ul>
     </div>
 
@@ -546,10 +543,10 @@ footer {
     <div class="project-card featured reveal">
       <div class="featured-label">Featured · Built & in use at Cisco</div>
       <div class="project-card-header">
-        <span class="project-name">SVS Pulse — Delivery Intelligence Platform</span>
+        <span class="project-name">SVS Pulse — AI-Powered Delivery Intelligence</span>
         <span class="project-date">In production</span>
       </div>
-      <p class="project-desc">A project I started on my own and built from scratch. Delivery data was spread across hundreds of CXTM projects, so preparing one customer report meant opening dozens of tabs by hand. SVS Pulse brings every project into one view for delivery managers, PMs, engineers, and leadership, with separate production and staging environments. Its AI layer, <strong>Ask SVS Pulse</strong> and a <strong>Pulse MCP server</strong> for Claude and AI coding tools, answers from pre-structured records scoped to each user's access, instead of pulling raw data for every request. PRD approved by CX-PM, with Cisco IQ integration upcoming.</p>
+      <p class="project-desc">An AI-powered platform I started on my own and built from scratch. Delivery data was spread across hundreds of CXTM projects, so preparing one customer report meant opening dozens of tabs by hand. SVS Pulse brings every project into one view, and people simply ask it questions: <strong>Ask SVS Pulse</strong> answers in plain language ("which projects are trending down?", "prep my customer call"), and a <strong>Pulse MCP server</strong> brings the same answers into Claude and AI coding tools. Both answer from pre-structured records scoped to each user's access, instead of pulling raw data for every request. Runs in production with a staging environment; PRD approved by CX-PM, with Cisco IQ integration upcoming. I also led its booth at an internal Cisco showcase.</p>
       <div class="featured-metrics">
         <div class="featured-metric"><div class="number">500+</div><div class="label">projects across 60+ customers</div></div>
         <div class="featured-metric"><div class="number">26K+</div><div class="label">test cases in one view</div></div>
@@ -567,7 +564,6 @@ footer {
         <span class="project-tag">LLM (Circuit)</span>
         <span class="project-tag">Webex Bot API</span>
       </div>
-      <a class="project-link" href="https://svspulse.cisco.com" target="_blank" rel="noopener">svspulse.cisco.com ↗ <span style="color:var(--text-muted);font-weight:500">(Cisco network)</span></a>
     </div>
 
     <div class="project-card reveal">
@@ -645,38 +641,6 @@ footer {
   </div>
 </section>
 
-<!-- ===== RESEARCH ===== -->
-<section id="research">
-  <div class="reveal">
-    <p class="section-title">AI Agent Guardrails</p>
-    <h2 class="section-heading">Research &amp; Talks</h2>
-  </div>
-  <div class="research-grid">
-    <div class="project-card reveal">
-      <div class="research-kind">Patent submitted</div>
-      <div class="project-card-header">
-        <span class="project-name">SCDE</span>
-      </div>
-      <p class="project-desc">Guardrails for AI agents that account for the full context an agent acts on, not just the prompt a user can see.</p>
-      <div class="project-tags">
-        <span class="project-tag">AI Agents</span>
-        <span class="project-tag">Guardrails</span>
-        <span class="project-tag">AI Security</span>
-      </div>
-    </div>
-    <div class="project-card reveal">
-      <div class="research-kind">Speaker · Cisco Security Summit</div>
-      <div class="project-card-header">
-        <span class="project-name">The Prompt Is Visible. The Full Context Is Not.</span>
-      </div>
-      <p class="project-desc">Lightning talk on guardrails for AI agents: why checking the visible prompt isn't enough, and what to guard instead.</p>
-      <div class="project-tags">
-        <span class="project-tag">Guardrails for AI Agents</span>
-        <span class="project-tag">Lightning talk</span>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- ===== SKILLS ===== -->
 <section id="skills">
@@ -702,7 +666,6 @@ footer {
         <span class="skill-pill">MCP Servers</span>
         <span class="skill-pill">RAG</span>
         <span class="skill-pill">LLM Evaluation</span>
-        <span class="skill-pill">AI Guardrails</span>
         <span class="skill-pill">Prompt Engineering</span>
         <span class="skill-pill">A2A Protocol</span>
       </div>
@@ -778,8 +741,12 @@ footer {
         <span class="date">May 2024</span>
       </div>
 
-      <div class="achievement-block-title" style="margin-top:24px"><span class="icon">🎤</span> Speaking</div>
-      <div class="achievement-item"><span class="name"><strong>Cisco Security Summit</strong> — Guardrails for AI Agents (lightning talk)</span><span class="date"></span></div>
+      <div class="achievement-block-title" style="margin-top:24px"><span class="icon">💡</span> Patent</div>
+      <div class="achievement-item"><span class="name"><strong>SCDE</strong> — patent submitted</span><span class="date"></span></div>
+
+      <div class="achievement-block-title" style="margin-top:24px"><span class="icon">🎤</span> Speaking &amp; Showcases</div>
+      <div class="achievement-item"><span class="name"><strong>SVS Pulse booth</strong> — internal Cisco showcase</span><span class="date"></span></div>
+      <div class="achievement-item"><span class="name"><strong>Cisco Security Summit</strong> — "The Prompt Is Visible. The Full Context Is Not." (lightning talk)</span><span class="date"></span></div>
       <div class="achievement-item"><span class="name"><strong>"AI for your Future"</strong> — WISE India Flagship Event</span><span class="date">Apr 2026</span></div>
       <div class="achievement-item"><span class="name"><strong>CX Tech Bytes APJC</strong> — AI enablement session</span><span class="date"></span></div>
       <div class="achievement-item"><span class="name"><strong>CX Lighthouse AI Labs</strong> — 5 hands-on workshop sessions</span><span class="date"></span></div>
@@ -882,8 +849,8 @@ animateParticles();
 // ===== TYPING EFFECT =====
 const phrases = [
   'Consulting Engineer @ Cisco',
-  'Building AI agents & MCP servers',
-  'Guardrails for AI agents',
+  'Building AI-powered tools',
+  'MCP servers & agentic workflows',
   'Speaker & workshop lead'
 ];
 let phraseIdx = 0, charIdx = 0, deleting = false;
