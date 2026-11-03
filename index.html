@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Karthik Ravishankar — Portfolio</title>
-<meta name="description" content="Consulting Engineer at Cisco. AI Builder, MCP Developer, Speaker.">
+<meta name="description" content="Consulting Engineer at Cisco CX. I build production AI tooling, MCP servers, and guardrails for AI agents.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -373,20 +373,27 @@ footer {
 }
 .footer-socials a:hover { border-color: var(--accent-1); color: var(--accent-1); transform: translateY(-2px); }
 .footer-text { font-size: 0.8rem; color: var(--text-muted); }
-.resume-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 24px;
-  padding: 10px 24px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
-  color: white;
-  font-size: 0.85rem;
-  font-weight: 600;
-  transition: all 0.3s;
-}
-.resume-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(59,130,246,0.3); }
+
+/* ===== HERO INTRO ===== */
+.hero-intro { max-width: 640px; font-size: 1rem; color: var(--text-secondary); margin-bottom: 32px; line-height: 1.7; }
+.hero-intro strong { color: var(--text-primary); font-weight: 600; }
+
+/* ===== FEATURED PROJECT ===== */
+.project-card.featured { grid-column: 1 / -1; border-color: rgba(6,182,212,0.25); }
+.project-card.featured::before { opacity: 1; }
+.featured-label { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-2); margin-bottom: 6px; }
+.featured-metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 4px 0 18px; }
+.featured-metric { padding: 14px 16px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); }
+.featured-metric .number { font-size: 1.35rem; font-weight: 800; background: linear-gradient(135deg, var(--accent-1), var(--accent-2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.featured-metric .label { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
+.project-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; font-size: 0.8rem; font-weight: 600; color: var(--accent-2); font-family: 'JetBrains Mono', monospace; }
+.project-link:hover { color: var(--text-primary); }
+.project-desc strong { color: var(--text-primary); font-weight: 600; }
+
+/* ===== RESEARCH ===== */
+#research, #education { padding-top: var(--section-gap); }
+.research-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
+.research-kind { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-3); margin-bottom: 10px; }
 
 /* ===== SCROLL REVEAL ===== */
 .reveal {
@@ -409,6 +416,8 @@ footer {
   .hero-stats { gap: 24px; }
   .hero-stat .number { font-size: 1.5rem; }
   .projects-grid { grid-template-columns: 1fr; }
+  .research-grid { grid-template-columns: 1fr; }
+  .featured-metrics { grid-template-columns: 1fr 1fr; }
   .achievements-grid { grid-template-columns: 1fr; }
   .skills-grid { grid-template-columns: 1fr 1fr; }
   .section-heading { font-size: 1.8rem; }
@@ -430,10 +439,11 @@ footer {
   <a href="#hero" class="nav-logo">KR</a>
   <div class="nav-links" id="navLinks">
     <a href="#experience">Experience</a>
-    <a href="#education">Education</a>
     <a href="#projects">Projects</a>
+    <a href="#research">Research</a>
     <a href="#skills">Skills</a>
     <a href="#achievements">Achievements</a>
+    <a href="#education">Education</a>
   </div>
   <div class="nav-hamburger" id="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')">
     <span></span><span></span><span></span>
@@ -444,8 +454,9 @@ footer {
 <section id="hero">
   <h1 class="hero-name">Hi, I'm <span class="gradient">Karthik</span></h1>
   <div class="hero-typed"><span id="typed-text"></span><span class="cursor"></span></div>
+  <p class="hero-intro">Consulting Engineer at <strong>Cisco CX</strong>, working inside enterprise customer teams to ship automation, observability, and AI tooling that runs in production. I build MCP servers and agentic workflows, and I focus on <strong>guardrails and reliability for AI agents</strong>.</p>
   <div class="hero-socials">
-    <a href="https://github.com/karthikkk16" target="_blank" aria-label="GitHub">
+    <a href="https://github.com/karthikravi-dev" target="_blank" aria-label="GitHub">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
     </a>
     <a href="https://linkedin.com/in/karthikraviii" target="_blank" aria-label="LinkedIn">
@@ -454,6 +465,12 @@ footer {
     <a href="mailto:karthikravi141@gmail.com" aria-label="Email">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
     </a>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="number">500+</div><div class="label">projects tracked in SVS Pulse</div></div>
+    <div class="hero-stat"><div class="number">~94%</div><div class="label">fewer AI tokens per report</div></div>
+    <div class="hero-stat"><div class="number">50+</div><div class="label">engineers onboarded to Claude Code</div></div>
+    <div class="hero-stat"><div class="number">15+</div><div class="label">technical sessions delivered</div></div>
   </div>
   <div class="scroll-indicator">
     SCROLL
@@ -476,24 +493,29 @@ footer {
       </div>
       <div class="timeline-company">Cisco Systems — Customer Experience (CX) · Bengaluru, India</div>
 
-      <div class="exp-category">Automation & Network Testing</div>
+      <div class="exp-category">SVS Pulse — self-initiated, in production</div>
       <ul class="exp-list">
-        <li>Develop and maintain <strong>20+ automated test suites</strong> for Verizon's enterprise network services across IOS-XR and IOS-XE platforms, covering optics validation, EPNM monitoring, and L2/L3 service configurations.</li>
-        <li>Built <strong>CX MoP Automation</strong> — a web application (Flask + Netmiko) that automates Method of Procedure execution: SSH data collection, intelligent interface parsing, auto-generated port mapping (Excel) and MoP documents (Word), reducing manual migration prep from hours to minutes.</li>
+        <li>Built <strong>SVS Pulse</strong> from scratch: one view of every CXTM project for delivery managers, PMs, engineers, and leadership, covering <strong>60+ customers, 500+ projects, and 26K+ test cases</strong>. Cut customer report prep from 30–40 minutes to one click. <a class="project-link" href="#projects" style="margin-top:0">Details ↓</a></li>
       </ul>
 
-      <div class="exp-category">Tools & Observability</div>
+      <div class="exp-category">Customer Delivery & Automation (Verizon)</div>
       <ul class="exp-list">
-        <li>Set up <strong>Splunk Enterprise from scratch</strong> — integrated 16+ test projects and network devices, built dashboards for test KPIs, automation adoption monitoring, and testcase reuse tracking.</li>
-        <li>Built a <strong>Project Timeline Estimator</strong> tool to forecast execution timelines based on historical benchmarks, improving project planning accuracy for stakeholders.</li>
-        <li>Built a <strong>Weekly Status Overview Dashboard</strong> tracking project-level metrics across 16 active projects for Verizon leadership.</li>
+        <li>Work directly with Verizon engineering teams to understand requirements and deliver <strong>20+ automated test suites</strong> for enterprise network services across IOS-XR and IOS-XE (optics validation, EPNM monitoring, L2/L3 services).</li>
+        <li>Built <strong>CX MoP Automation</strong>, a Flask + Netmiko web app adopted for customer migrations: SSH data collection, interface parsing, and auto-generated port maps (Excel) and MoP documents (Word), cutting migration prep from hours to minutes.</li>
+        <li>Troubleshoot failures across device, network, automation, and application layers during customer test execution.</li>
       </ul>
 
-      <div class="exp-category">Enablement & Leadership</div>
+      <div class="exp-category">Splunk & Observability</div>
       <ul class="exp-list">
-        <li>Delivered <strong>15+ technical sessions</strong> on AI, Splunk, and automation across Verizon, SVS India, APJC CX Tech Bytes, and CX Lighthouse AI Labs.</li>
-        <li>Authored complete lab guides and workshop content for CX Lighthouse AI Labs — <strong>5 hands-on sessions</strong> covering MCP, GitHub Copilot, APIs, and custom agent building.</li>
-        <li>Conducted a <strong>5-day AI/ML bootcamp</strong> for new hires; onboarded 50+ engineers onto AI-assisted development workflows using Claude Code.</li>
+        <li>Set up <strong>Splunk Enterprise from scratch</strong>, onboarding data from 16+ test projects and network devices; built SPL dashboards for test KPIs, automation adoption, and testcase reuse.</li>
+        <li>Built a weekly status dashboard and a timeline estimator (based on historical benchmarks) used by Verizon leadership to track and plan 16 active projects.</li>
+      </ul>
+
+      <div class="exp-category">Technical Workshops & Enablement</div>
+      <ul class="exp-list">
+        <li>Delivered <strong>15+ technical sessions</strong> on AI, Splunk, and automation for Verizon, SVS India, APJC CX Tech Bytes, and CX Lighthouse AI Labs.</li>
+        <li>Authored lab guides and workshop content for CX Lighthouse AI Labs: <strong>5 hands-on sessions</strong> on MCP, GitHub Copilot, APIs, and building custom agents.</li>
+        <li>Ran a <strong>5-day AI/ML bootcamp</strong> for new hires and onboarded <strong>50+ engineers</strong> onto AI-assisted development with Claude Code.</li>
       </ul>
     </div>
 
@@ -505,25 +527,11 @@ footer {
       </div>
       <div class="timeline-company">Cisco Systems — Customer Experience (CX) · Bengaluru, India</div>
       <ul class="exp-list">
-        <li>Built an <strong>NSVT YAML Generator</strong> web application to streamline network service validation test setup.</li>
         <li>Created training datasets from network CLI logs for an <strong>AIOps customer project</strong>.</li>
+        <li>Built an <strong>NSVT YAML Generator</strong> web application to speed up network service validation test setup.</li>
       </ul>
     </div>
 
-  </div>
-</section>
-
-<!-- ===== EDUCATION ===== -->
-<section id="education" class="section">
-  <h2 class="section-title reveal">Education</h2>
-  <div class="timeline">
-    <div class="timeline-item reveal">
-      <div class="timeline-header">
-        <span class="timeline-role">B.Tech in AI & Data Science</span>
-        <span class="timeline-date">Sep 2020 — May 2024</span>
-      </div>
-      <div class="timeline-company">Sona College of Technology · Salem, India</div>
-    </div>
   </div>
 </section>
 
@@ -535,12 +543,39 @@ footer {
   </div>
   <div class="projects-grid">
 
+    <div class="project-card featured reveal">
+      <div class="featured-label">Featured · Built & in use at Cisco</div>
+      <div class="project-card-header">
+        <span class="project-name">SVS Pulse — Delivery Intelligence Platform</span>
+        <span class="project-date">In production</span>
+      </div>
+      <p class="project-desc">A project I started on my own and built from scratch. Delivery data was spread across hundreds of CXTM projects, so preparing one customer report meant opening dozens of tabs by hand. SVS Pulse brings every project into one view for delivery managers, PMs, engineers, and leadership, with separate production and staging environments. Its AI layer, <strong>Ask SVS Pulse</strong> and a <strong>Pulse MCP server</strong> for Claude and AI coding tools, answers from pre-structured records scoped to each user's access, instead of pulling raw data for every request. PRD approved by CX-PM, with Cisco IQ integration upcoming.</p>
+      <div class="featured-metrics">
+        <div class="featured-metric"><div class="number">500+</div><div class="label">projects across 60+ customers</div></div>
+        <div class="featured-metric"><div class="number">26K+</div><div class="label">test cases in one view</div></div>
+        <div class="featured-metric"><div class="number">1 click</div><div class="label">report prep, down from 30–40 min</div></div>
+        <div class="featured-metric"><div class="number">50K → 3K</div><div class="label">AI tokens per report (~94% fewer)</div></div>
+      </div>
+      <div class="project-tags">
+        <span class="project-tag">Python</span>
+        <span class="project-tag">FastAPI</span>
+        <span class="project-tag">PostgreSQL</span>
+        <span class="project-tag">React + TypeScript</span>
+        <span class="project-tag">Nginx · Linux</span>
+        <span class="project-tag">Duo/OIDC SSO · LDAP</span>
+        <span class="project-tag">MCP</span>
+        <span class="project-tag">LLM (Circuit)</span>
+        <span class="project-tag">Webex Bot API</span>
+      </div>
+      <a class="project-link" href="https://svspulse.cisco.com" target="_blank" rel="noopener">svspulse.cisco.com ↗ <span style="color:var(--text-muted);font-weight:500">(Cisco network)</span></a>
+    </div>
+
     <div class="project-card reveal">
       <div class="project-card-header">
-        <span class="project-name">EcoVisionaries</span>
+        <span class="project-name">EcoVisionaries — AI Matchmaking for Slack</span>
         <span class="project-date">Apr 2026</span>
       </div>
-      <p class="project-desc">AI-powered Slack moderator bot for Work on Climate (40K+ members). 5-stage pipeline with intent extraction, HyDE profile generation, multi-source retrieval, and LLM re-ranking. Achieved <strong>72% precision</strong> vs 33% with naive RAG.</p>
+      <p class="project-desc">Matches members of Work on Climate (40K+ community) with complementary connections using a 5-stage LLM pipeline: intent extraction, HyDE profile generation, multi-source retrieval, and LLM re-ranking. Built an evaluation for match quality: <strong>72% precision</strong> vs 33% for naive RAG.</p>
       <div class="project-tags">
         <span class="project-tag">TypeScript</span>
         <span class="project-tag">Slack Bolt</span>
@@ -570,7 +605,7 @@ footer {
         <span class="project-name">Topic Search MCP</span>
         <span class="project-date">Nov 2025</span>
       </div>
-      <p class="project-desc">Containerized MCP server for AI-powered search across Cisco CDETS bugs, Techzone articles, and documentation. Published internally and adopted across multiple Cisco teams.</p>
+      <p class="project-desc">Reusable, containerized MCP server for AI search across Cisco CDETS bugs, Techzone articles, and documentation. Published internally and <strong>adopted by multiple Cisco teams</strong>.</p>
       <div class="project-tags">
         <span class="project-tag">Python</span>
         <span class="project-tag">Podman</span>
@@ -581,10 +616,10 @@ footer {
 
     <div class="project-card reveal">
       <div class="project-card-header">
-        <span class="project-name">Webex RAG Bot</span>
+        <span class="project-name">Webex Knowledge Assistant</span>
         <span class="project-date">Jan 2026</span>
       </div>
-      <p class="project-desc">AI-powered knowledge retrieval bot integrating Webex Spaces data with RAG pipelines for enterprise knowledge management.</p>
+      <p class="project-desc">AI assistant that answers team questions using RAG over Webex Spaces conversations and documents, for enterprise knowledge management.</p>
       <div class="project-tags">
         <span class="project-tag">Python</span>
         <span class="project-tag">RAG</span>
@@ -607,19 +642,39 @@ footer {
       </div>
     </div>
 
+  </div>
+</section>
+
+<!-- ===== RESEARCH ===== -->
+<section id="research">
+  <div class="reveal">
+    <p class="section-title">AI Agent Guardrails</p>
+    <h2 class="section-heading">Research &amp; Talks</h2>
+  </div>
+  <div class="research-grid">
     <div class="project-card reveal">
+      <div class="research-kind">Patent submitted</div>
       <div class="project-card-header">
-        <span class="project-name">Toxicity Search Engine</span>
-        <span class="project-date">Nov 2023</span>
+        <span class="project-name">SCDE</span>
       </div>
-      <p class="project-desc">Web search engine with integrated toxicity detection, classifying search results for harmful content using deep learning models.</p>
+      <p class="project-desc">Guardrails for AI agents that account for the full context an agent acts on, not just the prompt a user can see.</p>
       <div class="project-tags">
-        <span class="project-tag">Python</span>
-        <span class="project-tag">NLP</span>
-        <span class="project-tag">Deep Learning</span>
+        <span class="project-tag">AI Agents</span>
+        <span class="project-tag">Guardrails</span>
+        <span class="project-tag">AI Security</span>
       </div>
     </div>
-
+    <div class="project-card reveal">
+      <div class="research-kind">Speaker · Cisco Security Summit</div>
+      <div class="project-card-header">
+        <span class="project-name">The Prompt Is Visible. The Full Context Is Not.</span>
+      </div>
+      <p class="project-desc">Lightning talk on guardrails for AI agents: why checking the visible prompt isn't enough, and what to guard instead.</p>
+      <div class="project-tags">
+        <span class="project-tag">Guardrails for AI Agents</span>
+        <span class="project-tag">Lightning talk</span>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -641,23 +696,26 @@ footer {
       </div>
     </div>
     <div class="skill-group reveal">
-      <div class="skill-group-title">AI & ML</div>
+      <div class="skill-group-title">AI & LLMs</div>
       <div class="skill-pills">
         <span class="skill-pill">Agentic AI</span>
-        <span class="skill-pill">RAG Pipelines</span>
-        <span class="skill-pill">Prompt Engineering</span>
-        <span class="skill-pill">Generative AI</span>
-        <span class="skill-pill">LLMs</span>
         <span class="skill-pill">MCP Servers</span>
+        <span class="skill-pill">RAG</span>
+        <span class="skill-pill">LLM Evaluation</span>
+        <span class="skill-pill">AI Guardrails</span>
+        <span class="skill-pill">Prompt Engineering</span>
+        <span class="skill-pill">A2A Protocol</span>
       </div>
     </div>
     <div class="skill-group reveal">
       <div class="skill-group-title">Frameworks & Tools</div>
       <div class="skill-pills">
+        <span class="skill-pill">FastAPI</span>
+        <span class="skill-pill">Flask</span>
+        <span class="skill-pill">React</span>
+        <span class="skill-pill">SQLAlchemy</span>
         <span class="skill-pill">LangChain</span>
         <span class="skill-pill">Google ADK</span>
-        <span class="skill-pill">A2A Protocol</span>
-        <span class="skill-pill">Flask</span>
         <span class="skill-pill">Claude Code</span>
         <span class="skill-pill">Robot Framework</span>
       </div>
@@ -666,11 +724,14 @@ footer {
       <div class="skill-group-title">Platforms & Data</div>
       <div class="skill-pills">
         <span class="skill-pill">Splunk Enterprise</span>
+        <span class="skill-pill">Linux</span>
+        <span class="skill-pill">Nginx</span>
         <span class="skill-pill">Docker</span>
         <span class="skill-pill">Podman</span>
-        <span class="skill-pill">Git / GitHub</span>
-        <span class="skill-pill">PostgreSQL</span>
+        <span class="skill-pill">PostgreSQL (pgvector)</span>
+        <span class="skill-pill">MariaDB</span>
         <span class="skill-pill">MongoDB</span>
+        <span class="skill-pill">Git / GitHub</span>
       </div>
     </div>
   </div>
@@ -686,14 +747,18 @@ footer {
 
     <!-- Awards -->
     <div class="achievement-block reveal">
-      <div class="achievement-block-title"><span class="icon">🏆</span> Awards</div>
-      <div class="achievement-item"><span class="name"><strong>CX Tech4Social Good Hackathon</strong> — First Runner-up</span><span class="date">Apr 2026</span></div>
-      <div class="achievement-item"><span class="name"><strong>AI Ideation Award</strong> — Cisco SVS</span><span class="date">Mar 2026</span></div>
-      <div class="achievement-item"><span class="name"><strong>SVS Rising Star Award</strong> — Cisco SVS</span><span class="date">Dec 2025</span></div>
-      <div class="achievement-item"><span class="name"><strong>Best Team Impact Award</strong> (Verizon) — Cisco SVS</span><span class="date">Dec 2025</span></div>
+      <div class="achievement-block-title"><span class="icon">🏆</span> Cisco SVS Awards</div>
+      <div class="achievement-item"><span class="name"><strong>AI Adoption Award</strong></span><span class="date"></span></div>
+      <div class="achievement-item"><span class="name"><strong>AI Ideation Award</strong></span><span class="date">Mar 2026</span></div>
+      <div class="achievement-item"><span class="name"><strong>SVS Rising Star Award</strong></span><span class="date">Dec 2025</span></div>
+      <div class="achievement-item"><span class="name"><strong>Best Team Impact Award</strong> (Verizon project)</span><span class="date">Dec 2025</span></div>
+      <div class="achievement-item"><span class="name"><strong>Automation Genie Award</strong></span><span class="date">Sep 2025</span></div>
+      <div class="achievement-item"><span class="name"><strong>IC Champion Award</strong></span><span class="date">Sep 2025</span></div>
+
+      <div class="achievement-block-title" style="margin-top:24px"><span class="icon">🚀</span> Hackathons &amp; Challenges</div>
+      <div class="achievement-item"><span class="name"><strong>1st Place</strong> — CX Academy AI Hackathon</span><span class="date"></span></div>
+      <div class="achievement-item"><span class="name"><strong>1st Runner-up</strong> — CX Tech4Social Good Hackathon</span><span class="date">Apr 2026</span></div>
       <div class="achievement-item"><span class="name"><strong>AI Challenge Winner</strong> — Cisco WISE India</span><span class="date">Dec 2025</span></div>
-      <div class="achievement-item"><span class="name"><strong>Automation Genie Award</strong> — Cisco SVS</span><span class="date">Sep 2025</span></div>
-      <div class="achievement-item"><span class="name"><strong>IC Champion Award</strong> — Cisco SVS</span><span class="date">Sep 2025</span></div>
       <div class="achievement-item"><span class="name"><strong>1st Place</strong> — Verve-a-thon Gen AI Hackathon</span><span class="date">Sep 2023</span></div>
       <div class="achievement-item"><span class="name"><strong>Best Paper Presentation</strong> — IEEE ICCDS 2024</span><span class="date">May 2024</span></div>
     </div>
@@ -714,6 +779,7 @@ footer {
       </div>
 
       <div class="achievement-block-title" style="margin-top:24px"><span class="icon">🎤</span> Speaking</div>
+      <div class="achievement-item"><span class="name"><strong>Cisco Security Summit</strong> — Guardrails for AI Agents (lightning talk)</span><span class="date"></span></div>
       <div class="achievement-item"><span class="name"><strong>"AI for your Future"</strong> — WISE India Flagship Event</span><span class="date">Apr 2026</span></div>
       <div class="achievement-item"><span class="name"><strong>CX Tech Bytes APJC</strong> — AI enablement session</span><span class="date"></span></div>
       <div class="achievement-item"><span class="name"><strong>CX Lighthouse AI Labs</strong> — 5 hands-on workshop sessions</span><span class="date"></span></div>
@@ -723,11 +789,27 @@ footer {
   </div>
 </section>
 
+<!-- ===== EDUCATION ===== -->
+<section id="education">
+  <div class="reveal">
+    <p class="section-title">Foundation</p>
+    <h2 class="section-heading">Education</h2>
+  </div>
+  <div class="timeline">
+    <div class="timeline-item reveal">
+      <div class="timeline-header">
+        <span class="timeline-role">B.Tech in AI & Data Science</span>
+        <span class="timeline-date">Sep 2020 — May 2024</span>
+      </div>
+      <div class="timeline-company">Sona College of Technology · Salem, India</div>
+    </div>
+  </div>
+</section>
+
 <!-- ===== FOOTER ===== -->
 <footer>
-  <a href="Karthik-Ravishankar-Resume.pdf" class="resume-btn" download>↓ Download Resume</a>
   <div class="footer-socials">
-    <a href="https://github.com/karthikkk16" target="_blank">
+    <a href="https://github.com/karthikravi-dev" target="_blank" aria-label="GitHub">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
     </a>
     <a href="https://linkedin.com/in/karthikraviii" target="_blank">
@@ -800,9 +882,9 @@ animateParticles();
 // ===== TYPING EFFECT =====
 const phrases = [
   'Consulting Engineer @ Cisco',
-  'AI Enthusiast',
-  'Automation Builder',
-  'Emerging Speaker'
+  'Building AI agents & MCP servers',
+  'Guardrails for AI agents',
+  'Speaker & workshop lead'
 ];
 let phraseIdx = 0, charIdx = 0, deleting = false;
 const typedEl = document.getElementById('typed-text');
