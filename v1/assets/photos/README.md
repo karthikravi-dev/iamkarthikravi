@@ -11,6 +11,7 @@ Until a file exists, the page shows a placeholder (or, for projects, the interfa
 | `journey-2024.jpg` | Journey, 2024 (graduation, IEEE ICCDS) | Wide, 16:5 |
 | `journey-2023.jpg` | Journey, 2023 (Verve-a-thon) | Wide, 16:5 |
 | `work-svs-pulse.jpg` | Projects: SVS Pulse | Wide, 16:10, e.g. 1600×1000 |
+| `work-svs-one.jpg` | Projects: SVS One | Wide, 16:10 |
 | `work-ecovisionaries.jpg` | Projects: EcoVisionaries | Wide, 16:10, e.g. 1600×1000 |
 | `work-mcp-ai-studio.jpg` | Projects: MCP AI Studio | Wide, 16:10 |
 | `work-topic-search.jpg` | Projects: Topic Search MCP | Wide, 16:10 |
