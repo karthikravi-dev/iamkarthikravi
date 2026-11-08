@@ -55,6 +55,15 @@
 <style>
   /* hero collage: pieces sized in % of the collage, their text in container units */
   .ly-collage { container-type: inline-size; }
+  /* phones: the overlapping collage has no room, so its first set sits as two plain cards side by side */
+  @media (max-width: 639px) {
+    .hero--triptych .ly-collage { height: auto; min-height: 0; flex: none; }
+    .ly-collage > .ly-collage__set { display: none; }
+    .ly-collage > .ly-collage__set:first-child { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; position: static; opacity: 1; align-items: start; }
+    .ly-collage > .ly-collage__set:first-child > .ly-piece { position: static; width: auto !important; height: auto !important; }
+    .ly-collage > .ly-collage__set:first-child > .ly-piece:nth-child(n+3) { display: none; }
+    .ly-collage > button.loop-pause { display: none; }
+  }
   .ly-collage .ly-piece { box-shadow: 0 1px 2px rgb(20 20 20 / .08), 0 22px 48px -24px rgb(20 20 20 / .35); background: #fff; color: var(--p-ink); }
   .pc { padding: 3.4cqw 3.8cqw; display: grid; align-content: start; gap: 1.8cqw; font: 400 max(13px, 2.1cqw)/1.4 var(--font-text); }
   .pc .lbl { color: #5b6172; font-size: max(13px, 1.8cqw); display: flex; align-items: center; gap: 1.2cqw; }
@@ -177,7 +186,7 @@
   .rail__dot { position: absolute; left: 0; top: 50%; width: 8px; height: 8px; margin-top: -4px; border-radius: 50%; background: var(--p-ink); }
   .rail__dot.is-new { background: var(--p-accent); }
   @media (max-width: 1023px) { .rail > li { grid-column: span 6; } .rail__panel { --p-h: 180px; } .rail__row::before { right: 0; } .rail > li > p:last-child { display: none; } }
-  @media (max-width: 639px) { .rail__panel { --p-h: 120px; } .rail__row { display: none; } .rail .t-card { font-size: 16px; } }
+  @media (max-width: 639px) { .rail__panel { --p-h: 168px; } .rail__row { display: none; } .rail .t-card { font-size: 16px; } }
   @media (max-width: 359px) { .nav__surname { display: none; } }
   /* the record */
   .record .rows__value { font-variant-numeric: tabular-nums; white-space: nowrap; }
