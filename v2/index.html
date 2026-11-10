@@ -1,0 +1,640 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Karthik Ravishankar: AI engineer at Cisco</title>
+<meta name="description" content="Karthik Ravishankar builds AI platforms, MCP servers and agents that run in production at Cisco, Bengaluru. SVS Pulse, SVS One, Topic Search MCP, NetAuto MCP.">
+<link rel="canonical" href="https://karthikravi.in/v2/">
+<meta property="og:title" content="Karthik Ravishankar: AI engineer at Cisco">
+<meta property="og:description" content="AI platforms, MCP servers and agents that run in production. Ask his agent about the work.">
+<meta property="og:image" content="https://karthikravi.in/v2/share.jpg">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#e6e6e6">
+<link rel="icon" href="/v2/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@500..800&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --canvas: #e6e6e6;
+    --canvas-2: #ededed;
+    --panel: #dcdcdc;
+    --ink: #0a0a0a;
+    --ink-2: #333;
+    --mute: #5c5c5c;
+    --ghost: #777;
+    --dark: #0a0a0a;
+    --deep: #040404;
+    --on-dark: #f1f1f1;
+    --on-dark-2: #a3a3a3;
+    --ghost-dark: #6f6f6f;
+    --line: rgb(10 10 10 / .16);
+    --line-dark: rgb(255 255 255 / .14);
+    --display: "Funnel Display", "Helvetica Neue", Arial, sans-serif;
+    --sans: "Geist", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --gut: clamp(20px, 4vw, 56px);
+    --max: 1280px;
+    color-scheme: light;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body { margin: 0; background: var(--canvas); color: var(--ink); font: 400 16px/1.55 var(--sans); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; overflow-x: clip; }
+  img, svg { display: block; max-width: 100%; }
+  a { color: inherit; }
+  button, input { font: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .wrap { width: 100%; max-width: var(--max); margin-inline: auto; padding-inline: var(--gut); }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .skip { position: absolute; left: 12px; top: -60px; z-index: 50; background: var(--ink); color: var(--canvas); padding: 10px 14px; text-decoration: none; font-size: 14px; }
+  .skip:focus { top: 12px; }
+
+  /* type */
+  .eyebrow { font: 500 12px/1.2 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--mute); margin: 0; }
+  .on-dark .eyebrow { color: var(--on-dark-2); }
+  .duo { font: 600 clamp(44px, 7.4vw, 104px)/.94 var(--sans); letter-spacing: -0.058em; margin: 0; text-wrap: balance; }
+  .duo span { display: block; color: var(--ghost); }
+  .on-dark .duo { color: var(--on-dark); }
+  .on-dark .duo span { color: var(--ghost-dark); }
+
+  /* buttons */
+  .btn { display: inline-flex; align-items: center; justify-content: space-between; gap: 40px; min-height: 56px; padding: 0 22px; background: var(--ink); color: var(--canvas); font-weight: 500; font-size: 15px; text-decoration: none; border: 1px solid var(--ink); transition: background .2s, color .2s; cursor: pointer; }
+  .btn:hover { background: #262626; }
+  .btn--ghost { background: transparent; color: var(--on-dark); border-color: rgb(255 255 255 / .55); }
+  .btn--ghost:hover { background: var(--on-dark); color: var(--ink); }
+  .arrow { width: 14px; height: 14px; flex: none; }
+  .tlink { display: inline-flex; align-items: center; gap: 28px; font-size: 15px; font-weight: 500; text-decoration: none; padding-bottom: 3px; border-bottom: 1px solid currentColor; }
+  .tlink:hover { border-bottom-color: transparent; }
+
+  /* header */
+  .masthead { position: relative; z-index: 5; }
+  .masthead .wrap { display: flex; justify-content: space-between; align-items: center; height: 76px; border-bottom: 1px solid var(--line); }
+  .masthead nav { display: flex; gap: clamp(16px, 2.4vw, 30px); }
+  .masthead a { font-size: 13px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; text-decoration: none; padding-block: 6px; border-bottom: 1px solid transparent; }
+  .masthead a:hover, .masthead a[aria-current] { border-bottom-color: currentColor; }
+
+  /* hero */
+  .hero { position: relative; overflow: hidden; height: clamp(560px, calc(100svh - 76px), 820px); container-type: inline-size; }
+  .hero .wrap { position: relative; height: 100%; }
+  .wordmark { position: absolute; left: var(--gut); right: var(--gut); top: 50%; translate: 0 -50%; margin: 0; font: 800 min(14.1cqi, 182px)/.8 var(--display); letter-spacing: -0.045em; text-align: center; white-space: nowrap; color: var(--ink); user-select: none; }
+  .device { position: absolute; left: 50%; bottom: -70px; translate: -50% 0; width: clamp(290px, 27cqi, 352px); aspect-ratio: 9 / 16; background: #0c0c0c; border-radius: 40px; padding: 10px; box-shadow: 0 2px 0 rgb(255 255 255 / .05) inset, 0 40px 80px -30px rgb(0 0 0 / .55), 0 0 0 1px #1d1d1d; z-index: 2; }
+  .device__screen { height: 100%; border-radius: 31px; background: linear-gradient(#161616, #0d0d0d 40%); color: var(--on-dark); padding: 22px 20px; display: flex; flex-direction: column; gap: 14px; overflow: hidden; }
+  .device__bar { display: flex; justify-content: space-between; align-items: center; font: 500 12px var(--mono); color: var(--on-dark-2); }
+  .device__bar b { font-weight: 500; color: var(--on-dark); display: inline-flex; align-items: center; gap: 8px; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: #e9e9e9; box-shadow: 0 0 0 3px rgb(255 255 255 / .12); }
+  .bubble { align-self: flex-end; max-width: 86%; background: #2a2a2a; padding: 10px 14px; border-radius: 16px 16px 4px 16px; font-size: 14px; line-height: 1.4; }
+  .toolcall { font: 12px/1.5 var(--mono); color: var(--on-dark-2); border-left: 1px solid #3a3a3a; padding-left: 12px; }
+  .toolcall i { font-style: normal; color: var(--on-dark); }
+  .device__answer { font-size: 15px; line-height: 1.5; margin: 0; }
+  .device__answer b { font-weight: 600; }
+  .hero__cta { position: absolute; left: var(--gut); bottom: clamp(32px, 7svh, 64px); display: grid; gap: 22px; justify-items: start; z-index: 3; }
+  .hero__cta .btn { min-width: 236px; }
+  .hero__role { position: absolute; right: var(--gut); bottom: clamp(32px, 7svh, 64px); z-index: 3; width: 210px; font-size: 18px; line-height: 1.35; padding-bottom: 18px; border-bottom: 1px solid var(--ink); margin: 0; }
+
+  /* dark band with soft seams */
+  .band { background: var(--dark); color: var(--on-dark); position: relative; }
+  .band::before, .band::after { content: ""; position: absolute; left: 0; right: 0; height: 90px; pointer-events: none; z-index: 1; }
+  .band::before { top: 0; background: linear-gradient(var(--from, var(--canvas)), rgb(10 10 10 / 0)); }
+  .band::after { bottom: 0; background: linear-gradient(rgb(10 10 10 / 0), var(--to, var(--canvas))); }
+
+  /* marquee */
+  .marquee { padding: 104px 0 118px; --to: var(--canvas); }
+  .marquee .eyebrow { position: relative; z-index: 2; color: var(--on-dark-2); letter-spacing: .02em; text-transform: none; font: 400 15px var(--sans); }
+  .marquee__view { margin-top: 26px; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+  .marquee__track { display: flex; width: max-content; animation: slide 46s linear infinite; }
+  .marquee__view:hover .marquee__track, .marquee__view:focus-within .marquee__track { animation-play-state: paused; }
+  .marquee__set { display: flex; align-items: center; }
+  .marquee__set button { background: none; border: 0; padding: 4px clamp(26px, 3.4vw, 46px); font: 600 clamp(34px, 4.6vw, 60px)/1.1 var(--display); letter-spacing: -0.03em; color: var(--on-dark); cursor: pointer; white-space: nowrap; transition: color .2s; }
+  .marquee__set button:hover { color: #9a9a9a; }
+  .marquee__set i { width: 1px; height: .9em; background: #3d3d3d; font-size: clamp(34px, 4.6vw, 60px); }
+  @keyframes slide { to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .marquee__track { animation: none; } .marquee__view { overflow-x: auto; } }
+
+  /* about slider */
+  .about { background: var(--canvas); }
+  .slider { display: grid; grid-template-columns: 58fr 42fr; min-height: min(780px, 100svh); }
+  .slider__stage { position: relative; background: linear-gradient(180deg, #e2e2e2, #d6d6d6 60%, #cfcfcf); overflow: hidden; display: grid; place-items: end center; padding-top: 120px; }
+  .slider__nav { position: absolute; inset: 50% 34px auto; translate: 0 -50%; display: flex; justify-content: space-between; z-index: 3; pointer-events: none; }
+  .navbtn { pointer-events: auto; display: inline-flex; align-items: center; gap: 10px; height: 38px; padding: 0 14px; background: rgb(237 237 237 / .9); border: 1px solid rgb(10 10 10 / .16); font: 600 12px var(--sans); letter-spacing: .1em; text-transform: uppercase; cursor: pointer; }
+  .navbtn:hover { background: #fff; }
+  .navbtn svg { width: 12px; height: 12px; }
+  .slide__visual { width: min(84%, 560px); }
+  .slider__text { background: var(--canvas-2); border-left: 1px solid var(--line); display: flex; flex-direction: column; }
+  .slide__body { padding: clamp(36px, 5vw, 64px) clamp(28px, 4vw, 48px) 32px; flex: 1; }
+  .slide__title { font: 800 clamp(44px, 5vw, 66px)/.95 var(--display); letter-spacing: -0.03em; text-transform: uppercase; margin: 18px 0 10px; }
+  .slide__sub { font-weight: 600; font-size: 17px; margin: 0 0 22px; }
+  .slide__p { color: var(--ink-2); margin: 0 0 28px; max-width: 46ch; font-size: 16px; }
+  .slide__label { font: 600 12px var(--sans); letter-spacing: .1em; text-transform: uppercase; color: var(--mute); margin: 0 0 12px; }
+  .slide__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; counter-reset: n; }
+  .slide__list li { display: grid; grid-template-columns: 34px 1fr; font-size: 15px; color: var(--ink-2); counter-increment: n; }
+  .slide__list li::before { content: counter(n, decimal-leading-zero); font: 500 11px/2 var(--mono); color: var(--mute); }
+  .slide__more { display: flex; align-items: center; justify-content: center; gap: 18px; min-height: 66px; background: var(--ink); color: var(--canvas); border: 0; width: 100%; font: 600 13px var(--sans); letter-spacing: .16em; text-transform: uppercase; cursor: pointer; }
+  .slide__more:hover { background: #222; }
+  [data-slide]:not([data-slide="0"]) { display: none; }
+  .js [data-slide] { display: none; }
+  .js [data-slide].is-on { display: block; }
+  .slide__part { display: flex !important; flex-direction: column; flex: 1; }
+  .js .slide__part:not(.is-on) { display: none !important; }
+  [data-slide]:not([data-slide="0"]).slide__part { display: none !important; }
+  .js [data-slide]:not([data-slide="0"]).slide__part.is-on { display: flex !important; }
+  .js .is-on.slide__visual, .js .is-on .slide__body { animation: fadeUp .5s cubic-bezier(.2,.7,.2,1) both; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } }
+  @media (prefers-reduced-motion: reduce) { .js .is-on.slide__visual, .js .is-on .slide__body { animation: none; } }
+  .q[hidden] { display: none !important; }
+
+  /* drawn visuals (monochrome) */
+  .card { background: #fbfbfb; border-radius: 14px 14px 0 0; box-shadow: 0 30px 60px -28px rgb(0 0 0 / .4), 0 0 0 1px rgb(10 10 10 / .08); padding: 20px 22px 0; font-size: 14px; }
+  .card__head { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 14px; border-bottom: 1px solid #e3e3e3; }
+  .card__head b { font: 600 15px var(--sans); }
+  .card__head span { font: 12px var(--mono); color: var(--mute); }
+  .rows { list-style: none; margin: 0; padding: 0; }
+  .rows li { display: grid; grid-template-columns: 1fr 64px 92px; align-items: center; gap: 12px; padding: 13px 0; border-bottom: 1px solid #ececec; }
+  .rows li:last-child { border-bottom: 0; padding-bottom: 22px; }
+  .meter { height: 4px; background: #e6e6e6; border-radius: 2px; overflow: hidden; }
+  .meter i { display: block; height: 100%; background: var(--ink); }
+  .rows em { font-style: normal; font: 12px var(--mono); color: var(--mute); text-align: right; }
+  .rows .down em { color: var(--ink); font-weight: 500; }
+  .term { background: #0d0d0d; color: #e8e8e8; border-radius: 14px 14px 0 0; padding: 18px 22px 26px; font: 13px/1.75 var(--mono); box-shadow: 0 30px 60px -28px rgb(0 0 0 / .55); }
+  .term__top { display: flex; gap: 7px; margin-bottom: 14px; }
+  .term__top i { width: 10px; height: 10px; border-radius: 50%; background: #3a3a3a; }
+  .term .d { color: #8b8b8b; }
+  .term .ok::before { content: "✓ "; color: #fff; }
+  .term .row { display: flex; justify-content: space-between; gap: 20px; }
+  .stack { position: relative; height: 380px; }
+  .cert { position: absolute; left: 50%; width: 82%; background: #fbfbfb; border-radius: 14px; padding: 26px 28px; box-shadow: 0 24px 50px -26px rgb(0 0 0 / .45), 0 0 0 1px rgb(10 10 10 / .08); }
+  .cert:nth-child(1) { bottom: 0; translate: -50% 0; z-index: 3; }
+  .cert:nth-child(2) { bottom: 92px; translate: -46% 0; rotate: 3deg; z-index: 2; background: #f1f1f1; }
+  .cert:nth-child(3) { bottom: 180px; translate: -54% 0; rotate: -3deg; z-index: 1; background: #e9e9e9; }
+  .cert__big { font: 800 84px/.85 var(--display); letter-spacing: -0.04em; }
+  .cert__big sup { font-size: .4em; vertical-align: top; position: relative; top: .2em; }
+  .cert__what { font-weight: 600; font-size: 17px; margin: 14px 0 2px; }
+  .cert__by { font: 12px var(--mono); color: var(--mute); }
+  .cert--small { padding: 18px 24px; display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
+  .cert--small b { font-weight: 600; }
+  .talk { background: #0d0d0d; color: var(--on-dark); border-radius: 14px 14px 0 0; padding: 30px 30px 34px; aspect-ratio: 16 / 10; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 30px 60px -28px rgb(0 0 0 / .55); }
+  .talk__q { font: 600 clamp(24px, 2.6vw, 34px)/1.08 var(--sans); letter-spacing: -0.035em; margin: 0; }
+  .talk__q span { color: var(--ghost-dark); }
+  .talk__meta { display: flex; justify-content: space-between; font: 12px var(--mono); color: var(--on-dark-2); }
+
+  /* agent */
+  .agent { --from: var(--canvas); --to: var(--canvas-2); background: radial-gradient(60% 52% at 50% 64%, #2a2a2a 0, #0f0f0f 52%, var(--deep) 78%); padding: 150px 0 140px; overflow: hidden; }
+  .agent__head { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 24px; position: relative; z-index: 2; }
+  .agent__head .eyebrow { margin-bottom: 26px; }
+  .agent__head .tlink { color: var(--on-dark); font-weight: 400; font-size: 14px; border-bottom-color: transparent; }
+  .agent__head .tlink:hover { border-bottom-color: currentColor; }
+  .flow { position: relative; z-index: 2; margin-top: 72px; display: flex; justify-content: center; align-items: center; gap: 22px; }
+  .q { flex: none; width: 196px; aspect-ratio: 9 / 15; border-radius: 26px; border: 1px solid #262626; background: linear-gradient(170deg, #1b1b1b, #0b0b0b); color: var(--on-dark); padding: 18px; display: flex; flex-direction: column; justify-content: space-between; text-align: left; cursor: pointer; transition: transform .35s cubic-bezier(.2,.7,.2,1), opacity .35s, border-color .2s; opacity: .78; }
+  .q:hover, .q:focus-visible { opacity: 1; border-color: #4a4a4a; transform: translateY(-6px); }
+  .q--far { width: 168px; opacity: .56; }
+  .q__top { display: flex; justify-content: space-between; font: 500 12px var(--mono); color: var(--on-dark-2); }
+  .q__text { font: 600 22px/1.1 var(--sans); letter-spacing: -0.03em; margin: 0; }
+  .q__tool { display: inline-flex; align-self: flex-start; border: 1px solid #333; border-radius: 99px; padding: 4px 10px; font: 11px var(--mono); color: var(--on-dark-2); }
+  .console { flex: none; width: min(380px, 100%); height: 620px; border-radius: 34px; background: #0c0c0c; padding: 9px; box-shadow: 0 0 0 1px #2a2a2a, 0 50px 100px -30px #000; }
+  .console__screen { height: 100%; border-radius: 26px; background: #151515; display: flex; flex-direction: column; overflow: hidden; }
+  .console__bar { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px 14px; border-bottom: 1px solid #242424; font: 500 12px var(--mono); color: var(--on-dark-2); }
+  .console__bar b { color: var(--on-dark); font-weight: 500; display: inline-flex; align-items: center; gap: 8px; }
+  .console.is-busy .dot { animation: pulse 1s ease-in-out infinite; }
+  @keyframes pulse { 50% { opacity: .3; } }
+  #console-log { flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: 18px 20px; display: flex; flex-direction: column; gap: 16px; scrollbar-width: thin; scrollbar-color: #333 transparent; }
+  .turn .who { display: block; font: 500 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--on-dark-2); margin-bottom: 6px; }
+  .turn p { margin: 0; font-size: 15px; line-height: 1.5; color: var(--on-dark); }
+  .turn--user p { font-weight: 600; }
+  .turn--tool { border-left: 1px solid #3a3a3a; padding-left: 12px; }
+  .turn--tool code { font: 12px/1.5 var(--mono); color: #e2e2e2; word-break: break-word; }
+  .turn--tool .arrow { width: auto; height: auto; display: inline; }
+  .turn--tool .meta { display: block; font: 11px var(--mono); color: var(--on-dark-2); margin-top: 4px; }
+  .hits { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 4px; }
+  .hits li { display: flex; justify-content: space-between; gap: 12px; font-size: 12.5px; color: #cfcfcf; }
+  .hits li span:last-child { font: 11px var(--mono); color: var(--on-dark-2); flex: none; }
+  .caret { display: inline-block; width: 7px; height: 1em; background: #eee; vertical-align: -2px; margin-left: 2px; }
+  #console-form { padding: 14px; border-top: 1px solid #242424; display: grid; gap: 10px; }
+  #console-form label { font: 500 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--on-dark-2); }
+  .ask { display: flex; border: 1px solid #333; border-radius: 14px; overflow: hidden; background: #0e0e0e; }
+  #console-input { flex: 1; min-width: 0; background: none; border: 0; padding: 13px 14px; font-size: 15px; color: var(--on-dark); }
+  #console-input::placeholder { color: #8a8a8a; }
+  #console-input:focus { outline: none; }
+  .ask:focus-within { border-color: #8a8a8a; }
+  .ask button { flex: none; border: 0; background: var(--on-dark); color: var(--ink); padding: 0 16px; font-weight: 600; font-size: 14px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+  .ask button:disabled { opacity: .5; cursor: default; }
+
+  /* record */
+  .record { background: var(--canvas-2); padding: 110px 0 130px; }
+  .record__head { display: grid; grid-template-columns: 1fr minmax(0, 380px); gap: 40px; align-items: end; }
+  .record__head p { margin: 0; color: var(--ink-2); font-size: 17px; }
+  .lists { margin-top: 80px; display: grid; grid-template-columns: 1fr 1fr; gap: 0 clamp(32px, 6vw, 96px); }
+  .lists h3 { font: 600 12px var(--sans); letter-spacing: .1em; text-transform: uppercase; color: var(--mute); margin: 0; padding-bottom: 16px; border-bottom: 1px solid var(--ink); display: flex; justify-content: space-between; }
+  .lists ol { list-style: none; margin: 0; padding: 0; }
+  .lists li { display: grid; grid-template-columns: 1fr auto; gap: 20px; padding: 15px 0; border-bottom: 1px solid var(--line); font-size: 15.5px; }
+  .lists li small { display: block; color: var(--mute); font-size: 13.5px; margin-top: 2px; }
+  .lists li > span:last-child { font: 12px/2 var(--mono); color: var(--mute); white-space: nowrap; }
+  .lists .sub { margin-top: 48px; }
+
+  /* footer */
+  .closing { --from: var(--canvas-2); padding: 150px 0 40px; }
+  .closing::after { display: none; }
+  .closing__cta { display: grid; grid-template-columns: 220px 1fr auto; gap: 32px; align-items: start; position: relative; z-index: 2; }
+  .closing__cta .eyebrow { padding-top: 14px; }
+  .closing__cta .btn { align-self: center; min-width: 236px; }
+  .foot { margin-top: 120px; padding-top: 34px; border-top: 1px solid var(--line-dark); display: grid; grid-template-columns: 1fr minmax(0, 380px); gap: 40px; }
+  .brand { font: 700 24px var(--display); letter-spacing: -0.03em; margin: 0 0 14px; }
+  .foot p { color: var(--on-dark-2); max-width: 36ch; margin: 0; font-size: 15px; }
+  .foot dl { margin: 0; display: grid; }
+  .foot dt { font: 500 11px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--on-dark-2); padding-top: 16px; }
+  .foot dd { margin: 4px 0 0; padding-bottom: 14px; border-bottom: 1px solid var(--line-dark); display: flex; gap: 22px; }
+  .foot dd a { text-decoration: none; } .foot dd a:hover { text-decoration: underline; }
+  .legal { margin-top: 70px; display: flex; justify-content: space-between; gap: 20px; font-size: 13px; color: var(--on-dark-2); }
+  .legal a { text-decoration: none; } .legal a:hover { color: var(--on-dark); }
+
+  /* gentle blur-in where the browser supports scroll-driven animation; nothing is hidden without it */
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .reveal { animation: blurIn linear both; animation-timeline: view(); animation-range: entry 0% entry 55%; }
+      @keyframes blurIn { from { filter: blur(10px); opacity: .25; } }
+    }
+  }
+
+  /* tablet */
+  @media (max-width: 960px) {
+    .slider { grid-template-columns: 1fr; }
+    .slider__stage { min-height: 460px; padding-top: 90px; }
+    .slider__text { border-left: 0; border-top: 1px solid var(--line); }
+    .q--far { display: none; }
+    .closing__cta { grid-template-columns: 1fr auto; }
+    .closing__cta .eyebrow { grid-column: 1 / -1; padding: 0; }
+    .record__head { grid-template-columns: 1fr; }
+  }
+  /* tablet and phone: stacked hero, console with a scroll row of questions */
+  @media (max-width: 960px) {
+    .hero { height: auto; }
+    .hero .wrap { display: flex; flex-direction: column; padding-top: 36px; }
+    .wordmark { position: static; translate: none; font-size: 17.6cqi; text-align: left; letter-spacing: -0.05em; }
+    .wordmark span { display: block; }
+    .hero__role { position: static; width: auto; font-size: 17px; margin-top: 22px; border: 0; padding: 0; max-width: 24ch; order: 2; }
+    .hero__cta { order: 3; }
+    .hero__cta { position: static; margin-top: 26px; grid-template-columns: 1fr; justify-items: stretch; }
+    .hero__cta .btn { min-width: 0; }
+    .hero__cta .tlink { justify-self: start; }
+    .device { position: relative; left: auto; translate: none; bottom: auto; order: 9; margin: 48px auto -170px; width: min(300px, 82%); }
+    .toolcall { font-size: 11px; }
+    .chips .m-only { order: -1; }
+    .agent__head { grid-template-columns: 1fr; }
+    .flow { margin-top: 44px; flex-direction: column; gap: 18px; }
+    .flow .q { display: none; }
+    .console { height: 560px; }
+    .chips { display: flex; gap: 10px; overflow-x: auto; width: 100%; padding-bottom: 6px; scrollbar-width: none; }
+    .chips .q { display: flex; width: 160px; aspect-ratio: auto; height: 150px; opacity: 1; border-radius: 20px; }
+    .chips .q__text { font-size: 18px; }
+    .hero__cta .btn { max-width: 420px; }
+    .chips { justify-content: center; }
+  }
+  /* phone */
+  @media (max-width: 640px) {
+    .chips { justify-content: flex-start; }
+    .masthead .wrap { height: 64px; }
+    .masthead .nav-wide { display: none; }
+    .marquee { padding: 96px 0 104px; }
+    .slider__stage { min-height: 400px; padding-top: 84px; }
+    .slider__nav { inset: 22px 20px auto; translate: none; }
+    .slide__visual { width: 90%; }
+    .stack { height: 300px; } .cert__big { font-size: 64px; } .cert:nth-child(3) { display: none; }
+    .rows li { grid-template-columns: 1fr 70px; } .rows li .meter { display: none; }
+    .agent { padding: 120px 0 110px; }
+    .record { padding: 90px 0 100px; }
+    .lists { grid-template-columns: 1fr; margin-top: 52px; }
+    .lists > div + div { margin-top: 48px; }
+    .closing { padding-top: 120px; }
+    .closing__cta { grid-template-columns: 1fr; }
+    .closing__cta .btn { justify-self: stretch; }
+    .foot { grid-template-columns: 1fr; margin-top: 80px; }
+    .legal { flex-direction: column; margin-top: 44px; }
+  }
+  @media (min-width: 961px) { .chips { display: contents; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-right" viewBox="0 0 16 16"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+  <symbol id="i-left" viewBox="0 0 16 16"><path d="M14 8H3M7 4 3 8l4 4" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+  <symbol id="i-out" viewBox="0 0 16 16"><path d="M5 11 11 5M6 5h5v5" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+</svg>
+
+<header class="masthead">
+  <div class="wrap">
+    <nav aria-label="Main">
+      <a href="#main" aria-current="page">Home</a>
+      <a href="#about">Work</a>
+      <a class="nav-wide" href="#record">Record</a>
+    </nav>
+    <nav aria-label="Secondary">
+      <a href="#agent">Agent</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap">
+      <h1 id="hero-title" class="sr">Karthik Ravishankar, AI engineer at Cisco, Bengaluru</h1>
+      <p class="wordmark" aria-hidden="true"><span>KARTHIK</span><span>RAVI</span></p>
+      <div class="device" role="img" aria-label="Karthik’s agent answering: what does he build?">
+        <div class="device__screen">
+          <div class="device__bar"><b><span class="dot"></span>karthik-mcp</b><span>9 tools</span></div>
+          <div class="bubble">What does he build?</div>
+          <div class="toolcall">→ <i>search_projects</i>({"limit":7})<br>7 results in 41 ms</div>
+          <p class="device__answer">AI platforms, MCP servers and agents that run in production at Cisco. <b>SVS Pulse</b> answers delivery questions across <b>500+ projects</b>.</p>
+          <div class="toolcall">→ <i>list_awards</i>()<br>11 results in 29 ms</div>
+          <p class="device__answer">Eleven awards since 2023, including <b>first place</b> at the CX Academy AI Hackathon.</p>
+        </div>
+      </div>
+      <div class="hero__cta">
+        <a class="btn" href="#agent">Ask my agent <svg class="arrow"><use href="#i-right"/></svg></a>
+        <a class="tlink" href="mailto:karthikravi141@gmail.com">Work with me <svg class="arrow"><use href="#i-out"/></svg></a>
+      </div>
+      <p class="hero__role">AI engineer at Cisco, Bengaluru.</p>
+    </div>
+  </section>
+
+  <section class="band marquee on-dark" aria-labelledby="built-title">
+    <div class="wrap"><h2 class="eyebrow" id="built-title">Things I’ve built. Tap one to ask the agent.</h2></div>
+    <div class="marquee__view">
+      <div class="marquee__track">
+        <div class="marquee__set">
+          <button class="chip" type="button" data-q="Tell me about SVS Pulse">SVS Pulse</button><i></i>
+          <button class="chip" type="button" data-q="Tell me about SVS One">SVS One</button><i></i>
+          <button class="chip" type="button" data-q="Tell me about Topic Search MCP">Topic Search MCP</button><i></i>
+          <button class="chip" type="button" data-q="Tell me about NetAuto MCP">NetAuto MCP</button><i></i>
+          <button class="chip" type="button" data-q="Tell me about MCP AI Studio">MCP AI Studio</button><i></i>
+          <button class="chip" type="button" data-q="Tell me about CX MoP Automation">CX MoP Automation</button><i></i>
+          <button class="chip" type="button" data-q="Tell me about EcoVisionaries">EcoVisionaries</button><i></i>
+          <button class="chip" type="button" data-q="Tell me about Webex Knowledge Assistant">Webex Knowledge Assistant</button><i></i>
+        </div>
+        <div class="marquee__set" aria-hidden="true">
+          <button class="chip" type="button" data-q="Tell me about SVS Pulse" tabindex="-1">SVS Pulse</button><i></i>
+          <button class="chip" type="button" data-q="Tell me about SVS One" tabindex="-1">SVS One</button><i></i>
+          <button class="chip" type="button" data-q="Tell me about Topic Search MCP" tabindex="-1">Topic Search MCP</button><i></i>
+          <button class="chip" type="button" data-q="Tell me about NetAuto MCP" tabindex="-1">NetAuto MCP</button><i></i>
+          <button class="chip" type="button" data-q="Tell me about MCP AI Studio" tabindex="-1">MCP AI Studio</button><i></i>
+          <button class="chip" type="button" data-q="Tell me about CX MoP Automation" tabindex="-1">CX MoP Automation</button><i></i>
+          <button class="chip" type="button" data-q="Tell me about EcoVisionaries" tabindex="-1">EcoVisionaries</button><i></i>
+          <button class="chip" type="button" data-q="Tell me about Webex Knowledge Assistant" tabindex="-1">Webex Knowledge Assistant</button><i></i>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="about" aria-label="About Karthik">
+    <div class="slider" id="slider">
+      <div class="slider__stage">
+        <div class="slider__nav">
+          <button class="navbtn" type="button" data-step="-1" aria-label="Previous"><svg><use href="#i-left"/></svg>Prev</button>
+          <button class="navbtn" type="button" data-step="1" aria-label="Next">Next<svg><use href="#i-right"/></svg></button>
+        </div>
+        <div class="slide__visual" data-slide="0">
+        <div class="card">
+          <div class="card__head"><b>SVS Pulse · Projects</b><span>500+ tracked</span></div>
+          <ul class="rows">
+            <li><span>Edge upgrade, wave 3</span><span class="meter"><i style="width:96%"></i></span><em>96% pass</em></li>
+            <li><span>Core migration</span><span class="meter"><i style="width:91%"></i></span><em>91% pass</em></li>
+            <li class="down"><span>L2VPN services</span><span class="meter"><i style="width:72%"></i></span><em>↓ 72%</em></li>
+            <li><span>WAN refresh</span><span class="meter"><i style="width:98%"></i></span><em>98% pass</em></li>
+            <li><span>Campus rollout</span><span class="meter"><i style="width:88%"></i></span><em>88% pass</em></li>
+          </ul>
+        </div>
+        </div>
+        <div class="slide__visual" data-slide="1">
+        <div class="term" translate="no">
+          <div class="term__top"><i></i><i></i><i></i></div>
+          <div><span class="d">$</span> topic-search "optics flap 400G"</div>
+          <div class="row"><span class="ok">Bug · Link flaps on 400G optics</span><span class="d">0.21s</span></div>
+          <div class="row"><span class="ok">Techzone · Reading optics power levels</span><span class="d">0.19s</span></div>
+          <div class="row"><span class="ok">Docs · Transceiver guide</span><span class="d">0.24s</span></div>
+          <div style="margin-top:12px"><span class="d">$</span> netauto check edge-r1</div>
+          <div class="row"><span class="ok">show ip int brief</span><span class="d">0.41s</span></div>
+          <div class="row"><span class="ok">show controllers optics</span><span class="d">0.63s</span></div>
+        </div>
+        </div>
+        <div class="slide__visual" data-slide="2">
+        <div class="stack">
+          <div class="cert"><div class="cert__big">1<sup>st</sup></div><p class="cert__what">CX Academy AI Hackathon</p><span class="cert__by">Cisco CX · first place</span></div>
+          <div class="cert cert--small"><b>AI Challenge winner</b><span class="cert__by">WISE India · 2025</span></div>
+          <div class="cert cert--small"><b>First runner-up</b><span class="cert__by">Tech4Social Good · 2026</span></div>
+        </div>
+        </div>
+        <div class="slide__visual" data-slide="3">
+        <div class="talk">
+          <p class="talk__q">The prompt is visible.<span> The full context is not.</span></p>
+          <div class="talk__meta"><span>Cisco Security Summit</span><span>Lightning talk</span></div>
+        </div>
+        </div>
+      </div>
+      <div class="slider__text" aria-live="polite">
+        <div class="slide__part" data-slide="0">
+          <div class="slide__body">
+            <p class="eyebrow">02 / About — 01 of 04</p>
+            <h2 class="slide__title">Engineer</h2>
+            <p class="slide__sub">Consulting engineer, Cisco CX, since July 2024</p>
+            <p class="slide__p">I work on a large enterprise network programme and build the AI tools around it. SVS Pulse started as my own initiative and now answers delivery questions for the whole practice.</p>
+            <p class="slide__label">At Cisco</p>
+            <ol class="slide__list">
+            <li>Built SVS Pulse: one AI view of 500+ delivery projects, in production.</li>
+            <li>20+ automated test suites on IOS-XR and IOS-XE.</li>
+            <li>Set up Splunk from scratch across 16 projects.</li>
+            </ol>
+          </div>
+          <button class="slide__more chip" type="button" data-q="What does he do at Cisco?">Ask about his role <svg class="arrow"><use href="#i-right"/></svg></button>
+        </div>
+        <div class="slide__part" data-slide="1">
+          <div class="slide__body">
+            <p class="eyebrow">02 / About — 02 of 04</p>
+            <h2 class="slide__title">Builder</h2>
+            <p class="slide__sub">MCP servers and agents that teams use daily</p>
+            <p class="slide__p">Most of what I build gives an AI model a safe, scoped way to reach real systems: bug databases, routers, migration plans, a team’s own records.</p>
+            <p class="slide__label">In production</p>
+            <ol class="slide__list">
+            <li>Topic Search MCP: bugs, Techzone and docs in one call, used by several Cisco teams.</li>
+            <li>NetAuto MCP: an agent runs show commands on routers, read-only.</li>
+            <li>CX MoP Automation: migration prep from hours to minutes.</li>
+            </ol>
+          </div>
+          <button class="slide__more chip" type="button" data-q="What has he built with MCP?">Ask about the servers <svg class="arrow"><use href="#i-right"/></svg></button>
+        </div>
+        <div class="slide__part" data-slide="2">
+          <div class="slide__body">
+            <p class="eyebrow">02 / About — 03 of 04</p>
+            <h2 class="slide__title">Winner</h2>
+            <p class="slide__sub">Eleven awards and hackathon wins since 2023</p>
+            <p class="slide__p">Hackathons are where I test ideas fast. The ones that work become tools: EcoVisionaries matched people in a 40,000-member climate Slack at 72% precision, against 33% for plain RAG.</p>
+            <p class="slide__label">Highlights</p>
+            <ol class="slide__list">
+            <li>First place, CX Academy AI Hackathon.</li>
+            <li>Winner, Cisco WISE India AI Challenge, 2025.</li>
+            <li>First runner-up, CX Tech4Social Good, April 2026.</li>
+            </ol>
+          </div>
+          <button class="slide__more chip" type="button" data-q="What hackathons has he won?">Ask about the wins <svg class="arrow"><use href="#i-right"/></svg></button>
+        </div>
+        <div class="slide__part" data-slide="3">
+          <div class="slide__body">
+            <p class="eyebrow">02 / About — 04 of 04</p>
+            <h2 class="slide__title">Speaker</h2>
+            <p class="slide__sub">15+ sessions on AI, Splunk and automation</p>
+            <p class="slide__p">Teaching is a large part of the job. I wrote the lab guides for all five CX Lighthouse AI Labs and ran a five-day AI/ML bootcamp for new hires.</p>
+            <p class="slide__label">On stage and in the room</p>
+            <ol class="slide__list">
+            <li>“AI for your Future”, WISE India flagship event, April 2026.</li>
+            <li>Lightning talk at the Cisco Security Summit.</li>
+            <li>Five-day AI/ML bootcamp for 50+ new hires and interns.</li>
+            </ol>
+          </div>
+          <button class="slide__more chip" type="button" data-q="Does he give talks?">Ask about the talks <svg class="arrow"><use href="#i-right"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band agent on-dark" id="agent" aria-labelledby="agent-title">
+    <div class="wrap">
+      <div class="agent__head reveal">
+        <div>
+          <p class="eyebrow">03 / Agent</p>
+          <h2 class="duo" id="agent-title">Ask about my work.<span>It reads the record.</span></h2>
+        </div>
+        <a class="tlink" href="https://github.com/karthikravi-dev/iamkarthikravi">Read its source <svg class="arrow"><use href="#i-out"/></svg></a>
+      </div>
+      <div class="flow">
+        <button class="q q--far chip" type="button" data-q="What certifications does he have?"><span class="q__top"><span>04°</span><span>certs</span></span><p class="q__text">Which certifications does he hold?</p><span class="q__tool">list_certifications</span></button>
+        <button class="q chip" type="button" data-q="Tell me about SVS Pulse"><span class="q__top"><span>01°</span><span>work</span></span><p class="q__text">What is SVS Pulse?</p><span class="q__tool">get_project</span></button>
+        <div class="console" role="group" aria-label="Karthik’s agent">
+          <div class="console__screen">
+            <div class="console__bar"><b><span class="dot"></span>karthik-mcp</b><span id="console-state">Ready, 9 tools</span></div>
+            <div id="console-log" aria-live="polite">
+              <div class="turn turn--user"><span class="who">You</span><p>What has he built with MCP?</p></div>
+              <div class="turn turn--tool"><code translate="no"><span class="arrow">→</span> search_projects({"topic":"mcp"})</code><span class="meta">4 results in 38 ms</span></div>
+              <div class="turn turn--agent"><span class="who">Agent</span><p>Four: SVS Pulse, SVS One, MCP AI Studio and Topic Search MCP. Cisco teams use Topic Search to find bugs, Techzone articles and docs in one call.</p></div>
+            </div>
+            <form id="console-form" autocomplete="off">
+              <label for="console-input">Your question</label>
+              <div class="ask"><input id="console-input" name="q" placeholder="Ask about projects, awards, talks" maxlength="160"><button type="submit">Ask <svg class="arrow"><use href="#i-right"/></svg></button></div>
+            </form>
+          </div>
+        </div>
+        <div class="chips">
+          <button class="q chip" type="button" data-q="What hackathons has he won?"><span class="q__top"><span>02°</span><span>awards</span></span><p class="q__text">Which hackathons has he won?</p><span class="q__tool">list_awards</span></button>
+          <button class="q q--far chip" type="button" data-q="Does he give talks?"><span class="q__top"><span>03°</span><span>talks</span></span><p class="q__text">Does he give talks?</p><span class="q__tool">list_talks</span></button>
+          <button class="q chip m-only" type="button" data-q="Tell me about SVS Pulse" hidden><span class="q__top"><span>01°</span><span>work</span></span><p class="q__text">What is SVS Pulse?</p><span class="q__tool">get_project</span></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="record" id="record" aria-labelledby="record-title">
+    <div class="wrap">
+      <div class="record__head reveal">
+        <div>
+          <p class="eyebrow" style="margin-bottom:26px">04 / Record</p>
+          <h2 class="duo" id="record-title">Eleven awards.<span>15+ talks.</span></h2>
+        </div>
+        <p>Consulting engineer at Cisco CX since July 2024. B.Tech in Artificial Intelligence and Data Science, Sona College of Technology, with a Best Paper Presentation at IEEE ICCDS 2024.</p>
+      </div>
+      <div class="lists">
+        <div>
+          <h3><span>Awards and wins</span><span>11</span></h3>
+          <ol>
+            <li><span>First place<small>CX Academy AI Hackathon, Cisco CX</small></span><span></span></li>
+            <li><span>AI Adoption Award<small>Cisco SVS</small></span><span></span></li>
+            <li><span>First runner-up<small>CX Tech4Social Good hackathon (EcoVisionaries), Cisco CX</small></span><span>2026</span></li>
+            <li><span>AI Ideation Award<small>Cisco SVS</small></span><span>2026</span></li>
+            <li><span>SVS Rising Star Award<small>Cisco SVS</small></span><span>2025</span></li>
+            <li><span>Best Team Impact Award<small>Verizon project, Cisco SVS</small></span><span>2025</span></li>
+            <li><span>AI Challenge winner<small>Cisco WISE India</small></span><span>2025</span></li>
+            <li><span>Automation Genie Award<small>Cisco SVS</small></span><span>2025</span></li>
+            <li><span>IC Champion Award<small>Cisco SVS</small></span><span>2025</span></li>
+            <li><span>Best Paper Presentation<small>Underwater trash detection paper, IEEE ICCDS 2024</small></span><span>2024</span></li>
+            <li><span>First place<small>Verve-a-thon Gen AI hackathon, Verve-a-thon</small></span><span>2023</span></li>
+          </ol>
+        </div>
+        <div>
+          <h3><span>Talks and teaching</span><span>15+</span></h3>
+          <ol>
+            <li><span>SVS Pulse<small>Led the SVS Pulse booth at an internal Cisco showcase</small></span><span></span></li>
+            <li><span>WISE India<small>“AI for your Future”, flagship event, April 2026</small></span><span></span></li>
+            <li><span>Security Summit<small>Lightning talk at the Cisco Security Summit</small></span><span></span></li>
+            <li><span>Lighthouse<small>Five hands-on AI labs: MCP, Copilot, APIs, agents</small></span><span></span></li>
+            <li><span>Tech Bytes<small>AI enablement for APJC engineers</small></span><span></span></li>
+            <li><span>Splunk<small>Enablement series for SVS engineers</small></span><span></span></li>
+            <li><span>Verizon<small>Sessions on AI, Splunk and automation</small></span><span></span></li>
+            <li><span>Bootcamp<small>Five days of AI/ML for 50+ new hires and interns</small></span><span></span></li>
+            <li><span>Team enablement<small>Claude Code and Splunk enablement for his whole team</small></span><span></span></li>
+          </ol>
+          <h3 class="sub"><span>Certifications, Feb 2026</span><span>5</span></h3>
+          <ol>
+            <li><span>CCNP Automation</span><span>2026</span></li>
+            <li><span>DevNet Specialist, Core (DEVCOR)</span><span>2026</span></li>
+            <li><span>DevNet Specialist, Service Provider (SPAUTO)</span><span>2026</span></li>
+            <li><span>Splunk Core Certified User</span><span>2026</span></li>
+            <li><span>AI Tech Practitioner</span><span>2026</span></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="band closing on-dark" id="contact">
+  <div class="wrap">
+    <div class="closing__cta reveal">
+      <p class="eyebrow">The next build starts here</p>
+      <h2 class="duo">Let’s build<span>something that ships.</span></h2>
+      <a class="btn btn--ghost" href="mailto:karthikravi141@gmail.com">Start a conversation <svg class="arrow"><use href="#i-right"/></svg></a>
+    </div>
+    <div class="foot">
+      <div>
+        <p class="brand">karthikravi.</p>
+        <p>Building AI platforms, MCP servers and agents at Cisco, and teaching other engineers to do the same.</p>
+      </div>
+      <dl>
+        <dt>Email</dt><dd><a href="mailto:karthikravi141@gmail.com">karthikravi141@gmail.com</a></dd>
+        <dt>Elsewhere</dt><dd><a href="https://github.com/karthikravi-dev">GitHub</a><a href="https://linkedin.com/in/karthikraviii">LinkedIn</a></dd>
+      </dl>
+    </div>
+    <div class="legal"><span>© 2026 Karthik Ravishankar. Product names are trademarks of their owners.</span><a href="#main">Back to top ↑</a></div>
+  </div>
+</footer>
+
+<script type="application/json" id="kb">{"profile": {"name": "Karthik Ravishankar", "role": "Consulting Engineer, Cisco Customer Experience (CX)", "city": "Bengaluru, India", "since": "Cisco since January 2024 (intern), consulting engineer since July 2024"}, "experience": [{"title": "Consulting Engineer", "org": "Cisco Systems, Customer Experience (CX)", "dates": "Jul 2024 – present", "points": ["Built SVS Pulse from scratch: an AI-powered delivery intelligence platform covering 60+ customers, 500+ projects and 26K+ test cases. Report prep went from 30–40 minutes to one click, with about 94% fewer AI tokens per report, and he led its booth at an internal Cisco showcase.", "Writes and maintains 20+ automated test suites for Verizon’s enterprise network on IOS-XR and IOS-XE: optics validation, EPNM monitoring, L2/L3 services.", "Built CX MoP Automation (Flask + Netmiko): collects data over SSH, parses interfaces, and generates the port map (Excel) and Method of Procedure (Word). Migration prep went from hours to minutes.", "Set up Splunk Enterprise from scratch and wired in 16+ test projects and network devices, with dashboards for test KPIs, automation adoption and test-case reuse.", "Built a Project Timeline Estimator from historical benchmarks and a weekly status dashboard across 16 projects for Verizon leadership.", "Ran 15+ technical sessions, wrote the labs for CX Lighthouse AI Labs, ran a 5-day AI/ML bootcamp for 50+ new hires and interns, and led Claude Code and Splunk enablement for his whole team."]}, {"title": "Technical Intern I", "org": "Cisco Systems, Customer Experience (CX)", "dates": "Jan 2024 – Jun 2024", "points": ["Built the NSVT YAML Generator to set up network service validation tests.", "Built training datasets from network CLI logs for an AIOps customer project."]}], "work": [{"id": "svs-pulse", "short": "is an AI-powered platform that answers delivery questions across 500+ projects, in production at Cisco.", "aliases": ["svs pulse", "pulse", "cxtm dashboard", "delivery intelligence"], "name": "SVS Pulse", "kind": "AI-powered platform, Cisco", "year": "2026", "tags": ["ai", "mcp", "llm", "agents", "automation"], "stack": "Python, FastAPI, PostgreSQL, React, TypeScript, MCP, LLM (Circuit)", "desc": "SVS Pulse is an AI-powered delivery intelligence platform he started on his own and built from scratch. It puts every CXTM project in one view (60+ customers, 500+ projects, 26K+ test cases), and people ask it questions in plain language; a Pulse MCP server brings the same answers into Claude and AI coding tools. Report prep went from 30–40 minutes to one click, with about 94% fewer AI tokens per report. It runs in production, its PRD is approved by CX-PM, and he led its booth at an internal Cisco showcase.", "award": "In production at Cisco"}, {"id": "svs-one", "short": "replaces scattered Excel trackers with an AI-powered team platform, and finds past session recordings just by asking.", "aliases": ["svs one", "svs1", "workforce", "certification tracking", "recordings"], "name": "SVS One", "kind": "AI-powered workforce platform", "year": "2026", "tags": ["ai", "rag", "mcp", "llm", "agents", "search"], "stack": "Next.js, TypeScript, PostgreSQL, Prisma, MCP, RAG, LLM (Circuit)", "desc": "SVS One replaces duplicate, deletable Excel trackers with one governed platform for team certifications, individual contributions and project allocations, with a QBR dashboard for managers. Ask SVS One answers in plain language from the team’s records and 430+ learning resources, using RAG over 8.1K transcript chunks from past session recordings. The same agent works in Cisco Circuit and Claude Code through MCP. It is deployed and live.", "award": ""}, {"id": "ecovisionaries", "short": "matches members of a 40,000-person climate Slack at 72% precision.", "aliases": ["ecovisionaries", "eco visionaries", "slack bot", "work on climate"], "name": "EcoVisionaries", "kind": "AI matchmaking for Slack", "year": "2026", "tags": ["rag", "slack", "agents", "llm", "hackathon"], "stack": "TypeScript, Slack Bolt, PostgreSQL, pgvector", "desc": "A Slack app for Work on Climate, a community of 40,000, that finds the members you should meet. A five-stage pipeline (intent extraction, HyDE profiles, multi-source retrieval, LLM re-ranking) reached 72% precision against 33% for naive RAG.", "award": "First runner-up, CX Tech4Social Good hackathon"}, {"id": "mcp-ai-studio", "short": "lets engineers run network operations in plain English through Claude.", "aliases": ["ai studio", "mcp ai studio"], "name": "MCP AI Studio", "kind": "Network AI framework", "year": "2025", "tags": ["mcp", "rag", "network", "agents", "claude"], "stack": "Python, Claude, MCP, RAG, Cisco APIs", "desc": "A framework for AI-assisted network operations. Engineers ask in plain English; Claude picks MCP tools that talk to devices and enterprise systems, and RAG pipelines bring in the documentation.", "award": ""}, {"id": "topic-search-mcp", "short": "searches bug reports, Techzone and docs in one call, and several Cisco teams use it.", "aliases": ["topic search", "cdets", "techzone"], "name": "Topic Search MCP", "kind": "MCP server", "year": "2025", "tags": ["mcp", "search", "podman", "agents"], "stack": "Python, Podman, MCP, Cisco Topic API", "desc": "A containerised MCP server that lets an AI assistant search Cisco bug reports, Techzone articles and documentation in one call. Published internally and used by several Cisco teams.", "award": "Adopted across multiple Cisco teams"}, {"id": "netauto-mcp", "short": "gives an agent a safe way to run show commands on routers.", "aliases": ["netauto", "net auto"], "name": "NetAuto MCP", "kind": "MCP server, hackathon", "year": "2026", "tags": ["mcp", "network", "netmiko", "claude", "agents"], "stack": "Python, MCP, Netmiko, Claude", "desc": "An MCP server that gives an AI agent a safe way into network devices: it runs show commands over Netmiko and answers in plain language. Built for the Innovation League AI Hackathon.", "award": ""}, {"id": "webex-rag-bot", "short": "answers questions from a team’s own Webex history, with sources.", "aliases": ["webex", "webex assistant", "webex knowledge", "webex bot", "rag bot"], "name": "Webex Knowledge Assistant", "kind": "Knowledge assistant", "year": "2026", "tags": ["rag", "webex", "llm", "search"], "stack": "Python, RAG, Circuit API, Webex APIs", "desc": "An AI assistant that answers questions from what a team has already said in its Webex spaces, with the messages it used as sources.", "award": ""}, {"id": "cx-mop-automation", "short": "writes migration port maps and MoPs, turning hours of prep into minutes.", "aliases": ["mop", "method of procedure", "port map"], "name": "CX MoP Automation", "kind": "Migration tooling, Cisco", "year": "2024", "tags": ["network", "automation", "flask", "netmiko"], "stack": "Python, Flask, Netmiko", "desc": "A web app that prepares network migrations: it collects data from devices over SSH, parses the interfaces, and writes the port map and the Method of Procedure. Prep that took hours now takes minutes.", "award": ""}], "awards": [{"year": "", "award": "First place", "for": "CX Academy AI Hackathon", "by": "Cisco CX", "month": ""}, {"year": "", "award": "AI Adoption Award", "for": "", "by": "Cisco SVS", "month": ""}, {"year": "2026", "award": "First runner-up", "for": "CX Tech4Social Good hackathon (EcoVisionaries)", "by": "Cisco CX", "month": "Apr"}, {"year": "2026", "award": "AI Ideation Award", "for": "", "by": "Cisco SVS", "month": "Mar"}, {"year": "2025", "award": "SVS Rising Star Award", "for": "", "by": "Cisco SVS", "month": "Dec"}, {"year": "2025", "award": "Best Team Impact Award", "for": "Verizon project", "by": "Cisco SVS", "month": "Dec"}, {"year": "2025", "award": "AI Challenge winner", "for": "", "by": "Cisco WISE India", "month": "Dec"}, {"year": "2025", "award": "Automation Genie Award", "for": "", "by": "Cisco SVS", "month": "Sep"}, {"year": "2025", "award": "IC Champion Award", "for": "", "by": "Cisco SVS", "month": "Sep"}, {"year": "2024", "award": "Best Paper Presentation", "for": "Underwater trash detection paper", "by": "IEEE ICCDS 2024", "month": "May"}, {"year": "2023", "award": "First place", "for": "Verve-a-thon Gen AI hackathon", "by": "Verve-a-thon", "month": "Sep"}], "certs": [{"name": "CCNP Automation", "by": "Cisco", "year": "2026"}, {"name": "DevNet Specialist, Core (DEVCOR)", "by": "Cisco", "year": "2026"}, {"name": "DevNet Specialist, Service Provider (SPAUTO)", "by": "Cisco", "year": "2026"}, {"name": "Splunk Core Certified User", "by": "Splunk", "year": "2026"}, {"name": "AI Tech Practitioner", "by": "Cisco", "year": "2026"}], "talks": [{"word": "SVS Pulse", "detail": "Led the SVS Pulse booth at an internal Cisco showcase"}, {"word": "WISE India", "detail": "“AI for your Future”, flagship event, April 2026"}, {"word": "Security Summit", "detail": "Lightning talk at the Cisco Security Summit"}, {"word": "Lighthouse", "detail": "Five hands-on AI labs: MCP, Copilot, APIs, agents"}, {"word": "Tech Bytes", "detail": "AI enablement for APJC engineers"}, {"word": "Splunk", "detail": "Enablement series for SVS engineers"}, {"word": "Verizon", "detail": "Sessions on AI, Splunk and automation"}, {"word": "Bootcamp", "detail": "Five days of AI/ML for 50+ new hires and interns"}, {"word": "Team enablement", "detail": "Claude Code and Splunk enablement for his whole team"}], "education": {"degree": "B.Tech in Artificial Intelligence and Data Science", "school": "Sona College of Technology, Salem", "dates": "2020–2024", "paper": "A Deep Learning Framework for Detecting Underwater Trash", "venue": "IEEE ICCDS 2024", "doi": "10.1109/ICCDS60734.2024.10560433"}, "skills": {"Languages": ["Python", "TypeScript", "SQL", "Bash", "SPL"], "AI": ["Agentic AI", "RAG pipelines", "MCP servers", "Prompt engineering", "LLMs"], "Frameworks": ["FastAPI", "Next.js", "React", "Prisma", "LangChain", "Google ADK", "A2A protocol", "Flask", "Claude Code", "Robot Framework"], "Platforms": ["Splunk Enterprise", "Linux", "Nginx", "Docker", "PostgreSQL", "MariaDB", "MongoDB", "Git"]}, "tools": ["search_projects", "get_project", "get_experience", "list_awards", "list_certifications", "list_talks", "get_education", "get_skills", "get_contact"], "contact": {"email": "karthikravi141@gmail.com", "github": "https://github.com/karthikravi-dev", "linkedin": "https://linkedin.com/in/karthikraviii"}}</script>
+<script>
+(() => {
+  document.documentElement.classList.add('js');
+  // about slider
+  const slider = document.getElementById('slider');
+  const parts = [...slider.querySelectorAll('[data-slide]')];
+  const count = new Set(parts.map((p) => p.dataset.slide)).size;
+  let i = 0;
+  const show = (n) => {
+    i = (n + count) % count;
+    parts.forEach((p) => p.classList.toggle('is-on', Number(p.dataset.slide) === i));
+  };
+  slider.querySelectorAll('[data-step]').forEach((b) => b.addEventListener('click', () => show(i + Number(b.dataset.step))));
+  slider.addEventListener('keydown', (e) => { if (e.key === 'ArrowRight') show(i + 1); if (e.key === 'ArrowLeft') show(i - 1); });
+  show(0);
+  // anything that asks the agent also brings the console into view
+  const agent = document.getElementById('agent');
+  document.addEventListener('click', (e) => {
+    const c = e.target.closest('.chip');
+    if (c && !agent.contains(c)) document.querySelector('.console').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
+  });
+  // on phones the first question card joins the scroll row
+  const m = document.querySelector('.chips .m-only');
+  const mq = matchMedia('(max-width: 960px)');
+  const sync = () => { m.hidden = !mq.matches; };
+  mq.addEventListener('change', sync); sync();
+})();
+</script>
+<script src="/v2/agent.js" defer></script>
+</body>
+</html>
