@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gamified Learning · Karthik Ravi</title>
+<meta name="description" content="Animated, gamified interview prep: AI engineering, system design and DSA.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b1020;--card:#162042;--line:#2a3768;--tx:#e8ecff;--mut:#9aa6d1;--dim:#6b77a6}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;color:var(--tx);font-family:'Space Grotesk',system-ui,-apple-system,sans-serif;
+ background:radial-gradient(1000px 520px at 5% -10%,#8b5cf62e,transparent 60%),radial-gradient(900px 500px at 100% 0%,#0ea5e922,transparent 60%),radial-gradient(800px 500px at 50% 110%,#10b98118,transparent 60%),var(--bg)}
+.w{max-width:1040px;margin:0 auto;padding:56px 20px 70px}
+.kick{font-size:.8rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#22d3ee}
+h1{font-size:clamp(2rem,5vw,3rem);line-height:1.08;margin:10px 0 12px;letter-spacing:-.02em}
+.lead{color:var(--mut);font-size:1.08rem;max-width:640px;margin:0}
+.today{margin:30px 0 8px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;color:var(--mut);font-size:.95rem}
+.today b{color:#fff}
+.chip{border:1px solid var(--line);background:#121a33;border-radius:999px;padding:6px 12px;font-weight:600;font-size:.88rem;color:#dfe5ff}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(225px,1fr));gap:16px;margin-top:22px}
+a.card{--a:#8b5cf6;position:relative;overflow:hidden;display:flex;flex-direction:column;text-decoration:none;color:inherit;
+ background:linear-gradient(180deg,var(--card),#121a33);border:1px solid var(--line);border-radius:20px;padding:24px;transition:transform .18s,border-color .18s,box-shadow .18s}
+a.card:after{content:"";position:absolute;right:-70px;top:-70px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--a) 40%,transparent),transparent 70%)}
+a.card:hover{transform:translateY(-5px);border-color:var(--a);box-shadow:0 16px 40px color-mix(in srgb,var(--a) 25%,transparent)}
+.em{font-size:2.6rem;line-height:1}
+.t{font-size:1.35rem;font-weight:700;margin:14px 0 6px}
+.d{color:var(--mut);font-size:.95rem;line-height:1.5;flex:1}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0}
+.tags span{font-size:.75rem;font-weight:600;padding:3px 9px;border-radius:999px;background:color-mix(in srgb,var(--a) 18%,transparent);color:color-mix(in srgb,var(--a) 45%,#fff);border:1px solid color-mix(in srgb,var(--a) 40%,transparent)}
+.bar{height:8px;border-radius:9px;background:#0d1430;overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--a),#fff8);transition:width .8s}
+.meta{display:flex;justify-content:space-between;font-size:.82rem;color:var(--mut);margin-top:8px}
+.go{margin-top:16px;font-weight:700;color:#fff;display:flex;align-items:center;gap:6px}
+a.card.soon{opacity:.6;pointer-events:none;--a:#64748b}
+.how{margin-top:46px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.how div{border:1px solid var(--line);border-radius:16px;padding:16px;background:#121a3399}
+.how b{display:block;margin:6px 0 2px}.how p{margin:0;color:var(--mut);font-size:.88rem}
+.foot{margin-top:44px;color:var(--dim);font-size:.82rem;text-align:center}
+.foot a{color:var(--mut)}
+</style></head>
+<body><div class="w">
+ <div class="kick">Gamified learning</div>
+ <h1>Learn by watching it move,<br>then prove it in a game.</h1>
+ <p class="lead">Animated, game-style interview prep. Pick a track, do one 15-minute block a day, and keep the streak alive.</p>
+ <div class="today" id="today"></div>
+
+ <div class="grid" id="grid">
+  <a class="card" href="/gamified-learning/ai-engineer/" data-key="ai" data-total="22" style="--a:#8b5cf6">
+   <div class="em">🤖</div><div class="t">AI Engineer Quest</div>
+   <div class="d">Tokens, embeddings and attention through RAG, LangChain, LangGraph, MCP, evals, LangSmith and full AI system-design rounds.</div>
+   <div class="tags"><span>22 lessons</span><span>RAG</span><span>Agents</span><span>Evals</span></div>
+   <div class="bar"><i></i></div><div class="meta"><span class="p">Not started</span><span class="x"></span></div>
+   <div class="go">Start learning →</div></a>
+  <a class="card" href="/gamified-learning/system-design/" data-key="sd" data-total="18" style="--a:#0ea5e9">
+   <div class="em">🏛️</div><div class="t">System Design Quest</div>
+   <div class="d">Load balancers, caching, sharding, CAP, queues and reliability, then classic rounds: URL shortener, chat, feed, YouTube.</div>
+   <div class="tags"><span>18 lessons</span><span>Building blocks</span><span>6 design rounds</span></div>
+   <div class="bar"><i></i></div><div class="meta"><span class="p">Not started</span><span class="x"></span></div>
+   <div class="go">Start learning →</div></a>
+  <a class="card" href="/gamified-learning/dsa/" data-key="dsa" data-total="18" style="--a:#10b981">
+   <div class="em">🧩</div><div class="t">DSA Pattern Quest</div>
+   <div class="d">18 patterns with animated pointer traces: two pointers, sliding window, graphs, DP and more, plus 50 Python solutions.</div>
+   <div class="tags"><span>18 patterns</span><span>Python</span><span>50 problems</span></div>
+   <div class="bar"><i></i></div><div class="meta"><span class="p">Not started</span><span class="x"></span></div>
+   <div class="go">Start learning →</div></a>
+  <a class="card soon" href="#" aria-disabled="true">
+   <div class="em">🌐</div><div class="t">Networking Quest</div>
+   <div class="d">OSI and TCP/IP, routing, DNS, TLS and load balancing at the packet level.</div>
+   <div class="tags"><span>Coming soon</span></div>
+   <div class="go">In the works</div></a>
+ </div>
+
+ <div class="how">
+  <div>🎬<b>Watch</b><p>Step-by-step animations of every concept.</p></div>
+  <div>📖<b>Learn</b><p>Short explanations, comparisons and interview talk tracks.</p></div>
+  <div>🎮<b>Play</b><p>Quizzes, ordering and matching games, plus boss battles.</p></div>
+  <div>🔥<b>Streak</b><p>XP, levels, stars and a 30-day plan per track.</p></div>
+ </div>
+ <div class="foot">Progress is saved in this browser. · <a href="/">karthikravi.in</a></div>
+</div>
+<script>
+(function(){
+  var key=function(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+  var totalXP=0, studiedToday=0, best=0;
+  document.querySelectorAll('a.card[data-key]').forEach(function(c){
+    var s=null; try{s=JSON.parse(localStorage.getItem('lq:'+c.dataset.key)||'null')}catch(e){}
+    if(!s) return;
+    var done=Object.keys(s.done||{}).length, total=+c.dataset.total;
+    c.querySelector('.bar i').style.width=Math.round(done/total*100)+'%';
+    c.querySelector('.p').textContent=done+' / '+total+' done';
+    c.querySelector('.x').textContent=(s.xp||0)+' XP';
+    if(done) c.querySelector('.go').textContent=done===total?'Review & boss battles →':'Continue →';
+    totalXP+=s.xp||0;
+    var set=new Set(s.days||[]), d=new Date(), n=0;
+    if(set.has(key(d))) studiedToday++; else d.setDate(d.getDate()-1);
+    while(set.has(key(d))){n++;d.setDate(d.getDate()-1)} best=Math.max(best,n);
+  });
+  document.getElementById('today').innerHTML=
+    '<span class="chip">🔥 '+best+'-day streak</span><span class="chip">⭐ '+totalXP+' XP total</span>'+
+    '<span class="chip">✅ '+studiedToday+' / 3 tracks today</span><span>Today: <b>15 min AI</b> · <b>15 min System Design</b> · <b>15 min DSA</b></span>';
+})();
+</script>
+</body></html>
