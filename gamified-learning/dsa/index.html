@@ -261,6 +261,28 @@ details.rev summary{cursor:pointer;font-weight:700;color:var(--acc2);padding:6px
   .cell{min-width:40px;height:44px;font-size:.9rem}.ptrs div{min-width:40px}
   .cap{font-size:.93rem}
 }
+/* v2: basics stage, problems, code-synced animation */
+.intro-hero{background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 22%,var(--card)),var(--card));border:1px solid color-mix(in srgb,var(--acc) 45%,var(--line));border-radius:18px;padding:22px 24px}
+.intro-hero .one{font-size:1.25rem;font-weight:600;line-height:1.5;margin-top:6px;color:#fff}
+table.gl{min-width:0}table.gl td:first-child{width:28%;white-space:normal;color:var(--acc2)}
+ul.ticks{list-style:none;padding-left:0}ul.ticks li{padding-left:28px;position:relative;margin:7px 0}ul.ticks li:before{content:"✓";position:absolute;left:4px;color:var(--ok);font-weight:700}
+.pstep{margin:12px 0;padding:14px 16px;border-radius:12px;background:#0d1430;border:1px solid var(--line);color:#d3daf7}
+.pstep .pk,.pk{font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--acc2);margin-bottom:6px}
+.pstep.brute{border-left:4px solid var(--warn)}.pstep.smart{border-left:4px solid var(--ok)}
+.pstep p{margin:4px 0}
+.ex{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;padding:10px 0;border-top:1px dashed var(--line)}.ex:first-of-type{border-top:0}
+.ex span{display:block;font-size:.7rem;color:var(--dim);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.ex code{white-space:pre-wrap;word-break:break-word}
+.ex .why{grid-column:1/-1;font-size:.9rem;color:var(--mut)}
+ol.steps{margin:10px 0 0;padding-left:22px}ol.steps li{margin:5px 0}
+.arr-split{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr)}
+.codepane{background:#070b1a;border-left:1px solid var(--line);padding:0 0 10px;font-family:var(--mono);font-size:.78rem;overflow-x:auto}
+.cp-h{font-family:var(--sans);font-size:.7rem;color:var(--dim);padding:8px 12px;border-bottom:1px solid var(--line);margin-bottom:6px;letter-spacing:.04em}
+.cl{white-space:pre;line-height:1.75;padding:0 12px 0 0;color:#c4ccef;transition:background .25s}
+.cl .lno{display:inline-block;width:30px;text-align:right;padding-right:10px;color:#3d4a7a;user-select:none}
+.cl.on{background:color-mix(in srgb,var(--acc2) 22%,transparent);box-shadow:inset 3px 0 0 var(--acc2);color:#fff}
+.cl.on .lno{color:var(--acc2)}
+@media(max-width:820px){.arr-split{grid-template-columns:1fr}.codepane{border-left:0;border-top:1px solid var(--line)}.ex{grid-template-columns:1fr}}
 </style></head><body><div id="app"></div>
 <script>window.APP={id:'dsa',name:'DSA Pattern Quest',emoji:'🧩',accent:'#10b981',accent2:'#f59e0b',mins:15,showIx:true,
 tagline:`Learn DSA pattern by pattern. Watch the pointers move, understand why the pattern works, then solve the classic problems in Python.`,
@@ -1548,6 +1570,1047 @@ match:{pairs:[['Farthest reach','Jump game'],['Extend or restart','Kadane'],['Ea
 cards:[[`Greedy vs DP?`,`Greedy commits to the locally best choice and needs a proof that it's safe. DP evaluates all choices through overlapping subproblems and is always correct when the recurrence is. If greedy has a counter-example, switch to DP.`]]
 }
 ]});
+
+/* DSA v2: "Start Here" foundations + Trees 101 */
+(function(){
+const howto={id:'how-to-dsa',em:'🧭',t:'What is DSA & How to Solve Any Problem',mins:15,d:`What data structures and algorithms actually are, the map of everything ahead, and a 6-step method for cracking any problem.`,
+intro:{one:`A <b>data structure</b> is a way of arranging data in memory (a list, a dictionary, a tree…). An <b>algorithm</b> is a step-by-step recipe that works on that data. DSA interviews check whether you can pick the right pair to solve a problem quickly.`,
+ ana:`<p>Think of a kitchen. Where you <b>store</b> things (spice rack, fridge, drawers) is the data structure. The <b>recipe</b> is the algorithm. A good cook keeps the salt where the recipe needs it, and a good engineer stores data where the algorithm can reach it fast.</p>`,
+ why:`<ul><li>Almost every software interview (internal moves and product companies) has 1–2 DSA rounds.</li><li>It trains you to think about <b>speed and memory</b> before writing code.</li><li>You'll see the same ~15 <b>patterns</b> again and again, so learning patterns beats memorizing 500 problems.</li></ul>`,
+ terms:[['Input / Output','What the function receives, and what it must return'],['Constraints','Limits like "n ≤ 10⁵". They tell you how fast your solution must be'],['Edge case','Unusual input that breaks naive code: empty list, one element, duplicates, negatives'],['Brute force','The obvious, try-everything solution. Usually correct but slow'],['Time complexity','How the number of steps grows as input grows (Big-O, next lesson)'],['Pattern','A reusable trick that solves a whole family of problems (two pointers, sliding window…)']],
+ map:['See what an algorithm looks like running step by step','Learn the 6-step interview method','Get the map of all data structures and patterns in this app']},
+anim:[{type:'flow',title:'The 6-step method for any problem',h:360,nodes:[
+ ['u','1. Understand',110,80,'restate it in your words','p'],['e','2. Examples',330,80,'small inputs by hand','b'],['b','3. Brute force',560,80,'obvious solution + Big-O','y'],
+ ['o','4. Optimize',560,260,'spot the pattern','g'],['c','5. Code',330,260,'clean, named variables','p'],['t','6. Test',110,260,'walk through + edge cases','b']],
+ edges:[['u','e'],['e','b'],['b','o'],['o','c'],['c','t']],
+ steps:[
+ {on:'u',t:`<b>Understand:</b> repeat the problem in your own words. Ask: what's the input type? Can it be empty? Negative numbers? Duplicates? What exactly do I return?`},
+ {on:'e',go:'u>e',t:`<b>Examples:</b> work 1–2 tiny examples <i>by hand</i>, including one tricky case. This is where most "aha" moments happen.`},
+ {on:'b',go:'e>b',t:`<b>Brute force:</b> say the obvious solution out loud even if it's slow, and state its Big-O. Interviewers want to see you can get <i>a</i> working answer.`},
+ {on:'o',go:'b>o',t:`<b>Optimize:</b> what work is repeated? Could a hash map, sorting, two pointers or a window avoid it? This is where the patterns in this app come in.`},
+ {on:'c',go:'o>c',t:`<b>Code:</b> write it cleanly with good variable names, talking through it as you go.`},
+ {on:'t',go:'c>t',t:`<b>Test:</b> trace your own example through the code line by line, then try the edge cases. Fix bugs before the interviewer finds them.`}
+]},
+{type:'arr',title:'Your first algorithm, step by step: find the largest number',code:`def find_max(nums):
+    best = nums[0]
+    for x in nums:
+        if x > best:
+            best = x
+    return best`,frames:[
+ {rows:[{lab:'nums',a:[3,8,2,9,4]}],ln:1,t:`An <b>algorithm</b> is just precise steps. Goal: return the largest number in the list. Watch the highlighted code line on the right as each step runs.`},
+ {rows:[{lab:'nums',a:[3,8,2,9,4],ok:'0'}],v:{best:3},ln:2,t:`Start by assuming the first number is the biggest: <code>best = 3</code>.`},
+ {rows:[{lab:'nums',a:[3,8,2,9,4],p:{x:1},hl:'1'}],v:{x:8,best:8},ln:[3,4,5],t:`Loop: x = 8. Is 8 &gt; 3? Yes, so update <code>best = 8</code>.`},
+ {rows:[{lab:'nums',a:[3,8,2,9,4],p:{x:2},hl:'2'}],v:{x:2,best:8},ln:[3,4],t:`x = 2. Is 2 &gt; 8? No, so nothing changes.`},
+ {rows:[{lab:'nums',a:[3,8,2,9,4],p:{x:3},hl:'3'}],v:{x:9,best:9},ln:[3,4,5],t:`x = 9 &gt; 8, so <code>best = 9</code>.`},
+ {rows:[{lab:'nums',a:[3,8,2,9,4],p:{x:4},ok:'3'}],v:{x:4,best:9,'answer':9},ln:6,t:`x = 4 is smaller. The loop ends and we return <b>9</b>. We looked at each number once, so the work grows linearly with the list: that's <b>O(n)</b>.`}
+]}],
+learn:[
+ {h:'The map: data structures you will learn',b:`<ul><li><b>Array / list:</b> items in a row, numbered 0, 1, 2…</li><li><b>String:</b> a row of characters.</li><li><b>Hash map (dict) / set:</b> instant lookup by key.</li><li><b>Stack / queue:</b> last-in-first-out / first-in-first-out lines.</li><li><b>Linked list:</b> items chained by pointers.</li><li><b>Tree:</b> hierarchy with a root and children.</li><li><b>Heap:</b> always gives you the smallest (or largest) item fast.</li><li><b>Graph:</b> nodes connected by edges (maps, networks).</li></ul>`},
+ {h:'The map: algorithm patterns you will learn',b:`<ul><li><b>Two pointers, sliding window, prefix sum, binary search:</b> array tricks.</li><li><b>Recursion, DFS, BFS:</b> exploring trees and graphs.</li><li><b>Backtracking:</b> try all choices smartly.</li><li><b>Dynamic programming:</b> remember answers to sub-problems.</li><li><b>Greedy:</b> take the best local choice when it's safe.</li></ul>`},
+ {h:'How to practice (15-minute blocks)',b:`<ol><li>Watch the pattern animation until you could explain it to a friend.</li><li>Read each problem and try the brute force in your head first.</li><li>Learn the smart way, then <b>close the solution and code it yourself</b>.</li><li>Revisit with the Recall cards and boss battles a few days later. Spaced repetition is what makes it stick.</li></ol>`},
+ {k:'say',h:'Say it in the interview',b:`<p>"Let me make sure I understand: the input is…, I return…. Can the list be empty? Let me try a small example. The brute force would be…, which is O(n²). I think we can do better by…"</p>`}
+],
+cmp:[{t:'Data structure cheat sheet',cols:['Structure','Think of it as','Fast at','Slow at'],rows:[
+ ['Array / list','numbered lockers','reading by index O(1)','inserting in the middle O(n)'],['Hash map / set','a dictionary with an instant index','lookup by key O(1)','keeping order, sorting'],['Stack','a pile of plates','push/pop the top O(1)','reaching the bottom'],['Queue','a ticket line','add back, remove front O(1)','random access'],['Linked list','a treasure hunt of clues','insert/remove at a known node O(1)','finding the k-th item O(n)'],['Heap','a VIP line','get min/max O(1), push/pop O(log n)','searching arbitrary items'],['Tree / BST','a family tree','search in sorted tree O(log n)','gets slow if unbalanced'],['Graph','a road map','modelling connections','needs BFS/DFS to explore']]}],
+quiz:[
+ {q:`What is a data structure?`,o:['A programming language','A way of organizing data in memory','A type of computer','A sorting algorithm'],a:1,x:`Lists, dicts, trees and graphs are all ways to arrange data.`},
+ {q:`In an interview, what should you do right after understanding the problem?`,o:['Start coding the optimal solution','Work through small examples by hand','Ask for the answer','Write tests first'],a:1,x:`Examples reveal edge cases and often the pattern.`},
+ {q:`Why state the brute force solution?`,o:['It is always the final answer','It shows you can solve it, and gives a baseline to optimize','Interviewers require slow code','To use more time'],a:1,x:`Correct first, then fast.`},
+ {q:`find_max looks at every element once. Its time complexity is…`,o:['O(1)','O(n)','O(n²)','O(log n)'],a:1,x:`One pass over n items.`}
+],
+order:{q:`Order the 6-step method`,items:['Understand the problem','Work small examples','State the brute force','Optimize with a pattern','Write the code','Test with examples & edge cases']},
+match:{pairs:[['Data structure','How data is stored'],['Algorithm','Step-by-step recipe'],['Edge case','Empty / single / duplicate inputs'],['Constraint','Limit that hints at required speed']]},
+cards:[[`How do you approach a coding problem you've never seen?`,`Clarify the inputs and outputs, work small examples, state a brute force with its complexity, look for repeated work and the matching pattern, code cleanly, then test with my examples and edge cases.`]]
+};
+
+const arrays={id:'arrays-basics',em:'🗃️',t:'Arrays 101',mins:20,d:`What an array really is in memory, why reading by index is instant, why inserting in the middle is slow, and Python list basics.`,
+intro:{one:`An <b>array</b> is a row of boxes placed side by side in memory. Each box holds one value and has a number called its <b>index</b>, starting from <b>0</b>.`,
+ ana:`<p>A row of numbered lockers in a corridor. To open locker 5 you walk straight to it, no need to open lockers 0–4 first. But to squeeze a new locker into the middle, everyone after it has to shift down one place.</p>`,
+ why:`<ul><li>Most interview problems give you an array (a Python <code>list</code>) as input.</li><li>Knowing which operations are fast (index access) and which are slow (insert in the middle) is the root of every optimization.</li></ul>`,
+ terms:[['Element','One value stored in the array'],['Index','The position number: 0 for the first element, len−1 for the last'],['Length','How many elements: len(arr)'],['Contiguous','Stored side by side in memory, with no gaps'],['Traverse','Visit every element, usually with a for loop'],['In-place','Modify the same array instead of creating a new one']],
+ map:['See why arr[i] is instant (O(1))','Watch traversal, insert and delete shift elements','Learn Python list operations and their costs','Solve 3 warm-up problems']},
+anim:[{type:'arr',title:'What an array looks like in memory',frames:[
+ {rows:[{lab:'values',a:[7,2,9,4,5],ix:1}],t:`An array of 5 numbers. Each box has an <b>index</b> (the small number above it), starting at <b>0</b>, so the last index is 4 = length − 1.`},
+ {rows:[{lab:'values',a:[7,2,9,4,5],ix:1},{lab:'memory address',a:[1000,1008,1016,1024,1032],noix:1}],t:`In memory the boxes sit <b>next to each other</b>. If each number takes 8 bytes and the array starts at address 1000, every box's address is predictable.`},
+ {rows:[{lab:'values',a:[7,2,9,4,5],ix:1,hl:'3'},{lab:'memory address',a:[1000,1008,1016,1024,1032],noix:1,hl:'3'}],v:{'arr[3]':'address = 1000 + 3 × 8 = 1024'},t:`So <code>arr[3]</code> is one calculation: start + index × size. No searching. That's why reading by index is <b>O(1)</b>, constant time, whether the array has 5 or 5 million items.`},
+ {rows:[{lab:'values',a:[7,2,9,4,5],ix:1,ok:'4'}],v:{'len(arr)':5,'arr[-1]':5},t:`Python bonus: negative indexes count from the end, so <code>arr[-1]</code> is the last element (5).`}
+]},
+{type:'arr',title:'Traversal: visiting every element',code:`total = 0
+for i in range(len(arr)):
+    total += arr[i]
+print(total)`,frames:[
+ {rows:[{lab:'arr',a:[7,2,9,4],ix:1}],v:{total:0},ln:1,t:`<b>Traversal</b> means visiting each element once. Let's add them all up.`},
+ {rows:[{lab:'arr',a:[7,2,9,4],ix:1,p:{i:0},hl:'0'}],v:{i:0,total:7},ln:[2,3],t:`i = 0: total += 7 → 7.`},
+ {rows:[{lab:'arr',a:[7,2,9,4],ix:1,p:{i:1},hl:'1',ok:'0'}],v:{i:1,total:9},ln:[2,3],t:`i = 1: total += 2 → 9.`},
+ {rows:[{lab:'arr',a:[7,2,9,4],ix:1,p:{i:2},hl:'2',ok:'0 1'}],v:{i:2,total:18},ln:[2,3],t:`i = 2: total += 9 → 18.`},
+ {rows:[{lab:'arr',a:[7,2,9,4],ix:1,p:{i:3},hl:'3',ok:'0 1 2'}],v:{i:3,total:22},ln:[2,3],t:`i = 3: total += 4 → 22.`},
+ {rows:[{lab:'arr',a:[7,2,9,4],ix:1,ok:'0 1 2 3'}],v:{total:22},ln:4,t:`Done: 22. n elements → n steps → <b>O(n)</b>. In Python you'd usually write <code>for x in arr:</code> or just <code>sum(arr)</code>.`}
+]},
+{type:'arr',title:'Insert in the middle: why it costs O(n)',frames:[
+ {rows:[{lab:'arr (one free slot at the end)',a:[7,2,9,4,5,''],ix:1}],t:`Goal: insert <b>6 at index 1</b>. Boxes are glued side by side, so to make room everything from index 1 onwards must <b>shift right</b>.`},
+ {rows:[{lab:'arr',a:[7,2,9,4,5,5],ix:1,hl:'5'}],t:`Start from the end: copy 5 one step right…`},
+ {rows:[{lab:'arr',a:[7,2,9,4,4,5],ix:1,hl:'4'}],t:`…then 4…`},
+ {rows:[{lab:'arr',a:[7,2,9,9,4,5],ix:1,hl:'3'}],t:`…then 9…`},
+ {rows:[{lab:'arr',a:[7,2,2,9,4,5],ix:1,hl:'2'}],t:`…then 2. Index 1 is now free.`},
+ {rows:[{lab:'arr',a:[7,6,2,9,4,5],ix:1,ok:'1'}],v:{shifts:4},t:`Write 6 at index 1. We moved 4 elements; in the worst case (insert at the front) we move all n, so it's <b>O(n)</b>. Deleting from the middle is the same story, shifting left. Appending at the <b>end</b> needs no shifting: O(1).`}
+]},
+{type:'arr',title:'Searching an unsorted array',frames:[
+ {rows:[{lab:'arr',a:[7,2,9,4,5],ix:1}],v:{target:4},t:`Is 4 in the array? With no order, the only way is to check one by one: a <b>linear search</b>.`},
+ {rows:[{lab:'arr',a:[7,2,9,4,5],ix:1,p:{i:0},bad:'0'}],t:`7? No.`},
+ {rows:[{lab:'arr',a:[7,2,9,4,5],ix:1,p:{i:2},bad:'0 1 2'}],t:`2? No. 9? No.`},
+ {rows:[{lab:'arr',a:[7,2,9,4,5],ix:1,p:{i:3},bad:'0 1 2',ok:'3'}],v:{found:'index 3'},t:`4: found after 4 checks. Worst case n checks: <b>O(n)</b>. Later you'll beat this with a hash set (O(1)) or, if the array is sorted, binary search (O(log n)).`}
+]}],
+learn:[
+ {h:'Python lists are dynamic arrays',b:`<p>A Python <code>list</code> is an array that grows automatically. When it fills up, Python allocates a bigger block and copies everything over. That happens rarely, so <code>append</code> is O(1) on average ("amortized").</p>`,code:`nums = [7, 2, 9]
+nums.append(4)        # add to end            O(1)
+nums[0]               # read index 0 -> 7     O(1)
+nums[1] = 5           # update                O(1)
+nums.insert(1, 6)     # insert at index 1     O(n)  (shifts)
+nums.pop()            # remove last           O(1)
+nums.pop(0)           # remove first          O(n)  (shifts)
+4 in nums             # search                O(n)
+len(nums)             # length                O(1)
+nums[1:3]             # slice copy            O(k)
+for i, x in enumerate(nums):   # index + value while looping
+    print(i, x)`},
+ {h:'2D arrays (grids / matrices)',b:`<p>A list of lists. <code>grid[r][c]</code> = row r, column c. Rows = <code>len(grid)</code>, columns = <code>len(grid[0])</code>. Many problems (islands, paths) use grids.</p>`,code:`grid = [[1, 2, 3],
+        [4, 5, 6]]
+grid[1][2]            # row 1, col 2 -> 6
+R, C = len(grid), len(grid[0])   # 2 rows, 3 cols
+# create a 3x4 grid of zeros (correct way):
+g = [[0] * 4 for _ in range(3)]`},
+ {k:'pitfall',h:'Classic beginner bugs',b:`<ul><li><b>Off-by-one:</b> the last index is <code>len(a) - 1</code>, not <code>len(a)</code>.</li><li><code>[[0]*4]*3</code> creates 3 references to the <i>same</i> row. Use a list comprehension.</li><li>Modifying a list while looping over it skips elements.</li></ul>`}
+],
+cmp:[{t:'Array operation costs',cols:['Operation','Python','Cost','Why'],rows:[['Read / update by index','a[i], a[i] = x','O(1)','address is computed directly'],['Append at end','a.append(x)','O(1) amortized','no shifting'],['Insert / delete in middle','a.insert(i,x), a.pop(i)','O(n)','elements must shift'],['Search (unsorted)','x in a','O(n)','check one by one'],['Search (sorted)','bisect','O(log n)','binary search'],['Sort','a.sort()','O(n log n)','Timsort']]}],
+probs:[
+ {n:'Running Sum of 1d Array',lv:'e',lc:1480,q:`Given an array <code>nums</code>, return a new array where element i is the sum of nums[0] through nums[i].`,ex:[['nums = [1, 2, 3, 4]','[1, 3, 6, 10]','1 → 1+2=3 → 1+2+3=6 → 1+2+3+4=10']],
+  brute:[`For every index i, loop from 0 to i and add the numbers up. That repeats the same additions again and again.`,`O(n²) time`],
+  idea:`Keep a running <code>total</code>. Each new answer is just the previous total plus the current number, so you only add once per element.`,
+  steps:[`Start with total = 0 and an empty output list.`,`For each x: total += x, then append total.`,`Return the output list.`],
+  code:`def runningSum(nums):
+    out = []
+    total = 0
+    for x in nums:
+        total += x
+        out.append(total)
+    return out`,cx:`O(n) time · O(n) for the output`},
+ {n:'Max Consecutive Ones',lv:'e',lc:485,q:`Given a list of 0s and 1s, return the length of the longest unbroken streak of 1s.`,ex:[['nums = [1, 1, 0, 1, 1, 1]','3','The last three 1s form the longest streak']],
+  brute:[`For each start index, count how many 1s follow it. You re-count the same streaks many times.`,`O(n²) time`],
+  idea:`Walk once with a counter <code>cur</code>: add 1 on a 1, reset to 0 on a 0. Track the best value <code>cur</code> ever reached.`,
+  steps:[`best = cur = 0.`,`If x == 1: cur += 1 and update best.`,`Else: cur = 0 (the streak is broken).`],
+  code:`def findMaxConsecutiveOnes(nums):
+    best = cur = 0
+    for x in nums:
+        if x == 1:
+            cur += 1
+            best = max(best, cur)
+        else:
+            cur = 0              # streak broken
+    return best`,cx:`O(n) time · O(1) space`},
+ {n:'Remove Element',lv:'e',lc:27,q:`Remove every occurrence of <code>val</code> from <code>nums</code> <b>in place</b> (no new list). Return k, the number of remaining elements; the first k slots must hold them (any order).`,ex:[['nums = [3, 2, 2, 3], val = 3','k = 2, nums starts with [2, 2]','The two 3s are gone; what is after index k does not matter']],
+  ask:`"In place" means you can't build a second list. You must overwrite values inside the same list, and deleting from the middle is O(n) each time (shifting), so avoid <code>remove()</code> in a loop.`,
+  brute:[`Call <code>nums.remove(val)</code> while val is present. Each removal shifts the rest of the list.`,`O(n²) time`],
+  idea:`Use a <b>write index</b> k. Read every element; if it should be kept, copy it to position k and move k forward. Unwanted values are simply never copied. This is your first taste of the two-pointer pattern.`,
+  steps:[`k = 0 (next slot to fill).`,`For each x: if x != val, set nums[k] = x and k += 1.`,`Return k.`],
+  code:`def removeElement(nums, val):
+    k = 0                        # next slot to write a kept value
+    for x in nums:
+        if x != val:
+            nums[k] = x
+            k += 1
+    return k`,cx:`O(n) time · O(1) extra space`}
+],
+quiz:[
+ {q:`In arr = [7, 2, 9, 4], what is arr[2]?`,o:['2','9','4','7'],a:1,x:`Indexes start at 0: arr[0]=7, arr[1]=2, arr[2]=9.`},
+ {q:`Why is reading arr[i] O(1)?`,o:['Python caches it','The address is computed directly from start + i × size','Arrays are small','It uses binary search'],a:1,x:`Contiguous memory makes positions predictable.`},
+ {q:`Cost of inserting at the front of a list of n items?`,o:['O(1)','O(log n)','O(n)','O(n²)'],a:2,x:`Every element shifts one slot right.`},
+ {q:`Last valid index of a list of length 6?`,o:['6','5','-6','0'],a:1,x:`len − 1 = 5.`},
+ {q:`Correct way to make a 3×4 grid of zeros?`,o:['[[0]*4]*3','[[0]*4 for _ in range(3)]','[0]*12','[[0]*3]*4'],a:1,x:`The first creates 3 references to one shared row.`}
+],
+order:{q:`Insert x at index 1 in a full-ish array`,items:['Start from the last element','Shift each element one step right','Stop when index 1 is free','Write x at index 1']},
+match:{pairs:[['a[i]','O(1) read'],['a.append(x)','O(1) amortized'],['a.insert(0, x)','O(n) shift'],['x in a','O(n) search']]},
+cards:[[`Why are arrays fast to read but slow to insert into?`,`They're contiguous: an element's address is start + index × size, so reads are O(1). Inserting in the middle forces every later element to shift, which is O(n).`]]
+};
+
+const strings={id:'strings-basics',em:'🔤',t:'Strings 101',mins:15,d:`Strings as arrays of characters: indexing, slicing, immutability, character codes, and the classic palindrome and anagram checks.`,
+intro:{one:`A <b>string</b> is a sequence of characters, like an array of letters. You can read any character by index, but in Python you <b>cannot change</b> a character in place (strings are immutable).`,
+ ana:`<p>A string is like a word printed on a strip of paper: you can point at any letter, but to change one you print a new strip.</p>`,
+ why:`<ul><li>Text questions (palindromes, anagrams, parsing) are some of the most common warm-ups.</li><li>They reuse array ideas: indexes, two pointers, counting with a dict.</li></ul>`,
+ terms:[['Character','One symbol: a letter, digit, space or emoji'],['Substring','A contiguous piece: "ell" in "hello"'],['Immutable','Cannot be changed after creation; "edits" create a new string'],['ord / chr','Convert a character to its number code and back: ord("a") = 97'],['Palindrome','Reads the same forwards and backwards: "racecar"'],['Anagram','Same letters, different order: "listen" / "silent"']],
+ map:['Index and slice a string','See why building strings with += in a loop is slow','Watch the two-pointer palindrome check run line by line','Count characters with a dict to compare anagrams'],pre:['arrays-basics']},
+anim:[{type:'arr',title:'A string is an array of characters',frames:[
+ {rows:[{lab:'s = "hello"',a:['h','e','l','l','o'],ix:1}],t:`Each character sits at an index, just like an array.`},
+ {rows:[{lab:'s',a:['h','e','l','l','o'],ix:1,hl:'1'}],v:{'s[1]':'"e"','s[-1]':'"o"'},t:`<code>s[1]</code> is "e". <code>s[-1]</code> is the last character, "o".`},
+ {rows:[{lab:'s',a:['h','e','l','l','o'],ix:1,ok:'1 2 3'}],v:{'s[1:4]':'"ell"'},t:`<b>Slicing</b> <code>s[1:4]</code> takes indexes 1, 2, 3 (the end is excluded) → "ell". It creates a new string.`},
+ {rows:[{lab:'s',a:['h','e','l','l','o'],ix:1,bad:'0'}],v:{'s[0] = "j"':'TypeError!'},t:`Strings are <b>immutable</b>: <code>s[0] = "j"</code> fails. Build a new one instead: <code>"j" + s[1:]</code>, or convert to a list, edit it, then <code>"".join(list)</code>.`},
+ {rows:[{lab:'characters',a:['a','b','c','z']},{lab:'ord(ch)',a:[97,98,99,122]},{lab:'ord(ch) - ord("a")',a:[0,1,2,25],ok:'0 1 2 3'}],t:`Every character has a number code. <code>ord(ch) - ord('a')</code> maps a–z to 0–25, which is handy for counting letters in a list of size 26.`}
+]},
+{type:'arr',title:'Is "racecar" a palindrome? (two pointers)',code:`def is_pal(s):
+    l, r = 0, len(s) - 1
+    while l < r:
+        if s[l] != s[r]:
+            return False
+        l += 1
+        r -= 1
+    return True`,frames:[
+ {rows:[{lab:'s',a:['r','a','c','e','c','a','r'],ix:1,p:{l:0,r:6}}],ln:2,t:`Put one pointer at each end.`},
+ {rows:[{lab:'s',a:['r','a','c','e','c','a','r'],ix:1,p:{l:0,r:6},ok:'0 6'}],ln:[3,4],t:`'r' == 'r' ✓. Match, keep going.`},
+ {rows:[{lab:'s',a:['r','a','c','e','c','a','r'],ix:1,p:{l:1,r:5},ok:'0 6 1 5'}],ln:[6,7,3,4],t:`Move both inward. 'a' == 'a' ✓.`},
+ {rows:[{lab:'s',a:['r','a','c','e','c','a','r'],ix:1,p:{l:2,r:4},ok:'0 6 1 5 2 4'}],ln:[6,7,3,4],t:`'c' == 'c' ✓.`},
+ {rows:[{lab:'s',a:['r','a','c','e','c','a','r'],ix:1,p:{l:3,r:3},ok:'0 1 2 3 4 5 6'}],ln:[3,8],t:`l and r meet in the middle, so the loop stops: <b>palindrome</b>. Any mismatch would have returned False immediately. O(n) time, O(1) space.`}
+]},
+{type:'arr',title:'Anagrams: count the letters',frames:[
+ {rows:[{lab:'s = "listen"',a:['l','i','s','t','e','n']},{lab:'t = "silent"',a:['s','i','l','e','n','t']}],t:`Two strings are anagrams if they use exactly the same letters the same number of times.`},
+ {rows:[{lab:'s = "listen"',a:['l','i','s','t','e','n'],ok:'0 1 2 3 4 5'}],v:{count:'{l:1, i:1, s:1, t:1, e:1, n:1}'},t:`Count every letter of s in a dictionary (+1 each).`},
+ {rows:[{lab:'t = "silent"',a:['s','i','l','e','n','t'],ok:'0 1 2 3 4 5'}],v:{count:'{l:0, i:0, s:0, t:0, e:0, n:0}'},t:`Walk t and subtract (−1 each). If every count ends at 0 (and none goes negative), they're anagrams ✓. O(n) instead of sorting both in O(n log n).`}
+]}],
+learn:[
+ {h:'Everyday string tools',code:`s = "  Hello, World  "
+s.strip()              # "Hello, World"  (trim spaces)
+s.lower(), s.upper()   # change case
+"a,b,c".split(",")     # ["a", "b", "c"]
+"-".join(["a", "b"])   # "a-b"
+"abc".find("c")        # 2  (-1 if missing)
+ch.isalnum()           # letter or digit?
+ch.isdigit(), ch.isalpha()
+s[::-1]                # reversed copy`},
+ {h:'Building strings efficiently',b:`<p>Because strings are immutable, <code>result += ch</code> inside a loop copies the whole string each time, which can be O(n²). Collect pieces in a list and <code>"".join(parts)</code> once at the end: O(n).</p>`},
+ {h:'Counting characters',code:`from collections import Counter
+Counter("banana")      # {'a': 3, 'n': 2, 'b': 1}
+
+count = [0] * 26       # only lowercase a-z
+for ch in "banana":
+    count[ord(ch) - ord('a')] += 1`},
+ {k:'pitfall',h:'Gotchas',b:`<ul><li>Uppercase vs lowercase: "A" != "a". Normalize with <code>.lower()</code> when the problem says to ignore case.</li><li>Spaces and punctuation: check whether to skip them (<code>isalnum()</code>).</li></ul>`}
+],
+cmp:[{cols:['','String','List'],rows:[['Index / slice','✅','✅'],['Change one item in place','❌ immutable','✅'],['Join pieces','"".join(parts)','—'],['Good for','text, keys in dicts','editing sequences']]}],
+probs:[
+ {n:'Reverse String',lv:'e',lc:344,q:`Reverse a list of characters <b>in place</b> (O(1) extra memory).`,ex:[['s = ["h","e","l","l","o"]','["o","l","l","e","h"]','']],
+  brute:[`Create a reversed copy (<code>s[::-1]</code>) and copy it back. Correct, but it uses O(n) extra memory, which the problem forbids.`,`O(n) time · O(n) space`],
+  idea:`Two pointers at both ends: swap them, then move both inward until they meet.`,steps:[`l = 0, r = len − 1.`,`While l &lt; r: swap s[l] and s[r].`,`l += 1, r −= 1.`],
+  code:`def reverseString(s):            # s is a list of characters
+    l, r = 0, len(s) - 1
+    while l < r:
+        s[l], s[r] = s[r], s[l]
+        l += 1
+        r -= 1`,cx:`O(n) time · O(1) space`},
+ {n:'Valid Palindrome',lv:'e',lc:125,q:`A phrase is a palindrome if, after lowercasing and removing everything except letters and digits, it reads the same both ways. Return True or False.`,ex:[['"A man, a plan, a canal: Panama"','True','Cleaned: "amanaplanacanalpanama"'],['"race a car"','False','"raceacar" is not a palindrome']],
+  brute:[`Build a cleaned lowercase string and compare it with its reverse. Simple and fine, but it uses O(n) extra memory.`,`O(n) time · O(n) space`],
+  idea:`Two pointers on the original string: skip non-alphanumeric characters on each side, compare lowercase characters, move inward.`,steps:[`l at start, r at end.`,`Move l right while s[l] is not a letter or digit; same for r leftwards.`,`Compare s[l].lower() and s[r].lower(); a mismatch means False.`,`Move both inward and repeat.`],
+  code:`def isPalindrome(s):
+    l, r = 0, len(s) - 1
+    while l < r:
+        while l < r and not s[l].isalnum():
+            l += 1
+        while l < r and not s[r].isalnum():
+            r -= 1
+        if s[l].lower() != s[r].lower():
+            return False
+        l += 1
+        r -= 1
+    return True`,cx:`O(n) time · O(1) space`},
+ {n:'Valid Anagram',lv:'e',lc:242,q:`Return True if string t is an anagram of string s (same letters, same counts).`,ex:[['s = "anagram", t = "nagaram"','True',''],['s = "rat", t = "car"','False','"t" vs "c" differ']],
+  brute:[`Sort both strings and compare: <code>sorted(s) == sorted(t)</code>.`,`O(n log n) time`],
+  idea:`Count letters with a dictionary: +1 for each letter in s, −1 for each letter in t. Any count going below zero means t has an extra letter.`,steps:[`If the lengths differ, return False.`,`Count s's letters.`,`Subtract t's letters; if any count goes negative, return False.`,`Otherwise return True.`],
+  code:`def isAnagram(s, t):
+    if len(s) != len(t):
+        return False
+    count = {}
+    for ch in s:
+        count[ch] = count.get(ch, 0) + 1
+    for ch in t:
+        count[ch] = count.get(ch, 0) - 1
+        if count[ch] < 0:
+            return False
+    return True`,cx:`O(n) time · O(k) space (k = distinct letters)`}
+],
+quiz:[
+ {q:`For s = "python", what is s[1:4]?`,o:['"pyt"','"yth"','"ytho"','"tho"'],a:1,x:`Indexes 1, 2, 3 → y, t, h.`},
+ {q:`What happens with s[0] = "X" on a Python string?`,o:['It works','TypeError: strings are immutable','It appends X','It returns a new string'],a:1,x:`Build a new string instead.`},
+ {q:`Fastest way to build a long string from many pieces?`,o:['result += piece in a loop','"".join(pieces)','str(list)','Recursion'],a:1,x:`join does one pass; += can copy repeatedly.`},
+ {q:`ord("c") - ord("a") equals…`,o:['1','2','3','99'],a:1,x:`a→0, b→1, c→2.`}
+],
+match:{pairs:[['s[::-1]','Reversed copy'],['Counter(s)','Letter frequencies'],['isalnum()','Letter or digit?'],['"".join(list)','Build string efficiently']]},
+cards:[[`How do you check whether two strings are anagrams in O(n)?`,`Count characters with a dict or a 26-slot array: add for one string, subtract for the other, and check that every count returns to zero.`]]
+};
+
+const sorting={id:'sorting',em:'📶',t:'Sorting & Searching Basics',mins:20,d:`Linear search, how bubble sort and merge sort work (animated), why O(n log n) matters, and using Python's sort with keys.`,
+intro:{one:`<b>Sorting</b> puts items in order (smallest to largest, A to Z). <b>Searching</b> finds an item. Once data is sorted, many problems get dramatically faster.`,
+ ana:`<p>Finding a name in a jumbled pile of exam papers means checking every paper. If the papers are sorted alphabetically, you can open the pile near the right letter immediately.</p>`,
+ why:`<ul><li>"Sort first" is the opening move for two pointers, intervals, greedy problems and detecting duplicates.</li><li>Interviewers ask how sorting works and what it costs.</li><li>In practice you'll call Python's <code>sort()</code>, but you must know it's O(n log n).</li></ul>`,
+ terms:[['Linear search','Check items one by one: O(n)'],['Comparison sort','Sorts by comparing pairs; the best possible is O(n log n)'],['Stable sort','Equal items keep their original order'],['In-place','Sorts inside the same list without a copy'],['Divide & conquer','Split the problem, solve the halves, combine (merge sort)']],
+ map:['Watch bubble sort swap its way to order, with code','See merge sort split and merge','Use sorted() with key= and reverse=','Solve merge-sorted-array, sort colors and contains duplicate'],pre:['arrays-basics','big-o']},
+anim:[{type:'arr',title:'Bubble sort: the simplest sort',code:`def bubble_sort(a):
+    n = len(a)
+    for i in range(n):
+        for j in range(n - 1 - i):
+            if a[j] > a[j + 1]:
+                a[j], a[j + 1] = a[j + 1], a[j]
+    return a`,frames:[
+ {rows:[{lab:'a',a:[5,1,4,2]}],ln:[1,2],t:`Idea: walk through the list comparing <b>neighbours</b>, and swap any pair that's in the wrong order.`},
+ {rows:[{lab:'a',a:[5,1,4,2],p:{j:0},hl:'0 1'}],ln:[3,4,5],t:`Compare a[0]=5 and a[1]=1. 5 &gt; 1, so they're out of order…`},
+ {rows:[{lab:'a',a:[1,5,4,2],p:{j:0},ok:'0 1'}],ln:6,t:`…swap → [1, 5, 4, 2].`},
+ {rows:[{lab:'a',a:[1,4,5,2],p:{j:1},ok:'1 2'}],ln:[4,5,6],t:`5 &gt; 4 → swap → [1, 4, 5, 2].`},
+ {rows:[{lab:'a',a:[1,4,2,5],p:{j:2},ok:'3'}],ln:[4,5,6],t:`5 &gt; 2 → swap → [1, 4, 2, 5]. After one full pass, the <b>largest value has "bubbled" to the end</b>, where it stays.`},
+ {rows:[{lab:'a',a:[1,2,4,5],p:{j:1},ok:'2 3'}],ln:[3,4,5,6],t:`Pass 2: 1 &lt; 4 no swap; 4 &gt; 2 swap → [1, 2, 4, 5]. Now 4 is in place too.`},
+ {rows:[{lab:'a',a:[1,2,4,5],ok:'0 1 2 3'}],ln:7,t:`Sorted! But two nested loops means ~n² comparisons: <b>O(n²)</b>. Too slow for big inputs, which is why merge sort exists.`}
+]},
+{type:'arr',title:'Merge sort: split, then merge',frames:[
+ {rows:[{lab:'start',a:[38,27,43,3,9,82,10,15]}],t:`<b>Divide and conquer:</b> split the list in half again and again until each piece has 1 element (a single element is already sorted).`},
+ {rows:[{lab:'split',a:['38 27 43 3','|','9 82 10 15'],noix:1},{lab:'split again',a:['38 27','|','43 3','|','9 82','|','10 15'],noix:1}],t:`Halve, halve again… log₂(8) = 3 levels of splitting.`},
+ {rows:[{lab:'merge pairs',a:['27 38','|','3 43','|','9 82','|','10 15'],ok:'0 2 4 6',noix:1}],t:`Now <b>merge</b> back up. Merging two sorted lists is easy: repeatedly take the smaller front element.`},
+ {rows:[{lab:'merge again',a:['3 27 38 43','|','9 10 15 82'],ok:'0 2',noix:1}],t:`[27,38] + [3,43] → compare fronts 27 vs 3, take 3; then 27 vs 43, take 27; and so on.`},
+ {rows:[{lab:'sorted',a:[3,9,10,15,27,38,43,82],ok:'0 1 2 3 4 5 6 7'}],v:{levels:'log n',work:'n per level',total:'O(n log n)'},t:`Each level does n work and there are log n levels: <b>O(n log n)</b>. Python's built-in sort (Timsort) is also O(n log n).`}
+]}],
+learn:[
+ {h:'Sorting in Python (what you will actually use)',code:`nums = [5, 2, 9]
+nums.sort()                     # in place, ascending
+new = sorted(nums, reverse=True) # new list, descending
+words = ["kiwi", "fig", "banana"]
+words.sort(key=len)             # by length: fig, kiwi, banana
+pairs = [[1, 3], [0, 2]]
+pairs.sort(key=lambda p: p[0])  # by first element (intervals!)
+people.sort(key=lambda p: (-p.age, p.name))  # age desc, then name`},
+ {h:'When to sort first',b:`<ul><li>You need pairs or triplets that sum to a target → sort + two pointers.</li><li>Duplicates become neighbours after sorting.</li><li>Interval and scheduling problems → sort by start or end.</li><li>Greedy choices ("take the smallest first").</li><li>Cost: O(n log n) added, which is usually fine for n ≤ 10⁵ or so.</li></ul>`},
+ {k:'say',h:'Say it in the interview',b:`<p>"I'll sort first, which costs O(n log n). After that, equal values are adjacent and I can use two pointers in O(n), so O(n log n) overall."</p>`}
+],
+cmp:[{t:'Sorting algorithms',cols:['Algorithm','Time','Extra space','Note'],rows:[['Bubble / insertion / selection','O(n²)','O(1)','teaching only; insertion is OK for tiny or nearly-sorted data'],['Merge sort','O(n log n)','O(n)','stable, predictable'],['Quick sort','O(n log n) avg, O(n²) worst','O(log n)','fast in practice'],['Heap sort','O(n log n)','O(1)','not stable'],['Timsort (Python)','O(n log n)','O(n)','stable, great on real data'],['Counting / bucket','O(n + k)','O(k)','small integer ranges only']]}],
+probs:[
+ {n:'Contains Duplicate',lv:'e',lc:217,q:`Return True if any value appears at least twice in the array.`,ex:[['nums = [1, 2, 3, 1]','True','1 appears twice'],['nums = [1, 2, 3, 4]','False','']],
+  brute:[`Compare every pair (i, j): two nested loops.`,`O(n²) time`],
+  idea:`Option A: sort, then duplicates sit next to each other, giving O(n log n). Option B (best): a <b>set</b> of values seen so far gives O(1) "have I seen this?" checks, O(n) total.`,steps:[`seen = empty set.`,`For each x: if x is in seen, return True; else add it.`,`Return False after the loop.`],
+  code:`def containsDuplicate(nums):
+    seen = set()
+    for x in nums:
+        if x in seen:
+            return True
+        seen.add(x)
+    return False`,cx:`O(n) time · O(n) space`},
+ {n:'Merge Sorted Array',lv:'e',lc:88,q:`nums1 has m sorted numbers followed by n empty slots (0s); nums2 has n sorted numbers. Merge nums2 into nums1 <b>in place</b> so nums1 becomes fully sorted.`,ex:[['nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3','nums1 = [1,2,2,3,5,6]','']],
+  brute:[`Copy nums2 into the empty slots and call sort().`,`O((m+n) log(m+n)) time`],
+  idea:`Both lists are already sorted, so merge them like merge sort, but <b>fill from the back</b>: the largest remaining item goes into the last empty slot. Filling from the back never overwrites numbers you still need.`,steps:[`i = m−1 (end of nums1's real numbers), j = n−1 (end of nums2), k = m+n−1 (last slot).`,`Put the bigger of nums1[i] and nums2[j] at k; move that pointer and k left.`,`Repeat until nums2 is used up.`],
+  code:`def merge(nums1, m, nums2, n):
+    i, j, k = m - 1, n - 1, m + n - 1      # fill from the back
+    while j >= 0:
+        if i >= 0 and nums1[i] > nums2[j]:
+            nums1[k] = nums1[i]
+            i -= 1
+        else:
+            nums1[k] = nums2[j]
+            j -= 1
+        k -= 1`,cx:`O(m + n) time · O(1) space`},
+ {n:'Sort Colors',lv:'m',lc:75,q:`An array contains only 0s, 1s and 2s (red, white, blue). Sort it in place in one pass without calling sort().`,ex:[['nums = [2, 0, 2, 1, 1, 0]','[0, 0, 1, 1, 2, 2]','']],
+  brute:[`Count how many 0s, 1s and 2s there are, then overwrite the array. That's two passes, which is acceptable but not one pass.`,`O(n) time, 2 passes`],
+  idea:`<b>Dutch national flag</b> with three pointers: everything before <code>lo</code> is 0, everything after <code>hi</code> is 2, and <code>mid</code> scans. Swap 0s to the front and 2s to the back.`,steps:[`lo = mid = 0, hi = n−1.`,`nums[mid] == 0: swap with lo, then lo++ and mid++.`,`== 1: mid++.`,`== 2: swap with hi, hi−− (don't move mid, since the swapped-in value is unchecked).`],
+  code:`def sortColors(nums):
+    lo, mid, hi = 0, 0, len(nums) - 1
+    while mid <= hi:
+        if nums[mid] == 0:
+            nums[lo], nums[mid] = nums[mid], nums[lo]
+            lo += 1
+            mid += 1
+        elif nums[mid] == 1:
+            mid += 1
+        else:
+            nums[mid], nums[hi] = nums[hi], nums[mid]
+            hi -= 1`,cx:`O(n) time · O(1) space`}
+],
+quiz:[
+ {q:`Bubble sort's time complexity?`,o:['O(n)','O(n log n)','O(n²)','O(log n)'],a:2,x:`Nested loops comparing neighbours.`},
+ {q:`Why is merge sort O(n log n)?`,o:['It is magic','log n levels of splitting, n work to merge at each level','It sorts twice','It uses hashing'],a:1,x:`Levels × work per level.`},
+ {q:`Sort intervals [[3,4],[1,2]] by start time in Python:`,o:['intervals.sort(key=lambda x: x[0])','intervals.sort(x[0])','sorted(intervals[0])','intervals.reverse()'],a:0,x:`key= tells sort what to compare.`},
+ {q:`After sorting, duplicates are…`,o:['Removed','Adjacent to each other','At the end','Unchanged'],a:1,x:`Equal values sit next to each other.`}
+],
+order:{q:`Merge sort`,items:['Split the list in half','Keep splitting to single elements','Merge pairs by taking the smaller front item','Keep merging up to the full sorted list']},
+match:{pairs:[['Bubble sort','Swap neighbours, O(n²)'],['Merge sort','Split + merge, O(n log n)'],['Timsort','Python built-in sort'],['Linear search','Check each item, O(n)']]},
+cards:[[`What does sorting cost, and when is it worth it?`,`O(n log n). It's worth it when order unlocks a faster method: two pointers, adjacent duplicates, interval merging, greedy choices, binary search.`]]
+};
+
+const recursion={id:'recursion-basics',em:'🪆',t:'Recursion 101',mins:20,d:`Functions that call themselves: base case, the call stack (animated), recursion trees, and when recursion beats loops.`,
+intro:{one:`<b>Recursion</b> is when a function solves a problem by calling <b>itself</b> on a smaller version of the same problem, until it reaches a case so small the answer is obvious (the <b>base case</b>).`,
+ ana:`<p>You're in a long queue and want to know your position. You ask the person in front: "what's your position?" They ask the person in front of them, and so on. The first person says "1" (base case). Each answer comes back adding 1 until it reaches you.</p>`,
+ why:`<ul><li>Trees, graphs (DFS), backtracking and dynamic programming are all built on recursion.</li><li>Many hard problems become short and clear when written recursively.</li></ul>`,
+ terms:[['Base case','The smallest input, answered directly without recursing. Without it the function never stops'],['Recursive case','The step that calls the function on a smaller input'],['Call stack','Memory where Python keeps each unfinished function call, piled up like plates'],['Stack overflow','Too many nested calls (Python stops at about 1000 by default)'],['Recursion tree','A drawing of all the calls a recursive function makes']],
+ map:['Watch the call stack grow and shrink for factorial(4)','Trace a recursive sum line by line','Learn the 3 rules for writing any recursive function','See why naive Fibonacci is slow (preview of DP)'],pre:['arrays-basics']},
+anim:[{type:'flow',title:'The call stack: factorial(4)',h:400,nodes:[
+ ['f4','factorial(4)',400,60,'4 × factorial(3)','p'],['f3','factorial(3)',400,140,'3 × factorial(2)','p',1],['f2','factorial(2)',400,220,'2 × factorial(1)','p',2],['f1','factorial(1)',400,300,'base case','g',3]],
+ edges:[['f4','f3'],['f3','f2'],['f2','f1']],
+ steps:[
+ {on:'f4',t:`<code>factorial(n) = n × factorial(n − 1)</code>, and factorial(1) = 1. We call factorial(4). It can't finish yet: it needs factorial(3) first, so it <b>waits</b> on the call stack.`},
+ {on:'f3',go:'f4>f3',t:`factorial(3) is pushed on top. It also waits for factorial(2)…`},
+ {on:'f2',go:'f3>f2',t:`factorial(2) is pushed. It waits for factorial(1)…`},
+ {ok:'f1',go:'f2>f1',sub:{f1:'returns 1'},t:`factorial(1) hits the <b>base case</b> and returns 1 immediately. No more calls. Now the stack starts <b>unwinding</b>.`},
+ {ok:'f1 f2',go:'f1>f2',sub:{f2:'2 × 1 = 2'},t:`factorial(2) gets its answer: 2 × 1 = 2, returns, and is popped off the stack.`},
+ {ok:'f1 f2 f3',go:'f2>f3',sub:{f3:'3 × 2 = 6'},t:`factorial(3) = 3 × 2 = 6.`},
+ {ok:'f1 f2 f3 f4',go:'f3>f4',sub:{f4:'4 × 6 = 24'},t:`factorial(4) = 4 × 6 = <b>24</b>. The stack went 4 calls deep: O(n) time and O(n) stack space.`}
+]},
+{type:'arr',title:'Recursive sum, line by line',code:`def total(arr, i):
+    if i == len(arr):
+        return 0                 # base case
+    return arr[i] + total(arr, i + 1)`,frames:[
+ {rows:[{lab:'arr',a:[3,1,4],ix:1,p:{i:0},hl:'0'},{lab:'call stack',a:['total(0)'],noix:1}],ln:[1,2],t:`total(arr, 0) means "sum from index 0 to the end". i is not the end yet…`},
+ {rows:[{lab:'arr',a:[3,1,4],ix:1,p:{i:1},hl:'1'},{lab:'call stack',a:['total(0)','total(1)'],noix:1}],ln:4,t:`…so it returns 3 + total(1) and has to wait for total(1).`},
+ {rows:[{lab:'arr',a:[3,1,4],ix:1,p:{i:2},hl:'2'},{lab:'call stack',a:['total(0)','total(1)','total(2)'],noix:1}],ln:4,t:`total(1) = 1 + total(2), which waits again.`},
+ {rows:[{lab:'arr',a:[3,1,4],ix:1},{lab:'call stack',a:['total(0)','total(1)','total(2)','total(3)'],noix:1,ok:'3'}],v:{'total(3)':0},ln:[2,3],t:`total(3): i == len(arr) → <b>base case</b>, return 0.`},
+ {rows:[{lab:'arr',a:[3,1,4],ix:1,ok:'2'},{lab:'call stack',a:['total(0)','total(1)','total(2)'],noix:1,ok:'2'}],v:{'total(2)':'4 + 0 = 4'},ln:4,t:`Unwinding: total(2) = 4 + 0 = 4.`},
+ {rows:[{lab:'arr',a:[3,1,4],ix:1,ok:'1 2'},{lab:'call stack',a:['total(0)','total(1)'],noix:1,ok:'1'}],v:{'total(1)':'1 + 4 = 5'},ln:4,t:`total(1) = 1 + 4 = 5.`},
+ {rows:[{lab:'arr',a:[3,1,4],ix:1,ok:'0 1 2'},{lab:'call stack',a:['total(0)'],noix:1,ok:'0'}],v:{'total(0)':'3 + 5 = 8'},ln:4,t:`total(0) = 3 + 5 = <b>8</b>. Each call handled one element and trusted the recursion for the rest.`}
+]}],
+learn:[
+ {h:'The 3 rules of recursion',b:`<ol><li><b>Base case:</b> the smallest input you can answer directly (empty list, n == 0, node is None).</li><li><b>Make progress:</b> every recursive call must get closer to the base case (i + 1, n − 1, a smaller subtree).</li><li><b>Trust it:</b> assume the recursive call returns the correct answer for the smaller problem, and just combine.</li></ol>`},
+ {h:'Template',code:`def solve(problem):
+    if problem is tiny:            # 1. base case
+        return direct_answer
+    smaller = shrink(problem)      # 2. make progress
+    sub = solve(smaller)           # 3. trust the recursion
+    return combine(problem, sub)`},
+ {h:'Recursion vs loops',b:`<ul><li>Anything recursive can be written with a loop (plus an explicit stack), and vice versa.</li><li>Recursion shines for <b>branching</b> structures: trees, graphs, "try every choice".</li><li>Loops are better for simple linear work, with no stack-depth risk.</li><li>Python's default recursion limit is about 1000. For deep inputs, use iteration or <code>sys.setrecursionlimit</code> carefully.</li></ul>`},
+ {k:'pitfall',h:'Gotchas',b:`<ul><li>Missing or wrong base case → infinite recursion → <code>RecursionError</code>.</li><li>Recomputing the same sub-problems (naive Fibonacci is O(2ⁿ)). Fix with memoization, covered in the DP lesson.</li></ul>`}
+],
+probs:[
+ {n:'Fibonacci Number',lv:'e',lc:509,q:`F(0) = 0, F(1) = 1, and F(n) = F(n−1) + F(n−2). Return F(n).`,ex:[['n = 4','3','0, 1, 1, 2, 3 → F(4) = 3']],
+  ask:`The definition itself is recursive, so the code can mirror it almost word for word.`,
+  brute:[`Direct recursion exactly as defined. Correct, but each call branches twice, so it recomputes the same values exponentially.`,`O(2ⁿ) time`],
+  idea:`Write the recursion first (base cases n ≤ 1), then note the repeated work. Caching results (memoization) brings it down to O(n). You'll do that in the DP lesson.`,steps:[`Base case: if n ≤ 1, return n.`,`Otherwise return fib(n−1) + fib(n−2).`,`Improve with @lru_cache to remember answers.`],
+  code:`from functools import lru_cache
+
+@lru_cache(maxsize=None)            # remember answers -> O(n)
+def fib(n):
+    if n <= 1:                      # base cases: fib(0)=0, fib(1)=1
+        return n
+    return fib(n - 1) + fib(n - 2)`,cx:`O(n) with memoization (O(2ⁿ) without)`},
+ {n:'Power of Two',lv:'e',lc:231,q:`Return True if n is a power of two (1, 2, 4, 8, 16…).`,ex:[['n = 16','True','16 = 2⁴'],['n = 6','False','']],
+  brute:[`Multiply 1 by 2 repeatedly until you reach or pass n.`,`O(log n) time`],
+  idea:`Recursive thinking: n is a power of two if it's 1, or if it's even and n / 2 is a power of two. Each call halves n.`,steps:[`If n == 1: True.`,`If n ≤ 0 or n is odd: False.`,`Otherwise return isPowerOfTwo(n // 2).`],
+  code:`def isPowerOfTwo(n):
+    if n == 1:
+        return True                 # 2^0
+    if n <= 0 or n % 2 == 1:
+        return False
+    return isPowerOfTwo(n // 2)`,cx:`O(log n) time · O(log n) stack`},
+ {n:'Pow(x, n)',lv:'m',lc:50,q:`Compute x raised to the power n (n can be negative).`,ex:[['x = 2.0, n = 10','1024.0',''],['x = 2.0, n = -2','0.25','2⁻² = 1/4']],
+  brute:[`Multiply x by itself n times.`,`O(n) time, too slow for n up to 2³¹`],
+  idea:`<b>Fast power:</b> xⁿ = (x^(n/2))². Compute the half <i>once</i> and square it, which halves the problem each time. For odd n, multiply by one extra x.`,steps:[`Base: n == 0 → 1.`,`Negative n: return 1 / pow(x, −n).`,`half = pow(x, n // 2).`,`Even: half × half. Odd: half × half × x.`],
+  code:`def myPow(x, n):
+    if n == 0:
+        return 1.0
+    if n < 0:
+        return 1 / myPow(x, -n)
+    half = myPow(x, n // 2)          # solve the smaller problem once
+    if n % 2 == 0:
+        return half * half
+    return half * half * x`,cx:`O(log n) time · O(log n) stack`}
+],
+quiz:[
+ {q:`What happens if a recursive function has no base case?`,o:['It returns None','It recurses forever until RecursionError','It runs once','It becomes a loop'],a:1,x:`Nothing stops the calls.`},
+ {q:`What stores the "waiting" function calls?`,o:['A queue','The call stack','A hash map','The heap'],a:1,x:`Each call is pushed on and popped when it returns.`},
+ {q:`factorial(5) makes how many nested calls (including itself)?`,o:['1','5','10','25'],a:1,x:`5 → 4 → 3 → 2 → 1.`},
+ {q:`Why is naive recursive Fibonacci slow?`,o:['Python is slow','It recomputes the same sub-problems many times','It has no base case','It uses loops'],a:1,x:`fib(3) is computed repeatedly. Memoization fixes it.`}
+],
+order:{q:`Writing a recursive function`,items:['Write the base case','Shrink the problem','Call the function on the smaller problem','Combine the result and return it']},
+match:{pairs:[['Base case','Stops the recursion'],['Call stack','Holds unfinished calls'],['RecursionError','Too many nested calls'],['Memoization','Cache repeated sub-answers']]},
+cards:[[`Explain recursion to a beginner.`,`A function solves a big problem by calling itself on a smaller version, until a tiny base case is answered directly. Then the answers flow back up through the waiting calls on the call stack.`]]
+};
+
+const trees101={id:'trees-101',em:'🌱',t:'Trees 101',mins:15,d:`What a tree is, every key term (root, leaf, height…), binary trees, BSTs and how a TreeNode looks in Python.`,
+intro:{one:`A <b>tree</b> is a set of <b>nodes</b> connected like a family tree: one <b>root</b> at the top, each node can have <b>children</b>, and there are no loops.`,
+ ana:`<p>A company org chart: the CEO is the root, managers are internal nodes, and people with no reports are leaves. Your computer's folders work the same way.</p>`,
+ why:`<ul><li>Tree questions are extremely common: traversal, depth, paths, BST checks.</li><li>Heaps, tries and many graph problems build on tree ideas.</li></ul>`,
+ terms:[['Node','One element, holding a value and links to its children'],['Root','The top node, with no parent'],['Parent / child','A node directly above / below another'],['Leaf','A node with no children'],['Depth','How many edges from the root down to a node'],['Height','The longest path from a node down to a leaf'],['Binary tree','Each node has at most 2 children: left and right'],['BST','Binary search tree: left subtree &lt; node &lt; right subtree']],
+ map:['Build a tree and label every part','Search a BST by going left or right','See the TreeNode class used in every LeetCode tree problem'],pre:['recursion-basics']},
+anim:[{type:'flow',title:'Anatomy of a binary tree',h:330,nodes:[
+ ['a','8',400,50,'root','p'],['b','3',220,150,'',null,1],['c','10',580,150,'',null,1],['d','1',130,265,'leaf','g',2],['e','6',310,265,'',null,2],['f','14',670,265,'leaf','g',2]],
+ edges:[['a','b'],['a','c'],['b','d'],['b','e'],['c','f']],
+ steps:[
+ {on:'a',t:`Every tree starts at the <b>root</b> (8). It's the only node without a parent.`},
+ {on:'b c',go:'a>b a>c',t:`8 has two <b>children</b>: 3 (left) and 10 (right). 8 is their <b>parent</b>. Lines between nodes are <b>edges</b>.`},
+ {on:'d e f',go:'b>d b>e c>f',t:`Next level: 1 and 6 are children of 3; 14 is the right child of 10 (10 has no left child, and that's allowed).`},
+ {ok:'d f',sub:{e:'leaf',b:'subtree root'},t:`Nodes with no children are <b>leaves</b>: 1, 6, 14. The node 3 together with everything below it forms a <b>subtree</b>.`},
+ {on:'a b d',sub:{d:'depth 2'},t:`<b>Depth</b> of node 1 = 2 edges from the root. The tree's <b>height</b> = 2 (the longest root-to-leaf path).`},
+ {on:'a',t:`It's a <b>binary</b> tree (at most 2 children each), and also a <b>BST</b>: everything left of 8 is smaller, everything right is bigger. Same at every node.`}
+]},
+{type:'flow',title:'Searching a BST for 6',h:330,nodes:[
+ ['a','8',400,50],['b','3',220,150],['c','10',580,150],['d','1',130,265],['e','6',310,265],['f','14',670,265]],
+ edges:[['a','b'],['a','c'],['b','d'],['b','e'],['c','f']],
+ steps:[
+ {on:'a',t:`Find 6. Start at the root: is 6 &lt; 8? Yes, so it can only be in the <b>left</b> subtree. The whole right side is skipped.`},
+ {on:'b',go:'a>b',t:`At 3: is 6 &lt; 3? No, 6 &gt; 3, so go <b>right</b>.`},
+ {ok:'e',go:'b>e',t:`Found 6 in 3 steps. Each step drops half the tree (when balanced), so search is <b>O(log n)</b>, the same idea as binary search.`}
+]}],
+learn:[
+ {h:'The TreeNode class (used in every LeetCode tree problem)',code:`class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left      # left child (TreeNode or None)
+        self.right = right    # right child
+
+#        8
+#       / \\
+#      3   10
+root = TreeNode(8, TreeNode(3), TreeNode(10))
+root.left.val      # 3
+root.right.left    # None (no child there)`},
+ {h:'Kinds of binary trees',b:`<ul><li><b>Full:</b> every node has 0 or 2 children.</li><li><b>Complete:</b> every level filled left to right (heaps are complete).</li><li><b>Balanced:</b> left and right heights differ by at most 1 everywhere, so height ≈ log n.</li><li><b>Skewed:</b> basically a linked list, so height = n and operations become O(n).</li></ul>`},
+ {h:'How you will process trees',b:`<ul><li><b>DFS</b> (depth-first, usually recursive): go deep into one branch before the next. Next lesson.</li><li><b>BFS</b> (breadth-first, with a queue): level by level. The lesson after.</li><li>Almost every tree solution is: handle <code>None</code>, solve left, solve right, combine.</li></ul>`}
+],
+probs:[
+ {n:'Search in a Binary Search Tree',lv:'e',lc:700,q:`Given the root of a BST and a value, return the node holding that value (or None).`,ex:[['root = [4,2,7,1,3], val = 2','node 2 (with children 1 and 3)','']],
+  brute:[`Visit every node (any traversal) until you find the value, ignoring the BST ordering.`,`O(n) time`],
+  idea:`Use the BST rule: smaller values are left, bigger values are right. Walk down one path only.`,steps:[`Start at the root.`,`If val &lt; node.val go left, if bigger go right.`,`Stop when you find it or hit None.`],
+  code:`def searchBST(root, val):
+    while root and root.val != val:
+        root = root.left if val < root.val else root.right
+    return root`,cx:`O(h) time (log n if balanced) · O(1) space`},
+ {n:'Same Tree',lv:'e',lc:100,q:`Return True if two binary trees have exactly the same shape and values.`,ex:[['p = [1,2,3], q = [1,2,3]','True',''],['p = [1,2], q = [1,null,2]','False','2 is a left child in p but a right child in q']],
+  brute:[`Serialize both trees to lists (including Nones) and compare the lists.`,`O(n) time, O(n) extra space`],
+  idea:`Recursion: two trees are the same if the roots match, the left subtrees are the same, and the right subtrees are the same.`,steps:[`Both None → True.`,`One None or different values → False.`,`Return same(left, left) and same(right, right).`],
+  code:`def isSameTree(p, q):
+    if not p and not q:
+        return True
+    if not p or not q or p.val != q.val:
+        return False
+    return isSameTree(p.left, q.left) and isSameTree(p.right, q.right)`,cx:`O(n) time · O(h) stack`},
+ {n:'Invert Binary Tree',lv:'e',lc:226,q:`Mirror a binary tree: swap the left and right children of every node.`,ex:[['root = [4,2,7,1,3,6,9]','[4,7,2,9,6,3,1]','Every left/right pair is swapped at every level']],
+  brute:[`There's no slower obvious way here. You must touch every node once, so the question is just how to write it cleanly.`,`O(n) is the minimum`],
+  idea:`Recursion: invert the left subtree, invert the right subtree, then swap them. The base case is an empty node.`,steps:[`If node is None, return None.`,`Recursively invert both children.`,`Swap them and return the node.`],
+  code:`def invertTree(root):
+    if not root:
+        return None
+    root.left, root.right = invertTree(root.right), invertTree(root.left)
+    return root`,cx:`O(n) time · O(h) stack`}
+],
+quiz:[
+ {q:`A node with no children is called…`,o:['Root','Leaf','Parent','Edge'],a:1,x:`Leaves are at the bottom.`},
+ {q:`In a BST, where are values smaller than the node?`,o:['Right subtree','Left subtree','Anywhere','Only in leaves'],a:1,x:`Left < node < right.`},
+ {q:`Searching a balanced BST of n nodes takes…`,o:['O(1)','O(log n)','O(n)','O(n²)'],a:1,x:`Each comparison discards half.`},
+ {q:`How many children can a binary tree node have?`,o:['Exactly 2','At most 2','Any number','At least 1'],a:1,x:`0, 1 or 2.`}
+],
+match:{pairs:[['Root','Top node, no parent'],['Leaf','No children'],['Height','Longest path down to a leaf'],['BST','left < node < right']]},
+cards:[[`What makes a BST useful?`,`The ordering rule (left < node < right) means each comparison discards a whole subtree, so search, insert and delete take O(height), which is O(log n) when balanced.`]]
+};
+
+// --- restructure: new foundations segment first ---
+const ap=APP.segments.find(s=>s.name==='Array Patterns');
+const take=id=>{const i=ap.lessons.findIndex(l=>l.id===id); return ap.lessons.splice(i,1)[0];};
+APP.segments.unshift({name:'Start Here: Foundations',em:'🌱',desc:'what DSA is, arrays, strings, hashing, sorting, recursion',lessons:[howto,take('big-o'),arrays,strings,take('hashing'),sorting,recursion]});
+APP.segments.find(s=>s.name==='Trees & Graphs').lessons.unshift(trees101);
+const hm=APP.segments[0].lessons.find(l=>l.id==='hashing'); hm.t='Hash Maps & Sets'; hm.em='🗝️';
+hm.d=`How a dict finds anything instantly (hashing explained), then the "have I seen this?", counting and grouping patterns, with Two Sum.`;
+})();
+
+/* DSA v2: plain-English basics for every pattern lesson + concept animations shown before the pattern */
+APP.intro=Object.assign(APP.intro||{},{
+'big-o':{one:`<b>Big-O</b> describes how the amount of work grows as the input gets bigger. It's not seconds, it's the <i>shape</i> of growth: flat, slowly rising, straight line, or exploding.`,
+ ana:`<p>Finding a friend's name: checking every page of a phone book is O(n). Opening the middle and halving each time is O(log n). Being told the exact page number is O(1).</p>`,
+ why:`<ul><li>Every interview answer ends with "time is O(…), space is O(…)".</li><li>The input size in the constraints tells you which complexity you need, which tells you which pattern to use.</li></ul>`,
+ terms:[['n','The size of the input (number of elements)'],['Time complexity','How the number of steps grows with n'],['Space complexity','How much extra memory grows with n'],['O(1)','Constant: same work for any n'],['O(n)','Linear: one pass over the data'],['O(n²)','Quadratic: every pair, nested loops']],
+ map:['See the common growth rates side by side','Learn to read constraints to pick a target complexity','Know the costs of Python operations'],pre:['how-to-dsa']},
+'hashing':{one:`A <b>hash map</b> (Python <code>dict</code>) stores key → value pairs and finds any key almost instantly, no matter how many items it holds. A <b>hash set</b> (<code>set</code>) stores just keys.`,
+ ana:`<p>A cloakroom: you hand over your coat and get ticket #47. Later you show #47 and the attendant goes straight to hook 47. No searching through every coat.</p>`,
+ why:`<ul><li>It's the #1 tool for turning an O(n²) "search for a matching element" into O(n).</li><li>Used for counting, grouping, de-duplicating and "have I seen this before?".</li></ul>`,
+ terms:[['Key','What you look up by (a name, a number, a tuple)'],['Value',`What's stored for that key`],['Hash function','Turns a key into a bucket number'],['Bucket','A slot in the underlying array'],['Collision','Two keys landing in the same bucket'],['Complement','The other number you need: target − x']],
+ map:['See how a hash function finds things instantly','Watch Two Sum use a dict to avoid nested loops','Learn the counting and grouping patterns'],pre:['arrays-basics']},
+'two-pointers':{one:`<b>Two pointers</b> means keeping two index variables (like <code>l</code> and <code>r</code>) moving through an array at the same time, so one pass replaces a nested loop.`,
+ ana:`<p>Two people searching a sorted bookshelf for two books whose prices add up to ₹500: one starts at the cheap end, one at the expensive end. Too expensive? The right person steps left. Too cheap? The left person steps right.</p>`,
+ why:`<ul><li>Turns many O(n²) pair problems into O(n) with O(1) extra memory.</li><li>Used for sorted-array pairs, palindromes, in-place removal and merging.</li></ul>`,
+ terms:[['Pointer','Here, just an integer index into the array'],['Opposite ends','l starts at 0, r at the end, moving toward each other'],['Same direction','A slow "write" pointer and a fast "read" pointer'],['Sorted','In increasing order. Many two-pointer tricks need this']],
+ map:['Warm up by reversing an array with two pointers','Watch the pointers hunt for a target sum','Learn the read/write variant for in-place edits','Solve Two Sum II, 3Sum and Container With Most Water'],pre:['arrays-basics','sorting']},
+'sliding-window':{one:`A <b>sliding window</b> is a range [l, r] of consecutive elements that slides across an array or string. You update its contents as items enter and leave instead of recalculating from scratch.`,
+ ana:`<p>Looking at a long train through a window that shows 3 carriages at a time. As the train moves, one carriage leaves the view and one enters. You don't re-count all three every time.</p>`,
+ why:`<ul><li>The go-to pattern for "longest / shortest / best <b>contiguous</b> subarray or substring".</li><li>Turns O(n·k) or O(n²) into O(n).</li></ul>`,
+ terms:[['Subarray / substring','A contiguous slice (no gaps)'],['Subsequence','Elements in order but possibly with gaps. NOT a window'],['Window','The current range from index l to r'],['Window size','r − l + 1'],['Fixed window','Size k never changes'],['Variable window','Grows and shrinks based on a condition']],
+ map:['Understand subarray vs subsequence','Watch a fixed window slide with a running sum','Watch a variable window grow and shrink','Solve stock profit, longest unique substring, minimum window'],pre:['two-pointers','hashing']},
+'prefix-sum':{one:`A <b>prefix sum</b> array stores running totals: P[i] = sum of the first i numbers. Then the sum of any range is one subtraction, P[j+1] − P[i].`,
+ ana:`<p>A car's odometer: to know how far you drove between Salem and Bangalore, subtract the reading at Salem from the reading at Bangalore. No need to re-add every kilometre.</p>`,
+ why:`<ul><li>Answers many range-sum queries in O(1) each.</li><li>Combined with a hash map it counts subarrays with sum k, even with negative numbers (where sliding window fails).</li></ul>`,
+ terms:[['Prefix','The first i elements of the array'],['P[i]','Sum of nums[0..i−1], with P[0] = 0'],['Range sum','sum(nums[i..j]) = P[j+1] − P[i]'],['Running sum','A total updated as you walk the array']],
+ map:['Build a prefix array and answer a range query','Count subarrays that sum to k with a dict','Use prefix and suffix products'],pre:['arrays-basics','hashing']},
+'binary-search':{one:`<b>Binary search</b> finds an item in sorted data by checking the middle and throwing away the half where the answer can't be, so each step halves the search.`,
+ ana:`<p>The "guess my number between 1 and 100" game: you guess 50, hear "higher", guess 75, hear "lower"… You never need more than 7 guesses, because each guess halves the possibilities.</p>`,
+ why:`<ul><li>Searching 1 billion sorted items takes only ~30 steps.</li><li>The advanced form, "binary search on the answer", solves many minimize/maximize problems.</li></ul>`,
+ terms:[['lo / hi','The current search range'],['mid','(lo + hi) // 2, the middle index we check'],['Monotonic','Only ever goes one way (false…false, true…true)'],['Search on answer','Binary search over possible answers instead of array indexes']],
+ map:['Play the guessing game to feel the halving','Watch binary search find a number with code','Learn binary search on the answer (Koko)','Solve classic, rotated-array and Koko problems'],pre:['sorting','big-o']},
+'stack':{one:`A <b>stack</b> is a pile where you add and remove only at the <b>top</b>: last in, first out (LIFO). A <b>queue</b> is a line where you add at the back and remove from the front: first in, first out (FIFO).`,
+ ana:`<p>A stack of plates: you take the top plate. A ticket queue: the first person in line is served first. Your browser's Back button is a stack of pages.</p>`,
+ why:`<ul><li>Matching brackets, undo, and evaluating expressions use stacks.</li><li>The <b>monotonic stack</b> solves "next greater element" style questions in O(n).</li><li>Queues power BFS on trees and graphs.</li></ul>`,
+ terms:[['Push / pop','Add to top / remove from top (stack)'],['Enqueue / dequeue','Add to back / remove from front (queue)'],['LIFO / FIFO','Last-in-first-out / first-in-first-out'],['Monotonic stack','A stack kept in sorted order by popping items that break it'],['deque','Python double-ended queue: O(1) at both ends']],
+ map:['Watch push/pop and enqueue/dequeue','Validate brackets with a stack, line by line','Learn the monotonic stack with daily temperatures'],pre:['arrays-basics']},
+'linked-list':{one:`A <b>linked list</b> is a chain of <b>nodes</b>. Each node holds a value and a pointer (<code>next</code>) to the following node. The last one points to <code>None</code>.`,
+ ana:`<p>A treasure hunt: each clue tells you where the next clue is. You can't jump to clue #5 directly. You must follow clues 1→2→3→4. But adding a new clue in the middle just means rewriting one note.</p>`,
+ why:`<ul><li>Pointer-manipulation questions (reverse, merge, detect cycle) are interview classics.</li><li>They test careful step-by-step thinking.</li></ul>`,
+ terms:[['Node','An object with val and next'],['Head','The first node; the list is accessed through it'],['next','Reference to the following node (None at the end)'],['Dummy node','A fake node placed before head to simplify edge cases'],['Fast / slow pointers','Two pointers moving at different speeds']],
+ map:['See how nodes link and why access is O(n)','Watch insertion rewire just two pointers','Reverse a list with prev/curr/nxt, with code','Detect cycles with tortoise and hare'],pre:['arrays-basics']},
+'heap':{one:`A <b>heap</b> (priority queue) always lets you grab the <b>smallest</b> item instantly (min-heap), and adding or removing items takes only O(log n).`,
+ ana:`<p>A hospital emergency room: patients aren't seen in arrival order but by urgency. However many people arrive, the most urgent is always at the front.</p>`,
+ why:`<ul><li>"Top k", "k-th largest", "merge k sorted lists", "schedule by priority", Dijkstra's shortest path.</li><li>Beats sorting when you only need the top few items or the data keeps changing.</li></ul>`,
+ terms:[['Min-heap','Smallest item at the top (Python heapq)'],['Max-heap','Largest at the top (in Python: push negative numbers)'],['heappush / heappop','Add / remove the smallest, O(log n)'],['heap[0]','Peek at the smallest, O(1)'],['Sift up / down','How the heap repairs itself after a change']],
+ map:['See why a heap beats scanning a list for the minimum','Watch an insert sift up the tree','Find the k-th largest with a size-k heap'],pre:['trees-101','sorting']},
+'intervals':{one:`An <b>interval</b> is a range with a start and an end, like a meeting from 9 to 11, written [9, 11]. Interval problems ask you to merge, insert, count or schedule these ranges.`,
+ ana:`<p>Your calendar: if one meeting runs 9–11 and another 10–12, they overlap and could be merged into a 9–12 block. How many rooms does the office need so that no meetings clash?</p>`,
+ why:`<ul><li>Calendars, bookings and scheduling: very common in interviews.</li><li>The almost-universal first step, <b>sort by start</b>, is a great habit to show.</li></ul>`,
+ terms:[['[start, end]','An interval'],['Overlap','Two intervals share some time: b.start ≤ a.end (when sorted)'],['Merge','Combine overlapping intervals into one'],['Sweep line','Process start and end events in time order']],
+ map:['See overlapping vs separate intervals on a number line','Watch merging step by step with code','Solve merge, remove-overlaps and meeting rooms'],pre:['sorting','heap']},
+'tree-dfs':{one:`<b>Depth-first search (DFS)</b> on a tree means going as deep as possible down one branch before backing up and trying the next, usually written with recursion.`,
+ ana:`<p>Exploring a cave system: follow one tunnel to its dead end, walk back to the last fork, and take the next tunnel.</p>`,
+ why:`<ul><li>Most tree questions (height, paths, validation, diameter) are a DFS where each node combines its children's answers.</li></ul>`,
+ terms:[['Pre-order','Visit node, then left, then right'],['In-order','Left, node, right (sorted order in a BST)'],['Post-order','Left, right, then node (children first)'],['Subtree','A node and everything below it']],
+ map:['Watch in-order traversal visit a BST in sorted order','See recursion "ask your children" to compute height','Solve depth, BST validation and diameter'],pre:['trees-101','recursion-basics']},
+'tree-bfs':{one:`<b>Breadth-first search (BFS)</b> on a tree visits nodes <b>level by level</b>: the root, then all its children, then all grandchildren, using a queue.`,
+ ana:`<p>Ripples in a pond: the first ring, then the second ring, then the third, spreading out evenly.</p>`,
+ why:`<ul><li>Anything "per level" (level lists, right-side view, averages) and anything "nearest / minimum depth".</li></ul>`,
+ terms:[['Level','All nodes at the same depth'],['Queue','FIFO line: deque with append / popleft'],['Level size','len(queue) at the start of a level']],
+ map:['Watch the queue process one level at a time','Solve level-order traversal and right-side view'],pre:['trees-101','stack']},
+'graphs':{one:`A <b>graph</b> is a set of <b>nodes</b> (vertices) joined by <b>edges</b>. Unlike trees, graphs can have cycles and no single root. BFS and DFS let you explore them.`,
+ ana:`<p>A road map: cities are nodes, roads are edges. "Can I get from Salem to Bangalore?" is DFS. "What's the route with the fewest stops?" is BFS.</p>`,
+ why:`<ul><li>Networks, dependencies, maps, social connections and grids (islands) are all graphs.</li><li>BFS/DFS with a visited set is a must-know template.</li></ul>`,
+ terms:[['Vertex / node','A point in the graph'],['Edge','A connection between two nodes'],['Directed / undirected','One-way arrow vs two-way link'],['Neighbours','Nodes directly connected to a node'],['Adjacency list','Dict: node → list of neighbours'],['Visited set','Remembers explored nodes so you don\'t loop forever']],
+ map:['Learn the graph vocabulary and adjacency list','Flood-fill a grid to count islands, with code','Find shortest hops with BFS'],pre:['tree-bfs','tree-dfs']},
+'topo-sort':{one:`<b>Topological sort</b> orders tasks so that every task comes after the tasks it depends on, like finishing prerequisites before a course.`,
+ ana:`<p>Getting dressed: socks before shoes, shirt before tie. Some orders are fine (socks or shirt first), but shoes before socks is not.</p>`,
+ why:`<ul><li>"Course schedule", build systems, task pipelines, detecting circular dependencies.</li></ul>`,
+ terms:[['DAG','Directed acyclic graph: arrows and no cycles'],['In-degree','Number of arrows coming into a node (unmet prerequisites)'],["Kahn's algorithm",'Repeatedly take nodes with in-degree 0'],['Cycle','Circular dependency, so no valid order exists']],
+ map:["Watch Kahn's algorithm peel off ready tasks",'Detect impossible schedules (cycles)','Solve Course Schedule I and II'],pre:['graphs']},
+'backtracking':{one:`<b>Backtracking</b> builds a solution one choice at a time, explores each choice, and <b>undoes</b> it to try the next, systematically covering all possibilities.`,
+ ana:`<p>Solving a maze: walk forward, and at a dead end step back to the last junction and try another path.</p>`,
+ why:`<ul><li>"Return ALL subsets / permutations / combinations / valid arrangements".</li><li>Constraint puzzles: N-Queens, Sudoku, word search.</li></ul>`,
+ terms:[['Choice','One decision (include this number? place a queen here?)'],['Path','The partial solution built so far'],['Un-choose','Undo the last choice (path.pop())'],['Pruning','Skip branches that can\'t succeed']],
+ map:['Watch a decision tree for subsets','Learn the choose → explore → un-choose template','Solve subsets, permutations and combination sum'],pre:['recursion-basics']},
+'dp-1d':{one:`<b>Dynamic programming (DP)</b> means solving a problem by combining answers to smaller sub-problems, and <b>saving</b> each answer so it's never computed twice.`,
+ ana:`<p>What's 1+1+1+1+1? Five. Now add another +1: you instantly say six. You didn't recount; you <b>remembered</b> the previous answer. That's DP.</p>`,
+ why:`<ul><li>"Number of ways", "minimum cost", "maximum profit" problems.</li><li>Turns exponential brute force into polynomial time.</li></ul>`,
+ terms:[['Sub-problem','A smaller version of the same question'],['Memoization','Top-down: recursion + cache'],['Tabulation','Bottom-up: fill a table in a loop'],['State','What dp[i] means, in one sentence'],['Transition','The formula that builds dp[i] from smaller states']],
+ map:['See why plain recursion repeats work','Fill a DP table for House Robber','Learn the 5-step DP recipe','Solve stairs, robber, coin change and LIS'],pre:['recursion-basics']},
+'dp-2d':{one:`<b>2D dynamic programming</b> uses a table with rows and columns, typically for grids or for comparing two strings, where each cell is built from its neighbours.`,
+ ana:`<p>Counting routes through a city grid: the number of ways to reach a corner = ways from the left + ways from above. Fill the grid one cell at a time.</p>`,
+ why:`<ul><li>Grid paths, longest common subsequence, edit distance (spell-check, diff tools), knapsack.</li></ul>`,
+ terms:[['dp[r][c]','Answer for row r, column c (or prefixes of two strings)'],['Prefix','The first i characters of a string'],['Diagonal','dp[i−1][j−1]: both strings shortened by one']],
+ map:['Fill a unique-paths grid','Fill an LCS table and see matches extend the diagonal','Solve paths, LCS and edit distance'],pre:['dp-1d']},
+'greedy':{one:`A <b>greedy</b> algorithm makes the best-looking choice at each step and never looks back. It's fast, but it's only correct when local best choices can't ruin the overall answer.`,
+ ana:`<p>Giving change for ₹41 with ₹20/₹10/₹5/₹1 coins: always take the biggest coin that fits (20, 20, 1). That works for real currency, but with odd coin sets the greedy choice can be wrong.</p>`,
+ why:`<ul><li>Often gives the simplest O(n) solution (jump game, max subarray, scheduling).</li><li>Interviewers check you can tell when greedy is safe, and when to use DP instead.</li></ul>`,
+ terms:[['Local choice','The best option right now'],['Global optimum','The best overall answer'],['Exchange argument','Proof that swapping in the greedy choice never makes things worse'],['Counter-example','An input where greedy fails, which means use DP']],
+ map:['See greedy succeed and fail on coin change','Watch the jump-game reach expand','Learn Kadane for maximum subarray'],pre:['dp-1d']}
+});
+
+APP.pre=Object.assign(APP.pre||{},{
+'hashing':{type:'arr',title:'How a hash map finds things instantly',frames:[
+ {rows:[{lab:'buckets (an array of 8 slots)',a:['','','','','','','','']}],t:`Under the hood, a dict is an <b>array of buckets</b> plus a <b>hash function</b> that turns any key into a bucket number.`},
+ {rows:[{lab:'buckets',a:['','','','apple:5','','','',''],ok:'3'}],v:{'hash("apple") % 8':3},t:`<code>d["apple"] = 5</code>: hash("apple") gives some big number; take it mod 8 → <b>3</b>. Store the pair in bucket 3.`},
+ {rows:[{lab:'buckets',a:['','','','apple:5','','','kiwi:2',''],ok:'6'}],v:{'hash("kiwi") % 8':6},t:`<code>d["kiwi"] = 2</code> → bucket 6.`},
+ {rows:[{lab:'buckets',a:['','','','apple:5','','','kiwi:2',''],hl:'3'}],v:{'d["apple"]':'hash → 3 → 5'},t:`Lookup <code>d["apple"]</code>: compute the hash again → 3 → jump straight there. No scanning, so <b>O(1)</b> on average.`},
+ {rows:[{lab:'buckets',a:['','','','apple:5 → plum:7','','','kiwi:2',''],bad:'3'}],v:{'hash("plum") % 8':'3 (collision!)'},t:`A <b>collision</b>: "plum" also lands in 3. The bucket keeps a small chain of both pairs. Python resizes the table to keep chains short, so lookups stay ~O(1).`},
+ {rows:[{lab:'set = only keys',a:['','','','apple','','','kiwi',''],ok:'3 6'}],t:`A <code>set</code> is the same thing with keys only. Perfect for "have I seen this before?" in O(1).`}
+]},
+'two-pointers':{type:'arr',title:'Warm-up: reverse an array with two pointers',code:`l, r = 0, len(a) - 1
+while l < r:
+    a[l], a[r] = a[r], a[l]
+    l += 1
+    r -= 1`,frames:[
+ {rows:[{lab:'a',a:[1,2,3,4,5],p:{l:0,r:4}}],ln:1,t:`Two index variables: <code>l</code> starts at the left end and <code>r</code> at the right end. That's all a "pointer" is here.`},
+ {rows:[{lab:'a',a:[5,2,3,4,1],p:{l:0,r:4},ok:'0 4'}],ln:[2,3],t:`Swap a[l] and a[r].`},
+ {rows:[{lab:'a',a:[5,2,3,4,1],p:{l:1,r:3},ok:'0 4'}],ln:[4,5],t:`Move both pointers one step toward the middle.`},
+ {rows:[{lab:'a',a:[5,4,3,2,1],p:{l:1,r:3},ok:'0 1 3 4'}],ln:[2,3],t:`Swap again.`},
+ {rows:[{lab:'a',a:[5,4,3,2,1],p:{l:2,r:2},ok:'0 1 2 3 4'}],ln:2,t:`Now l == r, so the loop stops. Reversed in n/2 swaps with no extra list. Next: pointers that move <i>based on a condition</i>.`}
+]},
+'sliding-window':{type:'arr',title:'Subarray, subsequence, and what a "window" is',frames:[
+ {rows:[{lab:'nums',a:[2,1,5,1,3,2]}],t:`Two words you must not confuse.`},
+ {rows:[{lab:'subarray = contiguous',a:[2,1,5,1,3,2],win:[1,3]}],t:`A <b>subarray</b> (or substring) is a slice with <b>no gaps</b>: [1, 5, 1] here. That's a window.`},
+ {rows:[{lab:'subsequence = gaps allowed',a:[2,1,5,1,3,2],hl:'0 2 4'}],t:`A <b>subsequence</b> keeps order but can skip elements: [2, 5, 3]. Sliding window does <b>not</b> apply to subsequences.`},
+ {rows:[{lab:'window [l..r]',a:[2,1,5,1,3,2],win:[1,3],p:{l:1,r:3}}],v:{'size':'r − l + 1 = 3'},t:`We describe a window with two indexes, l and r. Its size is r − l + 1.`},
+ {rows:[{lab:'slide →',a:[2,1,5,1,3,2],win:[2,4],p:{l:2,r:4},bad:'1',ok:'4'}],t:`Sliding = move r forward (a new element enters) and l forward (the oldest element leaves). Update your sum or counts with just those two elements.`}
+]},
+'binary-search':{type:'arr',title:'The guessing game (1 to 100)',frames:[
+ {rows:[{lab:'possible numbers',a:['1','…','50','…','100'],noix:1,hl:'2'}],v:{guess:50,reply:'higher'},t:`I'm thinking of a number from 1 to 100. Best first guess: the middle, <b>50</b>. "Higher!", so 1–50 are all ruled out at once.`},
+ {rows:[{lab:'possible numbers',a:['51','…','75','…','100'],noix:1,hl:'2'}],v:{guess:75,reply:'lower'},t:`Middle of 51–100 is <b>75</b>. "Lower!" → 51–74 left.`},
+ {rows:[{lab:'possible numbers',a:['51','…','62','…','74'],noix:1,hl:'2'}],v:{guess:62,reply:'higher'},t:`62 → "higher" → 63–74.`},
+ {rows:[{lab:'possible numbers',a:['63','…','68','…','74'],noix:1,ok:'2'}],v:{guess:68,reply:'correct!'},t:`68 ✓. Each guess halves the range: 100 → 50 → 25 → 12… At most <b>7 guesses</b> for 100 numbers, about 20 for a million. That's binary search, and it needs the data to be <b>sorted</b>.`}
+]},
+'stack':{type:'arr',title:'Stack vs queue',frames:[
+ {rows:[{lab:'stack (top →)',a:['']}],t:`A stack starts empty. We only touch the <b>top</b> (the right end of a Python list).`},
+ {rows:[{lab:'stack (top →)',a:[3,7,1],ok:'2'}],v:{ops:'push 3, push 7, push 1'},t:`<code>stack.append(x)</code> pushes onto the top: 3, then 7, then 1.`},
+ {rows:[{lab:'stack (top →)',a:[3,7],ok:'1'},{lab:'popped',a:[1],bad:'0'}],v:{'stack.pop()':1},t:`<code>stack.pop()</code> removes the <b>last one added</b> (1). Last in, first out: <b>LIFO</b>.`},
+ {rows:[{lab:'queue (front ← … ← back)',a:['A','B','C'],ok:'2'}],v:{ops:'append A, B, C'},t:`A <b>queue</b> adds at the back: A, B, C (use <code>collections.deque</code>).`},
+ {rows:[{lab:'queue',a:['B','C']},{lab:'served',a:['A'],ok:'0'}],v:{'q.popleft()':'A'},t:`<code>q.popleft()</code> serves the <b>first</b> one in (A). First in, first out: <b>FIFO</b>. Both are O(1) per operation.`}
+]},
+'linked-list':{type:'arr',title:'Nodes and pointers',frames:[
+ {rows:[{lab:'node value',a:[3,8,5]},{lab:'.next points to →',a:['8','5','None'],noix:1}],v:{head:'node 3'},t:`Each node stores a <b>value</b> and a <b>next</b> pointer. head → 3 → 8 → 5 → None. The nodes can live anywhere in memory; only the pointers connect them.`},
+ {rows:[{lab:'node value',a:[3,8,5],p:{cur:2},hl:'0 1 2'},{lab:'.next points to →',a:['8','5','None'],noix:1}],v:{steps:3},t:`To reach the 3rd node you must start at head and follow next, next… That's <b>O(n)</b> access, unlike arr[i] in an array.`},
+ {rows:[{lab:'node value',a:[3,8,4,5],ok:'2'},{lab:'.next points to →',a:['8','4','5','None'],hl:'1 2',noix:1}],v:{'changed pointers':2},t:`Insert 4 after 8: create the node, set <code>new.next = 8.next</code>, then <code>8.next = new</code>. Only <b>2 pointers change</b> and nothing shifts. O(1) once you're at the spot.`},
+ {rows:[{lab:'node value',a:[3,4,5]},{lab:'.next points to →',a:['4','5','None'],hl:'0',noix:1}],t:`Delete 8: point 3.next straight to 4. Node 8 is skipped (and garbage-collected).`}
+]},
+'heap':{type:'arr',title:'Why a heap? Getting the minimum fast',frames:[
+ {rows:[{lab:'plain list',a:[5,1,4,2,8]}],v:{'min()':'scan all → O(n)'},t:`In a plain list, finding the smallest item means checking everything. Do that repeatedly and it's slow.`},
+ {rows:[{lab:'min-heap (array)',a:[1,2,4,5,8],ok:'0'}],v:{'heap[0]':'1 → O(1)'},t:`A <b>min-heap</b> always keeps the smallest at index 0. Peeking is O(1).`},
+ {rows:[{lab:'after heappop',a:[2,5,4,8],ok:'0'},{lab:'removed',a:[1],bad:'0'}],v:{cost:'O(log n)'},t:`<code>heappop</code> removes 1, and the heap repairs itself so the next smallest (2) is at the front in O(log n).`},
+ {rows:[{lab:'array index',a:[0,1,2,3,4]},{lab:'children at',a:['1, 2','3, 4','5, 6','—','—'],noix:1}],t:`The array is secretly a tree: the children of index i sit at <b>2i+1</b> and <b>2i+2</b>. The next animation shows that tree.`}
+]},
+'intervals':{type:'arr',title:'Intervals on a number line',frames:[
+ {rows:[{lab:'time →',a:[0,1,2,3,4,5,6,7,8,9]}],t:`Think of a timeline from 0 to 9.`},
+ {rows:[{lab:'A = [1, 3]',a:[0,1,2,3,4,5,6,7,8,9],win:[1,3]},{lab:'B = [2, 6]',a:[0,1,2,3,4,5,6,7,8,9],win:[2,6]}],t:`A = [1,3] and B = [2,6] <b>overlap</b>: they share 2–3. Test: B.start (2) ≤ A.end (3).`},
+ {rows:[{lab:'merged = [1, 6]',a:[0,1,2,3,4,5,6,7,8,9],win:[1,6],ok:'1 6'}],t:`Merged, they cover [1, 6]: start = the earlier start, end = the <b>max</b> of the ends.`},
+ {rows:[{lab:'C = [1, 3]',a:[0,1,2,3,4,5,6,7,8,9],win:[1,3]},{lab:'D = [5, 7]',a:[0,1,2,3,4,5,6,7,8,9],win:[5,7]}],t:`C and D don't overlap: 5 &gt; 3. Sorting by start time puts every possible overlap next to each other.`}
+]},
+'graphs':{type:'flow',title:'Graph 101',h:320,nodes:[['A','A',120,80,'→ B, C'],['B','B',330,60,'→ A, D'],['C','C',230,240,'→ A, D'],['D','D',480,180,'→ B, C, E'],['E','E',680,180,'→ D']],
+ edges:[{f:'A',t:'B',bi:1},{f:'A',t:'C',bi:1},{f:'B',t:'D',bi:1},{f:'C',t:'D',bi:1},{f:'D',t:'E',bi:1}],
+ steps:[
+ {on:'A B C D E',t:`A <b>graph</b>: 5 nodes (vertices) and 5 edges. There's no root, and paths can loop (A → B → D → C → A is a cycle).`},
+ {on:'D',go:'D>B D>C D>E',t:`D's <b>neighbours</b> are B, C and E: the nodes one edge away.`},
+ {on:'A',t:`These edges are <b>undirected</b> (two-way). In a <b>directed</b> graph the arrows are one-way, like "course X requires Y".`},
+ {on:'A B C D E',t:`We store graphs as an <b>adjacency list</b>, a dict of node → neighbours (shown under each node): <code>{"A": ["B","C"], "B": ["A","D"], …}</code>.`},
+ {ok:'A B D',go:'A>B B>D',t:`Exploring always needs a <b>visited</b> set. Without it, the cycle would send you around forever.`}
+]},
+'greedy':{type:'arr',title:'Greedy works… until it does not',frames:[
+ {rows:[{lab:'coins',a:[20,10,5,1]}],v:{amount:41},t:`Make ₹41 with the fewest coins. Greedy rule: always take the biggest coin that fits.`},
+ {rows:[{lab:'taken',a:[20,20,1],ok:'0 1 2'}],v:{coins:3},t:`20 + 20 + 1 = 41 with 3 coins. Optimal ✓. Standard currency is designed so greedy works.`},
+ {rows:[{lab:'odd coins',a:[4,3,1]}],v:{amount:6},t:`Now coins [4, 3, 1] and amount 6…`},
+ {rows:[{lab:'greedy takes',a:[4,1,1],bad:'0 1 2'},{lab:'optimal',a:[3,3],ok:'0 1'}],v:{greedy:'3 coins',best:'2 coins'},t:`Greedy grabs 4, then 1 + 1 = 3 coins. But 3 + 3 = <b>2 coins</b>. Greedy is only right when you can prove local choices are safe; otherwise use DP.`}
+]}
+});
+
+/* DSA v2: full problem statements, examples, brute force and step-by-step plans (keyed by LeetCode number) */
+APP.probx=Object.assign(APP.probx||{},{
+1:{q:`Given a list of numbers <code>nums</code> and a number <code>target</code>, return the <b>indexes</b> of the two numbers that add up to target. Exactly one answer exists, and you can't use the same element twice.`,
+ ex:[['nums = [2, 7, 11, 15], target = 9','[0, 1]','nums[0] + nums[1] = 2 + 7 = 9'],['nums = [3, 2, 4], target = 6','[1, 2]','2 + 4 = 6 (not 3 + 3, since that would reuse index 0)']],
+ ask:`For each number x, the partner you need is <code>target − x</code> (its "complement"). The question becomes: <i>have I already seen the complement?</i>`,
+ brute:[`Check every pair with two nested loops: for i, for j &gt; i, if nums[i] + nums[j] == target return [i, j].`,`O(n²) time · O(1) space`],
+ steps:[`Create an empty dict <code>seen</code> mapping value → index.`,`For each index i with value x, compute need = target − x.`,`If need is in seen, return [seen[need], i].`,`Otherwise store seen[x] = i and continue.`]},
+49:{q:`Given a list of words, group together the words that are <b>anagrams</b> of each other (same letters, different order). Return the groups in any order.`,
+ ex:[['["eat","tea","tan","ate","nat","bat"]','[["eat","tea","ate"], ["tan","nat"], ["bat"]]','"eat", "tea" and "ate" all use the letters a, e, t']],
+ brute:[`For every word, compare it with every other word (sorting both to check anagram-ness).`,`O(n² · k log k) time`],
+ steps:[`For each word, compute a key that's identical for anagrams: <code>tuple(sorted(word))</code>.`,`Append the word to <code>groups[key]</code> (a defaultdict(list)).`,`Return all the dict's values.`]},
+128:{q:`Given an <b>unsorted</b> list of integers, return the length of the longest run of consecutive numbers (like 1, 2, 3, 4). Must run in O(n).`,
+ ex:[['nums = [100, 4, 200, 1, 3, 2]','4','1, 2, 3, 4 are all present']],
+ brute:[`Sort, then scan for runs. Simple, but O(n log n), which breaks the O(n) requirement. Even slower: for each number, keep checking x+1, x+2… with a list search.`,`O(n log n) or O(n³)`],
+ steps:[`Put all numbers in a set for O(1) lookups.`,`For each x, only start counting if x−1 is NOT in the set (x is the start of a run).`,`Count upward while x+1, x+2… are in the set.`,`Track the longest run.`]},
+167:{q:`The list <code>numbers</code> is <b>sorted</b> in increasing order. Return the 1-based positions [i, j] of the two numbers that add up to target, using only O(1) extra memory.`,
+ ex:[['numbers = [2, 7, 11, 15], target = 9','[1, 2]','2 + 7 = 9, at positions 1 and 2 (1-based)']],
+ ask:`It's Two Sum again, but sorted and without extra memory, so no dict. Sorted order is the hint for two pointers.`,
+ brute:[`Two nested loops over all pairs, or a dict like in Two Sum (which uses O(n) memory).`,`O(n²) time, or O(n) memory`],
+ steps:[`l = 0, r = last index.`,`s = numbers[l] + numbers[r].`,`s == target → answer. s &lt; target → l += 1 (need bigger). s &gt; target → r −= 1 (need smaller).`]},
+15:{q:`Return all <b>unique</b> triplets [a, b, c] from the list that add up to 0. The same triplet must not appear twice.`,
+ ex:[['nums = [-1, 0, 1, 2, -1, -4]','[[-1, -1, 2], [-1, 0, 1]]','Two different triplets sum to zero']],
+ brute:[`Three nested loops over all triplets, plus a set to remove duplicates.`,`O(n³) time`],
+ steps:[`Sort the list.`,`For each index i (skip it if nums[i] equals the previous value), look for two numbers after i that sum to −nums[i].`,`Use two pointers l = i+1, r = end, moving them like Two Sum II.`,`On a match, record it, then move l past duplicate values.`]},
+11:{q:`You get a list of heights. Each height is a vertical line at that position. Choose two lines that, with the x-axis, hold the <b>most water</b>. Area = distance between the lines × the shorter line's height.`,
+ ex:[['height = [1, 8, 6, 2, 5, 4, 8, 3, 7]','49','Lines at index 1 (height 8) and 8 (height 7): width 7 × min(8, 7) = 49']],
+ brute:[`Try every pair of lines and compute each area.`,`O(n²) time`],
+ steps:[`Start with the widest container: l = 0, r = end.`,`Compute the area and keep the best.`,`Move the pointer at the <b>shorter</b> line inward: the shorter line limits the area, so only replacing it can help.`,`Stop when l meets r.`]},
+121:{q:`<code>prices[i]</code> is a stock's price on day i. Choose one day to buy and a <b>later</b> day to sell. Return the maximum profit, or 0 if no profit is possible.`,
+ ex:[['prices = [7, 1, 5, 3, 6, 4]','5','Buy at 1 (day 1), sell at 6 (day 4)'],['prices = [7, 6, 4, 3, 1]','0','Prices only fall, so don\'t trade']],
+ brute:[`For every buy day, try every later sell day.`,`O(n²) time`],
+ steps:[`Track <code>lo</code> = the cheapest price seen so far.`,`For each price, the best profit if you sell today is price − lo.`,`Update best profit, then update lo.`]},
+3:{q:`Given a string, find the length of the longest <b>substring</b> (contiguous piece) with no repeated characters.`,
+ ex:[['s = "abcabcbb"','3','"abc"'],['s = "pwwkew"','3','"wke". Note "pwke" is a subsequence, not a substring']],
+ brute:[`Check every substring and test whether all its characters are unique.`,`O(n³) time (or O(n²) with a set)`],
+ steps:[`Keep a window [l, r] and a set of characters inside it.`,`Add s[r]. If it's already in the set, remove s[l] and move l right until the duplicate is gone.`,`After each step, the window is valid, so update best = max(best, r − l + 1).`]},
+76:{q:`Given strings s and t, return the <b>shortest substring of s</b> that contains every character of t (including duplicates). Return "" if none exists.`,
+ ex:[['s = "ADOBECODEBANC", t = "ABC"','"BANC"','"BANC" contains A, B and C and nothing shorter does']],
+ brute:[`Check every substring of s and test whether it covers t.`,`O(n² · |t|) or worse`],
+ steps:[`Count what t needs (need[ch]) and how many characters are still missing.`,`Expand r: if s[r] was needed, missing −= 1.`,`While missing == 0 (the window covers t): record it if it's the smallest, then shrink from l, increasing missing if you drop a needed character.`,`Return the best window.`]},
+303:{q:`Build a class that, given a list once, can answer many queries <code>sumRange(i, j)</code> = sum of nums[i] through nums[j].`,
+ ex:[['nums = [-2, 0, 3, -5, 2, -1]; sumRange(0, 2)','1','-2 + 0 + 3 = 1']],
+ brute:[`Loop from i to j for every query.`,`O(n) per query`],
+ steps:[`In the constructor, build P with P[0] = 0 and P[k+1] = P[k] + nums[k].`,`sumRange(i, j) = P[j+1] − P[i].`]},
+560:{q:`Count how many contiguous subarrays have a sum exactly equal to k. Numbers may be negative.`,
+ ex:[['nums = [1, 1, 1], k = 2','2','[1,1] at indexes 0–1 and 1–2'],['nums = [1, 2, 1, -1, 2], k = 3','3','[1,2], [2,1], [1,2,1,-1]']],
+ ask:`Because of negative numbers, a sliding window can't decide when to shrink. Prefix sums turn "subarray sum" into "difference of two running totals".`,
+ brute:[`Try every start and end index and sum each subarray.`,`O(n²) time`],
+ steps:[`Keep a running sum and a dict counting how often each running sum has appeared (start with {0: 1}).`,`At each element, add count[run − k] to the answer: each earlier prefix with that value starts a subarray summing to k.`,`Then record the current run in the dict.`]},
+238:{q:`Return an array where answer[i] is the product of every number <b>except</b> nums[i]. Don't use division, and run in O(n).`,
+ ex:[['nums = [1, 2, 3, 4]','[24, 12, 8, 6]','24 = 2×3×4, 12 = 1×3×4, …']],
+ brute:[`For each i, multiply all the other numbers.`,`O(n²) time`],
+ steps:[`Left pass: res[i] = product of everything to the left of i.`,`Right pass: multiply res[i] by the product of everything to the right of i.`,`Both passes are O(n) and use the output array itself.`]},
+704:{q:`Given a <b>sorted</b> list and a target, return the target's index or −1 if it's missing. Must be O(log n).`,
+ ex:[['nums = [-1, 0, 3, 5, 9, 12], target = 9','4',''],['same list, target = 2','-1','2 is not present']],
+ brute:[`Linear scan from left to right.`,`O(n) time`],
+ steps:[`lo = 0, hi = n − 1.`,`mid = (lo + hi) // 2. If nums[mid] == target, return mid.`,`If nums[mid] &lt; target, search right (lo = mid + 1); else search left (hi = mid − 1).`,`If lo passes hi, return −1.`]},
+33:{q:`A sorted list was <b>rotated</b> at an unknown point (e.g. [0,1,2,4,5,6,7] → [4,5,6,7,0,1,2]). Find the target's index in O(log n), or −1.`,
+ ex:[['nums = [4, 5, 6, 7, 0, 1, 2], target = 0','4','']],
+ brute:[`Linear scan.`,`O(n) time`],
+ steps:[`Binary search as usual and compute mid.`,`Decide which half is properly sorted: if nums[lo] ≤ nums[mid], the left half is sorted.`,`If the target lies within the sorted half's range, search there; otherwise search the other half.`]},
+875:{q:`Koko has piles of bananas and h hours. Each hour she picks one pile and eats up to k bananas from it. What's the <b>smallest</b> speed k that lets her finish every pile within h hours?`,
+ ex:[['piles = [3, 6, 7, 11], h = 8','4','At k=4: 1+2+2+3 = 8 hours ✓. At k=3: 10 hours ✗']],
+ ask:`You aren't searching an array but a range of possible <b>answers</b> (speeds 1 to max pile). If speed k works, every faster speed also works. That one-way property is what lets binary search apply.`,
+ brute:[`Try k = 1, 2, 3… until one works.`,`O(max(piles) × n) time`],
+ steps:[`Search speeds in [1, max(piles)].`,`For mid speed k, hours = Σ ceil(pile / k).`,`If hours ≤ h, k works, so try smaller (hi = k). Otherwise lo = k + 1.`,`When lo == hi, that's the minimum speed.`]},
+20:{q:`Given a string of brackets ()[]{}, decide whether every opener is closed by the same type, in the correct order.`,
+ ex:[['"()[]{}"','True',''],['"(]"','False','Wrong type'],['"([)]"','False','Wrong nesting order']],
+ brute:[`Repeatedly delete adjacent pairs "()", "[]", "{}" until nothing changes, then check if the string is empty.`,`O(n²) time`],
+ steps:[`Push every opener onto a stack.`,`On a closer, the stack top must be the matching opener; pop it.`,`If the stack is empty when a closer arrives, or the type mismatches, return False.`,`At the end, the stack must be empty.`]},
+739:{q:`Given daily temperatures, return for each day how many days you must wait until a <b>warmer</b> day (0 if never).`,
+ ex:[['[73, 74, 75, 71, 69, 72, 76, 73]','[1, 1, 4, 2, 1, 1, 0, 0]','Day 2 (75) waits 4 days for 76']],
+ brute:[`For each day, scan forward until you find a warmer day.`,`O(n²) time`],
+ steps:[`Keep a stack of day indexes still waiting, with temperatures decreasing toward the top.`,`For each new day, while it's warmer than the day on top, pop that day and set its answer = today − that day.`,`Push today.`]},
+155:{q:`Design a stack with push, pop, top and <b>getMin</b>, where every operation is O(1).`,
+ ex:[['push(-2), push(0), push(-3), getMin(), pop(), top(), getMin()','-3, 0, -2','After popping -3, the minimum is -2 again']],
+ brute:[`getMin scans the whole stack.`,`O(n) per getMin`],
+ steps:[`Store pairs (value, minimum so far) on the stack.`,`On push, the new minimum = min(value, the previous top's minimum).`,`getMin reads the top pair's minimum.`]},
+206:{q:`Reverse a singly linked list and return the new head.`,
+ ex:[['1 → 2 → 3 → 4 → 5','5 → 4 → 3 → 2 → 1','']],
+ brute:[`Copy all the values into a Python list, then rebuild a new list in reverse.`,`O(n) time, O(n) extra memory`],
+ steps:[`prev = None, curr = head.`,`Save nxt = curr.next.`,`Point curr.next back to prev.`,`Advance: prev = curr, curr = nxt. When curr is None, prev is the new head.`]},
+141:{q:`Return True if a linked list contains a cycle (some node's next eventually points back to an earlier node).`,
+ ex:[['3 → 2 → 0 → -4 → (back to 2)','True',''],['1 → 2 → None','False','']],
+ brute:[`Store every visited node in a set; seeing a node twice means a cycle.`,`O(n) time, O(n) memory`],
+ steps:[`slow and fast both start at head.`,`Move slow 1 step and fast 2 steps.`,`If they ever point to the same node → cycle.`,`If fast reaches None → no cycle.`]},
+19:{q:`Remove the n-th node <b>from the end</b> of a linked list and return the head. Try to do it in one pass.`,
+ ex:[['1 → 2 → 3 → 4 → 5, n = 2','1 → 2 → 3 → 5','4 is 2nd from the end']],
+ brute:[`Pass 1: count the length L. Pass 2: walk to node L − n and unlink the next one.`,`O(n), two passes`],
+ steps:[`Add a dummy node before head (handles removing the head itself).`,`Move fast n+1 steps ahead of slow.`,`Move both until fast is None; slow is now just before the target.`,`Unlink: slow.next = slow.next.next.`]},
+215:{q:`Return the k-th largest element in an unsorted list (k = 1 means the maximum).`,
+ ex:[['nums = [3, 2, 1, 5, 6, 4], k = 2','5','Sorted descending: 6, 5, …']],
+ brute:[`Sort descending and return element k−1.`,`O(n log n) time`],
+ steps:[`Keep a min-heap of the k largest values seen so far.`,`Push each number; if the heap grows beyond k, pop the smallest.`,`At the end, heap[0] is the k-th largest.`]},
+347:{q:`Return the k numbers that appear most frequently in the list.`,
+ ex:[['nums = [1, 1, 1, 2, 2, 3], k = 2','[1, 2]','1 appears 3 times, 2 appears twice']],
+ brute:[`Count, then sort all the distinct numbers by count.`,`O(n log n) time`],
+ steps:[`Count frequencies with Counter.`,`Take the k keys with the largest counts using a heap (heapq.nlargest), or bucket by frequency for O(n).`]},
+23:{q:`Merge k sorted linked lists into one sorted linked list.`,
+ ex:[['[1→4→5], [1→3→4], [2→6]','1→1→2→3→4→4→5→6','']],
+ brute:[`Dump every value into a list, sort it, and build a new linked list.`,`O(N log N) time, N = total nodes`],
+ steps:[`Put the head of each list in a min-heap as (value, list index, node).`,`Pop the smallest node and append it to the result.`,`If it has a next node, push that onto the heap.`,`Repeat until the heap is empty.`]},
+56:{q:`Given a list of intervals [start, end], merge all overlapping ones and return the result.`,
+ ex:[['[[1,3], [2,6], [8,10], [15,18]]','[[1,6], [8,10], [15,18]]','[1,3] and [2,6] overlap → [1,6]']],
+ brute:[`Repeatedly compare every pair of intervals and merge any that overlap, until nothing changes.`,`O(n²) or worse`],
+ steps:[`Sort by start time.`,`Start the output with the first interval.`,`For each next interval: if it starts ≤ the last output's end, extend that end to the max; otherwise append it.`]},
+435:{q:`Return the minimum number of intervals you must remove so that no two of the remaining ones overlap. Touching ends ([1,2] and [2,3]) are fine.`,
+ ex:[['[[1,2], [2,3], [3,4], [1,3]]','1','Remove [1,3]']],
+ brute:[`Try every subset of intervals to keep and check which ones are non-overlapping.`,`O(2ⁿ) time`],
+ steps:[`Sort by <b>end</b> time.`,`Greedily keep an interval if it starts at or after the last kept end.`,`Otherwise it overlaps, so count it as removed.`]},
+253:{q:`Given meeting times [start, end], return the minimum number of rooms needed so that no two meetings in the same room overlap.`,
+ ex:[['[[0,30], [5,10], [15,20]]','2','[0,30] overlaps both others, but [5,10] and [15,20] can share a room']],
+ brute:[`For every moment in time, count how many meetings are active and take the maximum.`,`O(n × time range)`],
+ steps:[`Sort meetings by start.`,`Keep a min-heap of end times for rooms in use.`,`If the earliest-ending room is free (end ≤ start), reuse it (pop).`,`Push the meeting's end. The heap's size is the number of rooms.`]},
+104:{q:`Return the maximum depth of a binary tree: the number of nodes on the longest path from the root down to a leaf.`,
+ ex:[['[3, 9, 20, null, null, 15, 7]','3','3 → 20 → 15']],
+ brute:[`List every root-to-leaf path and take the longest. Wasteful bookkeeping.`,`O(n) time but clunky`],
+ steps:[`Empty tree → 0.`,`Depth = 1 + max(depth of left, depth of right).`]},
+98:{q:`Check whether a binary tree is a valid BST: every node's left subtree holds only smaller values and its right subtree only larger values.`,
+ ex:[['[2, 1, 3]','True',''],['[5, 1, 4, null, null, 3, 6]','False','4 is in the right subtree of 5 but 4 &lt; 5']],
+ ask:`The trap is checking only each node against its parent. A node deep down must respect <b>every</b> ancestor's limit.`,
+ brute:[`In-order traversal into a list, then check the list is strictly increasing.`,`O(n) time, O(n) memory`],
+ steps:[`Recurse with an allowed range (lo, hi), starting at (−∞, +∞).`,`The node's value must be strictly inside the range.`,`Going left, the max becomes node.val; going right, the min becomes node.val.`]},
+543:{q:`Return the length (in edges) of the longest path between any two nodes of a binary tree. The path doesn't have to pass through the root.`,
+ ex:[['[1, 2, 3, 4, 5]','3','4 → 2 → 1 → 3 (or 5 → 2 → 1 → 3)']],
+ brute:[`For every node, compute left height + right height separately (each height call is O(n)).`,`O(n²) time`],
+ steps:[`Write height(node) recursively.`,`Inside it, the longest path bending through this node = left height + right height, so update a global best.`,`Return 1 + max(left, right) as the height.`]},
+102:{q:`Return the node values level by level, as a list of lists from top to bottom.`,
+ ex:[['[3, 9, 20, null, null, 15, 7]','[[3], [9, 20], [15, 7]]','']],
+ brute:[`DFS while passing the depth, appending each value to the list for its depth. Works, but BFS is the natural fit.`,`O(n)`],
+ steps:[`Put the root in a queue.`,`While the queue isn't empty: size = len(queue), and pop exactly that many nodes into one level list.`,`Push each popped node's children.`]},
+199:{q:`Imagine standing on the right side of a binary tree. Return the values you can see from top to bottom (the last node of each level).`,
+ ex:[['[1, 2, 3, null, 5, null, 4]','[1, 3, 4]','']],
+ brute:[`Build the full level-order list of lists, then take the last element of each.`,`O(n) time, O(n) memory`],
+ steps:[`Run level-order BFS.`,`Record the value of the last node popped in each level.`]},
+200:{q:`A grid has '1' (land) and '0' (water). An island is a group of land cells connected up, down, left or right. Count the islands.`,
+ ex:[['["11000","11000","00100","00011"]','3','Top-left block, the middle cell, and the bottom-right pair']],
+ brute:[`For each land cell, run a fresh search to find its island and compare with islands already found. Lots of repeated work.`,`O((R·C)²)`],
+ steps:[`Scan every cell.`,`On unvisited land: count += 1, then DFS/BFS to mark ("sink") the whole island.`,`Sunk cells are never counted again.`]},
+994:{q:`In a grid, 2 = rotten orange, 1 = fresh, 0 = empty. Each minute, rot spreads to fresh oranges directly up, down, left or right. Return the minutes until no fresh orange remains, or −1 if that's impossible.`,
+ ex:[['[[2,1,1],[1,1,0],[0,1,1]]','4','']],
+ brute:[`Simulate minute by minute, scanning the whole grid each minute.`,`O((R·C)²)`],
+ steps:[`Put <b>all</b> rotten oranges in a queue at once and count the fresh ones.`,`Each BFS level = 1 minute: rot all fresh neighbours and enqueue them.`,`When fresh hits 0, return the minutes; if the queue empties first, return −1.`]},
+207:{q:`There are n courses. prerequisites[i] = [a, b] means you must take b before a. Can you finish all courses?`,
+ ex:[['n = 2, [[1, 0]]','True','Take 0, then 1'],['n = 2, [[1, 0], [0, 1]]','False','Each needs the other: a cycle']],
+ ask:`Courses are nodes and prerequisites are arrows. The courses can't all be finished exactly when the arrows form a <b>cycle</b>.`,
+ brute:[`Try every ordering of courses and check each against the rules.`,`O(n!)`],
+ steps:[`Build an adjacency list pre → course and count in-degrees.`,`Queue all courses with in-degree 0.`,`Pop a course, "take" it, and decrement its dependents; enqueue any that reach 0.`,`If the number taken == n → True.`]},
+210:{q:`Same as Course Schedule, but return one valid order to take all courses (or [] if impossible).`,
+ ex:[['n = 4, [[1,0],[2,0],[3,1],[3,2]]','[0, 1, 2, 3] (or [0, 2, 1, 3])','']],
+ brute:[`Try permutations until one satisfies every prerequisite.`,`O(n!)`],
+ steps:[`Run Kahn's algorithm exactly as before.`,`Append each course to the order as it's popped.`,`Return the order if it contains all n courses, else [].`]},
+78:{q:`Given distinct integers, return every possible subset (the power set), including the empty set.`,
+ ex:[['nums = [1, 2, 3]','[[], [1], [2], [3], [1,2], [1,3], [2,3], [1,2,3]]','2³ = 8 subsets']],
+ ask:`You must list every answer, so exponential time is unavoidable. The skill is generating them systematically, without missing any or making duplicates.`,
+ brute:[`Use the bits of the numbers 0 to 2ⁿ−1 to decide include/exclude. Also O(n·2ⁿ), just less intuitive.`,`O(n · 2ⁿ)`],
+ steps:[`backtrack(i): decide about nums[i].`,`Include it: path.append, recurse i+1, then pop.`,`Exclude it: recurse i+1.`,`When i == n, record a copy of path.`]},
+46:{q:`Given distinct integers, return every possible ordering (permutation).`,
+ ex:[['nums = [1, 2, 3]','[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]','3! = 6']],
+ brute:[`Same exponential output size, so the question is clean generation.`,`O(n · n!)`],
+ steps:[`At each position, try every unused number.`,`Mark it used, append, recurse.`,`Unmark and pop (backtrack).`,`Record when the path length is n.`]},
+39:{q:`Given distinct positive candidates and a target, return all unique combinations that sum to target. Each number can be used unlimited times.`,
+ ex:[['candidates = [2, 3, 6, 7], target = 7','[[2, 2, 3], [7]]','']],
+ brute:[`Generate every multiset of candidates up to the target, then filter by sum.`,`Exponential with no pruning`],
+ steps:[`backtrack(start, remain).`,`remain == 0 → record.`,`For i from start: skip candidates bigger than remain (prune), choose candidates[i], recurse with (i, remain − c), then pop.`,`Starting at i (not 0) avoids [2,3,2] and [3,2,2] duplicates; passing i (not i+1) allows reuse.`]},
+70:{q:`You're climbing n stairs, taking either 1 or 2 steps at a time. How many distinct ways can you reach the top?`,
+ ex:[['n = 3','3','1+1+1, 1+2, 2+1']],
+ ask:`Think about the <b>last</b> move: you reached step n either from n−1 (a 1-step) or from n−2 (a 2-step). So ways(n) = ways(n−1) + ways(n−2).`,
+ brute:[`Plain recursion on that formula recomputes the same steps exponentially.`,`O(2ⁿ) time`],
+ steps:[`ways(0) = ways(1) = 1.`,`Loop upward keeping only the last two values.`,`ways(i) = ways(i−1) + ways(i−2).`]},
+198:{q:`Houses on a street hold money. You can't rob two <b>adjacent</b> houses. What's the most you can rob?`,
+ ex:[['nums = [2, 7, 9, 3, 1]','12','Rob houses 0, 2, 4: 2 + 9 + 1']],
+ brute:[`Try every subset of non-adjacent houses.`,`O(2ⁿ) time`],
+ steps:[`For each house: either skip it (keep the best so far) or rob it (the best up to two houses back + this one).`,`dp[i] = max(dp[i−1], dp[i−2] + nums[i]).`,`Keep only the last two values.`]},
+322:{q:`Given coin values and an amount, return the fewest coins needed to make exactly that amount (unlimited coins of each type), or −1 if impossible.`,
+ ex:[['coins = [1, 2, 5], amount = 11','3','5 + 5 + 1'],['coins = [2], amount = 3','-1','']],
+ ask:`Greedy ("biggest coin first") fails for coins like [1, 3, 4] with amount 6. You need to consider every coin as the last one used.`,
+ brute:[`Recursively try every coin at every step without remembering anything.`,`Exponential time`],
+ steps:[`dp[a] = fewest coins to make amount a; dp[0] = 0.`,`For each a from 1 to amount: dp[a] = 1 + min(dp[a − c]) over coins c ≤ a.`,`If dp[amount] is still "infinity", return −1.`]},
+300:{q:`Return the length of the longest <b>strictly increasing subsequence</b> (elements in order, gaps allowed).`,
+ ex:[['[10, 9, 2, 5, 3, 7, 101, 18]','4','2, 3, 7, 101 (or 2, 5, 7, 18)']],
+ brute:[`Generate all subsequences and check which are increasing.`,`O(2ⁿ)`],
+ steps:[`dp[i] = length of the longest increasing subsequence ending exactly at i (starts at 1).`,`For each earlier j with nums[j] &lt; nums[i]: dp[i] = max(dp[i], dp[j] + 1).`,`The answer is max(dp).`]},
+62:{q:`A robot starts at the top-left of an m × n grid and can only move right or down. How many different paths reach the bottom-right?`,
+ ex:[['m = 3, n = 7','28',''],['m = 3, n = 2','3','R→D→D, D→R→D, D→D→R']],
+ brute:[`Recursively explore every right/down path.`,`O(2^(m+n))`],
+ steps:[`Every cell in the first row or column has exactly 1 path.`,`Any other cell: paths = paths from above + paths from the left.`,`Fill row by row; the answer is the bottom-right cell.`]},
+1143:{q:`Return the length of the longest <b>common subsequence</b> of two strings (characters in order in both, gaps allowed).`,
+ ex:[['text1 = "abcde", text2 = "ace"','3','"ace"'],['"abc", "def"','0','']],
+ brute:[`Generate all subsequences of one string and check each against the other.`,`O(2ⁿ · m)`],
+ steps:[`dp[i][j] = LCS of the first i characters of a and the first j characters of b.`,`If a[i−1] == b[j−1]: dp[i][j] = dp[i−1][j−1] + 1.`,`Else: dp[i][j] = max(dp[i−1][j], dp[i][j−1]).`,`The answer is dp[m][n].`]},
+72:{q:`Return the minimum number of single-character edits (insert, delete, replace) needed to turn word1 into word2.`,
+ ex:[['"horse" → "ros"','3','horse → rorse (replace h) → rose (delete r) → ros (delete e)']],
+ brute:[`Recursively try all three edits at every mismatch without caching.`,`Exponential`],
+ steps:[`dp[i][j] = edits to turn the first i characters of a into the first j characters of b.`,`Base cases: dp[i][0] = i (delete all), dp[0][j] = j (insert all).`,`Characters match → dp[i−1][j−1].`,`Otherwise 1 + min(delete = up, insert = left, replace = diagonal).`]},
+55:{q:`nums[i] is the maximum jump length from index i. Starting at index 0, can you reach the last index?`,
+ ex:[['[2, 3, 1, 1, 4]','True','0 → 1 → 4'],['[3, 2, 1, 0, 4]','False','Every route gets stuck on the 0 at index 3']],
+ brute:[`Try every possible jump from every index (DFS or DP).`,`O(n²)`],
+ steps:[`Track reach = the farthest index reachable so far.`,`For each i: if i &gt; reach, you're stuck → False.`,`Otherwise reach = max(reach, i + nums[i]).`,`Finishing the loop means the end is reachable.`]},
+53:{q:`Find the contiguous subarray with the largest sum and return that sum.`,
+ ex:[['[-2, 1, -3, 4, -1, 2, 1, -5, 4]','6','[4, -1, 2, 1]']],
+ brute:[`Try every start and end index and sum each range.`,`O(n²) time`],
+ steps:[`cur = best sum of a subarray ending at the current element.`,`At each x: cur = max(x, cur + x), i.e. extend the previous run or start fresh.`,`best = max(best, cur).`]},
+134:{q:`Gas stations sit on a circular route. gas[i] is the fuel you get at station i, and cost[i] is the fuel to drive to the next station. Starting with an empty tank, return the station index from which you can complete the full circle, or −1.`,
+ ex:[['gas = [1,2,3,4,5], cost = [3,4,5,1,2]','3','Start at index 3 and the tank never goes negative']],
+ brute:[`Simulate the trip from every possible start.`,`O(n²) time`],
+ steps:[`If total gas &lt; total cost, it's impossible → −1.`,`Drive from start, adding gas[i] − cost[i] to the tank.`,`If the tank goes negative at i, no station from start..i can work, so restart at i+1 with an empty tank.`,`The final start is the answer.`]}
+});
+
+/* DSA v2: run the pattern animations side by side with the Python code, highlighting the line being executed */
+APP.sync=Object.assign(APP.sync||{},{
+'hashing:0':{code:`def twoSum(nums, target):
+    seen = {}                      # value -> index
+    for i, x in enumerate(nums):
+        if target - x in seen:
+            return [seen[target - x], i]
+        seen[x] = i`,ln:[[1,2],[3,4,6],[3,4,6],[3,4,5]]},
+'two-pointers:0':{code:`l, r = 0, len(nums) - 1
+while l < r:
+    s = nums[l] + nums[r]
+    if s == target:
+        return [l, r]
+    if s < target:
+        l += 1
+    else:
+        r -= 1`,ln:[1,[2,3,8,9],[3,6,7],[3,8,9],[3,6,7],[3,4,5]]},
+'two-pointers:1':{code:`w = 1                          # next write position
+for r in range(1, len(nums)):
+    if nums[r] != nums[w - 1]:
+        nums[w] = nums[r]
+        w += 1
+return w`,ln:[[1,2],[2,3,4,5],[2,3],[2,3,4,5,6]]},
+'sliding-window:0':{code:`window = sum(nums[:k])
+best = window
+for r in range(k, len(nums)):
+    window += nums[r] - nums[r - k]
+    best = max(best, window)
+return best`,ln:[[1,2],[3,4,5],[3,4,5],[4,5,6]]},
+'sliding-window:1':{code:`seen = set()
+l = best = 0
+for r, ch in enumerate(s):
+    while ch in seen:
+        seen.remove(s[l])
+        l += 1
+    seen.add(ch)
+    best = max(best, r - l + 1)`,ln:[[1,2,3,7,8],[3,7,8],[3,4,5,6],[7,8],[3,7,8],[4,5,6,7,8]]},
+'binary-search:0':{code:`lo, hi = 0, len(nums) - 1
+while lo <= hi:
+    mid = (lo + hi) // 2
+    if nums[mid] == target:
+        return mid
+    if nums[mid] < target:
+        lo = mid + 1
+    else:
+        hi = mid - 1`,ln:[1,[3,6,7],[3,8,9],[3,4,5]]},
+'binary-search:1':{code:`lo, hi = 1, max(piles)
+while lo < hi:
+    k = (lo + hi) // 2
+    hours = sum(ceil(p / k) for p in piles)
+    if hours <= h:
+        hi = k
+    else:
+        lo = k + 1
+return lo`,ln:[1,[3,4,5,6],[3,4,7,8],[3,4,5,6],[3,4,5,6,9]]},
+'stack:0':{code:`pairs = {')': '(', ']': '[', '}': '{'}
+stack = []
+for ch in s:
+    if ch in pairs:
+        if not stack or stack.pop() != pairs[ch]:
+            return False
+    else:
+        stack.append(ch)
+return not stack`,ln:[[1,2],[3,7,8],[4,5],[4,5,9]]},
+'stack:1':{code:`ans = [0] * len(t)
+stack = []                     # indexes, temps decreasing
+for i, x in enumerate(t):
+    while stack and t[stack[-1]] < x:
+        j = stack.pop()
+        ans[j] = i - j
+    stack.append(i)`,ln:[[1,2],[4,5,6,7],[3,7],[4,5,6],[4,5,6,7]]},
+'linked-list:0':{code:`prev, curr = None, head
+while curr:
+    nxt = curr.next        # save the rest
+    curr.next = prev       # flip the arrow
+    prev, curr = curr, nxt
+return prev`,ln:[1,[3,4,5],[3,4,5],[3,4,5],[2,6]]},
+'heap:1':{code:`heap = []
+for x in nums:
+    heapq.heappush(heap, x)
+    if len(heap) > k:
+        heapq.heappop(heap)    # drop the smallest
+return heap[0]`,ln:[1,[2,3,4,5],[2,3,4,5],[3,4,5,6]]},
+'intervals:0':{code:`intervals.sort(key=lambda x: x[0])
+out = [intervals[0]]
+for s, e in intervals[1:]:
+    if s <= out[-1][1]:            # overlap
+        out[-1][1] = max(out[-1][1], e)
+    else:
+        out.append([s, e])`,ln:[1,2,[3,4,5],[3,4,6,7],[3,4,6,7]]},
+'dp-1d:1':{code:`dp = [0] * len(nums)
+dp[0] = nums[0]
+dp[1] = max(nums[0], nums[1])
+for i in range(2, len(nums)):
+    dp[i] = max(dp[i - 1], dp[i - 2] + nums[i])
+return dp[-1]`,ln:[1,[2,3],[4,5],[4,5],[5,6]]},
+'dp-2d:0':{code:`dp = [[1] * n for _ in range(m)]
+for r in range(1, m):
+    for c in range(1, n):
+        dp[r][c] = dp[r - 1][c] + dp[r][c - 1]
+return dp[m - 1][n - 1]`,ln:[1,[2,3,4],[3,4],[4,5]]},
+'dp-2d:1':{code:`for i in range(1, m + 1):
+    for j in range(1, n + 1):
+        if a[i - 1] == b[j - 1]:
+            dp[i][j] = dp[i - 1][j - 1] + 1
+        else:
+            dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
+return dp[m][n]`,ln:[[1,2],[3,4],[3,4],7]},
+'greedy:0':{code:`reach = 0
+for i, x in enumerate(nums):
+    if i > reach:
+        return False
+    reach = max(reach, i + x)
+return True`,ln:[1,[2,3,5],[2,3,5,6],[3,4]]},
+'greedy:1':{code:`best = cur = nums[0]
+for x in nums[1:]:
+    cur = max(x, cur + x)     # extend or restart
+    best = max(best, cur)
+return best`,ln:[1,[2,3,4],[3,4],5]},
+'graphs:0':{code:`count = 0
+for r in range(R):
+    for c in range(C):
+        if grid[r][c] == '1':
+            count += 1
+            sink(r, c)        # flood-fill the island
+return count`,ln:[1,[4,5],6,[4,5,6],[4,5,6,7]]},
+'p11':{code:`l, r, best = 0, len(h) - 1, 0
+while l < r:
+    best = max(best, (r - l) * min(h[l], h[r]))
+    if h[l] < h[r]:
+        l += 1
+    else:
+        r -= 1
+return best`,ln:[[1,3,4,5],[3,6,7],[3,6,7],[3,6,7]]}
+});
 </script>
 <script>/* LearnQuest engine — vanilla JS, no deps */
 (function(){
@@ -1564,6 +2627,17 @@ document.documentElement.style.setProperty('--acc',A.accent);
 document.documentElement.style.setProperty('--acc2',A.accent2);
 
 /* ---------- flatten lessons ---------- */
+/* ---------- apply content patches (basics intros, problem details, code sync, concept scenes) ---------- */
+(function(){
+  const applySync=(sc,s)=>{ if(!sc||!s) return; sc.code=s.code; (s.ln||[]).forEach((x,i)=>{ if(sc.frames&&sc.frames[i]) sc.frames[i].ln=x; }); };
+  A.segments.forEach(seg=>seg.lessons.forEach(l=>{
+    if(A.intro&&A.intro[l.id]) l.intro=Object.assign({},A.intro[l.id],l.intro||{});
+    if(l.anim&&!Array.isArray(l.anim)) l.anim=[l.anim];
+    if(A.sync&&l.anim) l.anim.forEach((sc,i)=>applySync(sc,A.sync[l.id+':'+i]));
+    if(A.pre&&A.pre[l.id]) l.anim=[].concat(A.pre[l.id],l.anim||[]);
+    (l.probs||[]).forEach(p=>{ if(A.probx&&A.probx[p.lc||p.n]) Object.assign(p,A.probx[p.lc||p.n]); if(p.trace&&A.sync) applySync(p.trace,A.sync['p'+(p.lc||p.n)]); });
+  }));
+})();
 const LESSONS=[]; A.segments.forEach((s,si)=>s.lessons.forEach(l=>{l.seg=si;l.n=LESSONS.length+1;LESSONS.push(l)}));
 const byId = id=>LESSONS.find(l=>l.id===id);
 
@@ -1763,7 +2837,8 @@ function Player(mount,scenes,opts={}){
     si=k; sc=scenes[k]; stop();
     $$('[data-sc]',mount).forEach((b,j)=>b.classList.toggle('ghost',j!==k));
     $('[data-tt]',mount).textContent=sc.title||'';
-    if(sc.type==='arr'){ steps=sc.frames; prevSig=''; vis.innerHTML=`<div class="arr" data-arr></div>`; }
+    if(sc.type==='arr'){ steps=sc.frames; prevSig='';
+      vis.innerHTML=sc.code?`<div class="arr-split"><div class="arr" data-arr></div><div class="codepane"><div class="cp-h">Python · the highlighted line is running</div>${sc.code.replace(/^\n+|\s+$/g,'').split('\n').map((ln,j)=>`<div class="cl" data-ln="${j+1}"><span class="lno">${j+1}</span>${hl(ln)||' '}</div>`).join('')}</div></div>`:`<div class="arr" data-arr></div>`; }
     else { flow=normFlow(sc); steps=sc.steps; buildSVG(); }
     $('[data-dots]',mount).innerHTML=steps.map((_,j)=>`<i data-d="${j}"></i>`).join('');
     $$('[data-d]',mount).forEach(d=>d.onclick=()=>{touched=true;stop();show(+d.dataset.d)});
@@ -1788,7 +2863,7 @@ function Player(mount,scenes,opts={}){
     $('[data-k]',mount).textContent=st.k||'';
     const cap=$('[data-cap]',mount); cap.innerHTML=st.t||''; cap.style.animation='none'; void cap.offsetWidth; cap.style.animation='';
     $$('[data-d]',mount).forEach((d,j)=>{d.className=j===k?'on':(seen.has(si+':'+j)?'seen':'')});
-    if(sc.type==='arr') renderArr(st); else renderFlow(k);
+    if(sc.type==='arr'){ renderArr(st); if(sc.code){ const on=new Set(ids(st.ln)); $$('.cl',mount).forEach(c=>c.classList.toggle('on',on.has(c.dataset.ln))); } } else renderFlow(k);
     const all=scenes.every((s,a)=>(s.type==='arr'?s.frames:s.steps).every((_,b)=>seen.has(a+':'+b)));
     if(all) onAllSeen();
     if(k===steps.length-1 && playing){ stop(); }
@@ -1907,6 +2982,15 @@ function flashcards(cards){
 }
 
 /* ---------- lesson ---------- */
+function introHTML(l){
+  const I=l.intro; let h=`<div class="intro-hero"><div class="kick">In one sentence</div><div class="one">${I.one}</div></div>`;
+  if(I.ana||I.why) h+=`<div class="grid2" style="margin-top:14px">${I.ana?`<div class="lc analogy"><h4>🧠 Real-life analogy</h4>${I.ana}</div>`:''}${I.why?`<div class="lc"><h4>🎯 Why it matters</h4>${I.why}</div>`:''}</div>`;
+  if(I.body) h+=`<div class="lc" style="margin-top:14px"><h4>${I.bodyh||'📌 The basics'}</h4>${I.body}</div>`;
+  if(I.terms) h+=`<div class="sec-t">🔤 Key words, in plain English</div><div class="tblw"><table class="cmp gl"><tbody>${I.terms.map(t=>`<tr><td>${t[0]}</td><td>${t[1]}</td></tr>`).join('')}</tbody></table></div>`;
+  if(I.map) h+=`<div class="sec-t">🗺️ In this lesson you will</div><div class="lc"><ul class="ticks">${I.map.map(x=>`<li>${x}</li>`).join('')}</ul></div>`;
+  if(I.pre&&I.pre.length) h+=`<div class="sec-t">⏮️ Helps to know first</div><div class="row">${I.pre.map(id=>{const p=byId(id);return p?`<button class="btn sm ghost" data-pre="${id}">${p.em} ${esc(p.t)}${S.done[id]?' ✓':''}</button>`:''}).join('')}</div>`;
+  return h;
+}
 function learnHTML(l){
   const icon={analogy:'🧠',pitfall:'⚠️',say:'🎤'};
   return `<div class="learn">${(l.learn||[]).map(c=>`<div class="lc ${c.k||''}"><h4>${c.k?icon[c.k]+' ':''}${c.h}</h4>${c.b||''}${c.code?codeBlock(c.code):''}</div>`).join('')}</div>`;
@@ -1916,6 +3000,7 @@ function cmpHTML(l){
 }
 function lessonView(l){
   const stages=[];
+  if(l.intro) stages.push(['intro','🧭 Basics']);
   if(l.anim) stages.push(['watch','🎬 Watch']);
   stages.push(['learn','📖 Learn']);
   if(l.cmp) stages.push(['cmp','⚖️ Compare']);
@@ -1939,14 +3024,19 @@ function lessonView(l){
     body.innerHTML=`<div class="pane" data-pn></div>`; const pn=$('[data-pn]',body);
     if(k==='watch'){ pn.innerHTML=`<div data-pl></div><p class="hint">Tip: ← → keys step through, ▶ auto-plays. Watch every step for +10 XP.</p>${nav()}`;
       players.push(Player($('[data-pl]',pn),l.anim,{keys:true,onAllSeen:()=>{if(!watchedXP){watchedXP=true;gainXP(10)}}})); }
+    else if(k==='intro'){ pn.innerHTML=introHTML(l)+nav(); $$('[data-pre]',pn).forEach(b=>b.onclick=()=>go('l-'+b.dataset.pre)); }
     else if(k==='learn'){ pn.innerHTML=learnHTML(l)+nav(); }
     else if(k==='cmp'){ pn.innerHTML=cmpHTML(l)+nav(); }
     else if(k==='cards'){ pn.innerHTML=`<p class="sub">Answer out loud first, then flip. This is how you'll say it in the interview.</p>`+flashcards(l.cards)+nav(); }
     else if(k==='probs'){
-      pn.innerHTML=l.probs.map((p,pi)=>`<div class="card prob"><div class="prob-h"><h4>${pi+1}. ${p.n}</h4><span class="tag ${p.lv}">${{e:'Easy',m:'Medium',h:'Hard'}[p.lv]}</span>${p.lc?`<span class="cx">LeetCode #${p.lc}</span>`:''}</div>
-        <p style="margin:6px 0;color:#d3daf7">${p.q||''}</p><div class="lc analogy" style="margin:10px 0"><h4>💡 Key idea</h4><p>${p.idea}</p></div>
-        ${p.trace?`<div data-tr="${pi}" style="margin:12px 0"></div>`:''}
-        <details class="rev"><summary>🧠 Think first, then reveal the Python solution</summary>${codeBlock(p.code)}<div class="cx">⏱ ${p.cx||''}</div></details></div>`).join('')+nav();
+      pn.innerHTML=`<p class="sub">For each problem: read it, check the examples, think about the slow obvious way, then learn the smart way. Try coding it yourself before you open the solution.</p>`+l.probs.map((p,pi)=>`<div class="card prob"><div class="prob-h"><h4>${pi+1}. ${p.n}</h4><span class="tag ${p.lv}">${{e:'Easy',m:'Medium',h:'Hard'}[p.lv]}</span>${p.lc?`<span class="cx">LeetCode #${p.lc}</span>`:''}</div>
+        <div class="pstep"><div class="pk">📝 The problem</div><div>${p.q||''}</div></div>
+        ${p.ex?`<div class="pstep"><div class="pk">🔎 Examples</div>${p.ex.map(e=>`<div class="ex"><div><span>Input</span><code>${esc(e[0])}</code></div><div><span>Output</span><code>${esc(e[1])}</code></div>${e[2]?`<div class="why">${e[2]}</div>`:''}</div>`).join('')}</div>`:''}
+        ${p.ask?`<div class="pstep"><div class="pk">🤔 What is it really asking?</div><div>${p.ask}</div></div>`:''}
+        ${p.brute?`<div class="pstep brute"><div class="pk">🐢 Brute force (the obvious way)</div><div>${p.brute[0]}</div><div class="cx">⏱ ${p.brute[1]||''}</div></div>`:''}
+        <div class="pstep smart"><div class="pk">💡 The smart way</div><div>${p.idea}</div>${p.steps?`<ol class="steps">${p.steps.map(x=>`<li>${x}</li>`).join('')}</ol>`:''}</div>
+        ${p.trace?`<div class="pk" style="margin:14px 0 6px">🎬 Watch it run</div><div data-tr="${pi}"></div>`:''}
+        <details class="rev"><summary>🧠 Tried it? Reveal the Python solution</summary>${codeBlock(p.code)}<div class="cx">⏱ ${p.cx||''}</div></details></div>`).join('')+nav();
       l.probs.forEach((p,pi)=>{ if(p.trace) players.push(Player($(`[data-tr="${pi}"]`,pn),Object.assign({type:'arr',title:'Trace: '+p.n},p.trace),{autoplay:false})); });
     }
     else if(k==='play'){ runPlay(pn); return; }

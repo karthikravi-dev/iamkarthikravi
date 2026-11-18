@@ -261,6 +261,28 @@ details.rev summary{cursor:pointer;font-weight:700;color:var(--acc2);padding:6px
   .cell{min-width:40px;height:44px;font-size:.9rem}.ptrs div{min-width:40px}
   .cap{font-size:.93rem}
 }
+/* v2: basics stage, problems, code-synced animation */
+.intro-hero{background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 22%,var(--card)),var(--card));border:1px solid color-mix(in srgb,var(--acc) 45%,var(--line));border-radius:18px;padding:22px 24px}
+.intro-hero .one{font-size:1.25rem;font-weight:600;line-height:1.5;margin-top:6px;color:#fff}
+table.gl{min-width:0}table.gl td:first-child{width:28%;white-space:normal;color:var(--acc2)}
+ul.ticks{list-style:none;padding-left:0}ul.ticks li{padding-left:28px;position:relative;margin:7px 0}ul.ticks li:before{content:"✓";position:absolute;left:4px;color:var(--ok);font-weight:700}
+.pstep{margin:12px 0;padding:14px 16px;border-radius:12px;background:#0d1430;border:1px solid var(--line);color:#d3daf7}
+.pstep .pk,.pk{font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--acc2);margin-bottom:6px}
+.pstep.brute{border-left:4px solid var(--warn)}.pstep.smart{border-left:4px solid var(--ok)}
+.pstep p{margin:4px 0}
+.ex{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;padding:10px 0;border-top:1px dashed var(--line)}.ex:first-of-type{border-top:0}
+.ex span{display:block;font-size:.7rem;color:var(--dim);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.ex code{white-space:pre-wrap;word-break:break-word}
+.ex .why{grid-column:1/-1;font-size:.9rem;color:var(--mut)}
+ol.steps{margin:10px 0 0;padding-left:22px}ol.steps li{margin:5px 0}
+.arr-split{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr)}
+.codepane{background:#070b1a;border-left:1px solid var(--line);padding:0 0 10px;font-family:var(--mono);font-size:.78rem;overflow-x:auto}
+.cp-h{font-family:var(--sans);font-size:.7rem;color:var(--dim);padding:8px 12px;border-bottom:1px solid var(--line);margin-bottom:6px;letter-spacing:.04em}
+.cl{white-space:pre;line-height:1.75;padding:0 12px 0 0;color:#c4ccef;transition:background .25s}
+.cl .lno{display:inline-block;width:30px;text-align:right;padding-right:10px;color:#3d4a7a;user-select:none}
+.cl.on{background:color-mix(in srgb,var(--acc2) 22%,transparent);box-shadow:inset 3px 0 0 var(--acc2);color:#fff}
+.cl.on .lno{color:var(--acc2)}
+@media(max-width:820px){.arr-split{grid-template-columns:1fr}.codepane{border-left:0;border-top:1px solid var(--line)}.ex{grid-template-columns:1fr}}
 </style></head><body><div id="app"></div>
 <script>window.APP={id:'sd',name:'System Design Quest',emoji:'🏛️',accent:'#0ea5e9',accent2:'#34d399',mins:15,
 tagline:`Building blocks first, then the classic interview designs. Every concept is animated, compared and quizzed, with talk tracks you can say out loud.`,
@@ -876,6 +898,224 @@ order:{q:`Video lifecycle`,items:['Resumable upload via pre-signed URL','Raw fil
 cards:[[`Design YouTube in 60 seconds.`,`Pre-signed resumable uploads to blob storage, an event-driven parallel transcoding DAG producing HLS/DASH renditions and thumbnails, metadata DB, CDN distribution with adaptive bitrate playback, async view counting and recommendations. Optimize egress and storage tiers for cost.`]]
 }
 ]});
+
+/* System Design v2: "Start Here" section */
+(function(){
+const sdIntro={id:'sd-intro',em:'🧭',t:'What is System Design?',mins:15,d:`What the interview actually asks, the map of every building block in this app, and the vocabulary (latency, throughput, availability…) you will use in every answer.`,
+intro:{one:`<b>System design</b> is planning how the pieces of a software system (servers, databases, caches, queues) fit together so that it works for <b>many users</b>: fast, reliable, and able to grow.`,
+ ana:`<p>Coding is building one great room. System design is planning the whole building: where the entrances go, how many lifts, where water and power run, and what happens if one lift breaks during rush hour.</p>`,
+ why:`<ul><li>Most mid-level and senior interviews include a system design round (often 45–60 minutes).</li><li>There's no single right answer. They judge how you reason about trade-offs.</li></ul>`,
+ terms:[['High-level design (HLD)','The big boxes and arrows: services, databases, queues'],['Low-level design (LLD)','Classes, APIs and data models inside one component'],['Functional requirements','What the system must do (send a message, upload a video)'],['Non-functional requirements','How well it must do it (fast, always up, secure, scalable)'],['Trade-off','Gaining one quality by giving up another']],
+ map:['Get a one-line tour of every building block you\'ll learn','Separate functional from non-functional requirements','Learn the 6 quality words used in every answer']},
+anim:[{type:'flow',title:'The map: a typical web system',h:420,nodes:[
+ ['u','Users',80,200,'phones, browsers'],['dns','DNS',230,70,'name → IP','y'],['cdn','CDN',230,330,'static files nearby','g'],['lb','Load balancer',390,200,'spreads traffic'],
+ ['app','App servers',560,200,'your code, many copies','p'],['cache','Cache',560,70,'fast memory copy','g'],['db','Database',710,200,'source of truth','b'],['q','Queue',520,340,'background work','y'],['w','Workers',695,340,'emails, videos']],
+ edges:[['u','dns'],['u','cdn'],['u','lb'],['lb','app'],{f:'app',t:'cache',bi:1},{f:'app',t:'db',bi:1},['app','q'],['q','w']],
+ steps:[
+ {on:'u',t:`Here is almost every system you'll design. This app teaches each box in its own lesson. First, a one-line tour.`},
+ {on:'dns',go:'u>dns',t:`<b>DNS</b>: the internet's phone book, turning <code>app.com</code> into a server's IP address.`},
+ {on:'cdn',go:'u>cdn',t:`<b>CDN</b>: copies of images, videos and JS stored in data centres near users, so they load fast.`},
+ {on:'lb',go:'u>lb',t:`<b>Load balancer</b>: the receptionist spreading incoming requests across many servers.`},
+ {on:'app',go:'lb>app',t:`<b>App servers</b>: run your backend code. We run many identical copies so we can handle more users.`},
+ {on:'cache',go:'app>cache',t:`<b>Cache</b>: keeps popular data in memory so we don't hit the database every time (~1 ms vs ~10 ms).`},
+ {on:'db',go:'app>db',t:`<b>Database</b>: where data permanently lives. Choosing and scaling it is often the hardest part.`},
+ {on:'q w',go:'app>q q>w',t:`<b>Queue + workers</b>: slow jobs (sending emails, processing videos) happen in the background so users don't wait.`}
+]},
+{type:'arr',title:'Requirements for "Design WhatsApp"',frames:[
+ {rows:[{lab:'functional (what it does)',a:['send 1:1 message','group chats','delivered / read ticks','media sharing'],noix:1,ok:'0 1 2 3'}],t:`<b>Functional requirements</b> = features. In an interview, agree on 3–4 core ones and explicitly park the rest.`},
+ {rows:[{lab:'non-functional (how well)',a:['latency < 200 ms','never lose messages','500M daily users','end-to-end encrypted'],noix:1,hl:'0 1 2 3'}],t:`<b>Non-functional requirements</b> = qualities: speed, reliability, scale, security. These drive the architecture far more than features do.`},
+ {rows:[{lab:'trade-off',a:['strong consistency','vs','low latency + availability'],noix:1,hl:'0',ok:'2'}],t:`Every design is a set of <b>trade-offs</b>. Saying "I choose X over Y because…" is what interviewers listen for.`}
+]}],
+learn:[
+ {h:'The 6 quality words (use them in every answer)',b:`<ul><li><b>Latency:</b> how long one request takes (ms).</li><li><b>Throughput:</b> how many requests per second (QPS) the system handles.</li><li><b>Availability:</b> % of time it works (99.9% ≈ 43 min down a month).</li><li><b>Scalability:</b> can it handle 10× more users by adding machines?</li><li><b>Consistency:</b> does everyone see the latest data immediately?</li><li><b>Durability:</b> once saved, data is never lost.</li></ul>`},
+ {h:'What interviewers evaluate',b:`<ol><li>Do you clarify requirements before drawing?</li><li>Can you produce a working end-to-end design?</li><li>Do you find the bottlenecks yourself and go deep?</li><li>Do you explain trade-offs and failure handling?</li><li>Do you communicate clearly and manage time?</li></ol>`},
+ {h:'Suggested path through this app',b:`<p>Client/server basics → how a request travels → scaling → load balancers → caching → databases → replication & sharding → CAP → queues → APIs → microservices → reliability → estimation → then the 6 classic design rounds.</p>`},
+ {k:'say',h:'Say it in the interview',b:`<p>"Before I design anything, let me confirm the core features and the scale. How many users? Read-heavy or write-heavy? What latency and availability do we need? Then I'll sketch a high-level design and we can go deep where you'd like."</p>`}
+],
+cmp:[{cols:['','High-level design','Low-level design'],rows:[['Focus','components and how they connect','classes, methods, schemas inside one component'],['Typical question','"Design YouTube"','"Design a parking lot class model"'],['Artefacts','architecture diagram, data flow','class diagrams, APIs, DB tables'],['This app','✅ main focus','touched on in API & data model steps']]}],
+quiz:[
+ {q:`"Messages must arrive in under 200 ms" is a…`,o:['Functional requirement','Non-functional requirement','Low-level design','Trade-off'],a:1,x:`It's about how well, not what.`},
+ {q:`Which component turns a domain name into an IP address?`,o:['CDN','DNS','Cache','Queue'],a:1,x:`DNS is the internet's phone book.`},
+ {q:`Requests handled per second is called…`,o:['Latency','Throughput','Durability','Consistency'],a:1,x:`Latency is per-request time; throughput is volume.`},
+ {q:`What should you do first in a system design interview?`,o:['Draw microservices','Clarify requirements and scale','Pick a database','Write code'],a:1,x:`Requirements drive everything else.`}
+],
+match:{pairs:[['Load balancer','Spreads traffic across servers'],['Cache','Fast in-memory copy of hot data'],['Queue','Background / async work'],['CDN','Static content near users']]},
+cards:[[`What is system design?`,`Planning how components (servers, databases, caches, queues) work together so a system meets its functional requirements and its non-functional ones (latency, scale, availability, consistency), with the trade-offs made explicit.`]]
+};
+
+const cs101={id:'client-server',em:'🖥️',t:'Clients, Servers, APIs & Databases 101',mins:20,d:`What actually happens between your phone and a backend: IP addresses, ports, HTTP requests and responses, JSON, APIs and where data is stored.`,
+intro:{one:`Almost every app works the same way: a <b>client</b> (phone app, browser) sends a <b>request</b> over the internet to a <b>server</b>, which runs code, reads or writes a <b>database</b>, and sends back a <b>response</b>.`,
+ ana:`<p>A restaurant: you (the client) give your order to a waiter using the menu (the API). The kitchen (the server) cooks using ingredients from the storeroom (the database), and the waiter brings back your plate (the response).</p>`,
+ why:`<ul><li>Every system design question assumes you know this vocabulary cold.</li><li>APIs and databases appear in every single design.</li></ul>`,
+ terms:[['Client','The app or browser that sends requests'],['Server','A computer that runs backend code and answers requests'],['IP address','A machine\'s address on the network, e.g. 142.250.1.1'],['Port','A numbered "door" on a machine for a specific service (443 = HTTPS)'],['HTTP','The language clients and servers use for requests and responses'],['API','The set of URLs and rules a server offers to clients'],['JSON','The common text format for data: {"name": "Karthik"}'],['Database','Software that stores data permanently and lets you query it']],
+ map:['Follow one request from phone to database and back','Read a real HTTP request and response','See what an API endpoint is','Learn the basics of how databases store data']},
+anim:[{type:'flow',title:'One request, start to finish',h:360,nodes:[
+ ['c','Client (phone app)',100,180],['net','Internet',290,180,'routers & cables'],['s','Server 34.12.8.9 : 443',500,180,'runs your backend code','p'],['db','Database',700,180,'tables of data','b']],
+ edges:[{f:'c',t:'net',bi:1},{f:'net',t:'s',bi:1},{f:'s',t:'db',bi:1}],
+ steps:[
+ {on:'c',t:`You open your profile in an app. The app needs your data from the company's computers.`},
+ {on:'net s',go:'c>net net>s',t:`It sends an <b>HTTP request</b> over the internet to the server's <b>IP address</b> (34.12.8.9) on <b>port 443</b> (the standard HTTPS door).`},
+ {on:'s',t:`The <b>server</b> is just a computer (usually in a cloud data centre) running your backend code. It checks who you are and what you asked for.`},
+ {on:'db',go:'s>db db>s',t:`It queries the <b>database</b>: "give me user 42's profile". The database finds the row and returns it.`},
+ {ok:'c',go:'s>net net>c',t:`The server sends back an <b>HTTP response</b> with status <code>200 OK</code> and your data as <b>JSON</b>. The app renders it. Usually all in under ~200 ms.`}
+]},
+{type:'arr',title:'Inside an HTTP request and response',frames:[
+ {rows:[{lab:'request line',a:['GET','/api/users/42','HTTP/1.1'],noix:1,hl:'0 1'}],t:`A request starts with a <b>method</b> (GET = read) and a <b>path</b> (which resource).`},
+ {rows:[{lab:'request headers',a:['Host: api.app.com','Authorization: Bearer eyJ…','Accept: application/json'],noix:1,hl:'1'}],t:`<b>Headers</b> carry extra info: which site, who you are (an auth token), what format you want back.`},
+ {rows:[{lab:'POST body (JSON)',a:['{"name": "Karthik", "city": "Bangalore"}'],noix:1,ok:'0'}],t:`For creating or updating (POST/PUT), the request also has a <b>body</b>, usually JSON.`},
+ {rows:[{lab:'response',a:['200 OK','Content-Type: application/json','{"id": 42, "name": "Karthik"}'],noix:1,ok:'0 2'}],t:`The response has a <b>status code</b> (200 OK, 404 Not Found, 500 Server Error), headers and a body. Simple text going back and forth.`}
+]},
+{type:'flow',title:'What an API is',h:330,nodes:[
+ ['m','Mobile app',100,70],['w','Website',100,170],['p','Partner system',100,270],['api','Your API',370,170,'the menu of allowed requests','p'],
+ ['e1','GET /users/42',640,70,'read a user'],['e2','POST /orders',640,170,'create an order'],['e3','DELETE /orders/7',640,270,'cancel an order']],
+ edges:[['m','api'],['w','api'],['p','api'],['api','e1'],['api','e2'],['api','e3']],
+ steps:[
+ {on:'m w p',t:`Many different clients need the same data and actions.`},
+ {on:'api',go:'m>api w>api p>api',t:`An <b>API</b> (Application Programming Interface) is the <b>menu</b> your server offers: the exact requests it accepts and what each returns. Clients don't touch the database directly.`},
+ {on:'e1 e2 e3',go:'api>e1 api>e2 api>e3',t:`Each item is an <b>endpoint</b>: a method + path. A REST API uses nouns for resources (/users, /orders) and HTTP methods for actions (GET read, POST create, PUT update, DELETE remove).`}
+]},
+{type:'arr',title:'How a database stores data',frames:[
+ {g:[['id','name','city'],[1,'Asha','Chennai'],[2,'Karthik','Bangalore'],[3,'Ravi','Salem']],hl:'0,0 0,1 0,2',t:`A relational database stores data in <b>tables</b>: <b>columns</b> are fields (id, name, city) and <b>rows</b> are records.`},
+ {g:[['id','name','city'],[1,'Asha','Chennai'],[2,'Karthik','Bangalore'],[3,'Ravi','Salem']],ok:'1,0 2,0 3,0',t:`The <b>primary key</b> (id) uniquely identifies each row. Other tables point to it (orders.user_id → users.id).`},
+ {g:[['id','name','city'],[1,'Asha','Chennai'],[2,'Karthik','Bangalore'],[3,'Ravi','Salem']],ok:'2,0 2,1 2,2',v:{SQL:'SELECT * FROM users WHERE id = 2'},t:`You ask for data with a <b>query</b>. The database finds and returns the matching row. Later lessons cover indexes (making this fast) and SQL vs NoSQL.`}
+]}],
+learn:[
+ {h:'HTTP methods and status codes (must know)',b:`<ul><li><b>GET</b> read · <b>POST</b> create · <b>PUT/PATCH</b> update · <b>DELETE</b> remove.</li><li><b>2xx</b> success (200 OK, 201 Created) · <b>3xx</b> redirect · <b>4xx</b> client mistake (400 bad request, 401 not logged in, 403 forbidden, 404 not found, 429 too many requests) · <b>5xx</b> server failure (500, 503).</li></ul>`},
+ {h:'A tiny backend, so it feels real (Python / FastAPI)',code:`from fastapi import FastAPI
+app = FastAPI()
+
+USERS = {42: {"id": 42, "name": "Karthik"}}   # stand-in for a database
+
+@app.get("/users/{user_id}")                  # an API endpoint
+def get_user(user_id: int):
+    return USERS.get(user_id, {"error": "not found"})   # -> JSON response`},
+ {h:'Networking in 4 lines',b:`<ul><li><b>IP address:</b> which machine. <b>Port:</b> which program on it (80 HTTP, 443 HTTPS, 5432 Postgres).</li><li><b>DNS</b> turns names into IPs.</li><li><b>TCP</b>: reliable, ordered delivery (web, APIs). <b>UDP</b>: fast, no guarantees (video calls, games).</li><li><b>HTTPS</b> = HTTP encrypted with TLS.</li></ul>`},
+ {h:'Stateless servers',b:`<p>Each request carries everything the server needs (like an auth token), so any server copy can handle any request. This one idea is what makes scaling out easy (Scaling lesson).</p>`},
+ {k:'say',h:'Say it in the interview',b:`<p>"Clients call our REST API over HTTPS. Stateless app servers authenticate the request, read or write the database, and return JSON with the right status code. Because the servers are stateless, we can run many of them behind a load balancer."</p>`}
+],
+cmp:[{cols:['','TCP','UDP'],rows:[['Delivery','guaranteed, in order','best effort'],['Speed','slightly slower (handshakes, retries)','faster'],['Used for','web, APIs, databases, email','video calls, gaming, DNS']]},
+ {t:'Who does what',cols:['Part','Role','Example'],rows:[['Client','asks','phone app, browser'],['API','defines what can be asked','GET /users/42'],['Server','runs logic','Python FastAPI, Java Spring'],['Database','stores data permanently','Postgres, MongoDB']]}],
+quiz:[
+ {q:`Which HTTP method creates a new resource?`,o:['GET','POST','DELETE','HEAD'],a:1,x:`POST creates; GET reads.`},
+ {q:`Status 404 means…`,o:['Server crashed','Resource not found','Success','Not logged in'],a:1,x:`4xx = client-side problem; 404 = not found.`},
+ {q:`What is an API?`,o:['A database','The set of requests a server accepts and what it returns','A type of server hardware','A programming language'],a:1,x:`It's the server's menu.`},
+ {q:`Port 443 is normally used for…`,o:['Email','HTTPS','Databases','DNS'],a:1,x:`HTTPS web traffic.`},
+ {q:`A primary key in a table…`,o:['Encrypts the table','Uniquely identifies each row','Sorts the table','Is optional and rare'],a:1,x:`Like an ID number.`}
+],
+order:{q:`Order one request`,items:['Client sends HTTP request to IP:port','Server checks auth and the request','Server queries the database','Server returns status + JSON','Client shows the data']},
+match:{pairs:[['GET','Read data'],['200','OK'],['JSON','Text data format'],['Primary key','Unique row ID']]},
+cards:[[`Walk me through what happens when an app loads your profile.`,`The client sends an HTTPS GET to the API endpoint (DNS gives the server's IP). A stateless server authenticates the token, queries the database by the user's primary key, and returns 200 with JSON, which the app renders.`]]
+};
+
+APP.segments.unshift({name:'Start Here',em:'🌱',desc:'what system design is + client/server/API/database basics',lessons:[sdIntro,cs101]});
+})();
+
+/* System Design v2: plain-English basics for every lesson + extra concept scenes */
+APP.intro=Object.assign(APP.intro||{},{
+'web-basics':{one:`When you open a website, your request passes through <b>DNS</b>, a <b>CDN</b>, a <b>load balancer</b>, an <b>app server</b>, a <b>cache</b> and a <b>database</b>. Knowing that path is the foundation of every design.`,
+ ana:`<p>Posting a letter: look up the address (DNS), drop it at the nearest post office (CDN / load balancer), it's routed to the right department (server), which checks its files (cache/DB) and replies.</p>`,
+ why:`<ul><li>"What happens when you type a URL?" is a classic opener.</li><li>Every later design builds on this request path.</li></ul>`,
+ terms:[['DNS','Turns domain names into IP addresses'],['TLS','Encryption that makes HTTP into HTTPS'],['CDN','Servers near users that cache static files'],['Latency','Time for one request to complete']],
+ map:['Follow a request through every box','Learn the latency numbers that matter','Know the HTTP status codes'],pre:['client-server']},
+'scaling':{one:`<b>Scaling</b> means handling more users. You can buy a <b>bigger</b> server (vertical) or add <b>more</b> servers (horizontal); big systems scale horizontally.`,
+ ana:`<p>A busy café can hire one super-fast barista (vertical, with a limit) or open more counters with more baristas (horizontal, which can keep growing).</p>`,
+ why:`<ul><li>The core question of every design: "what happens at 10× or 100× traffic?"</li></ul>`,
+ terms:[['Vertical scaling','Bigger machine (more CPU / RAM)'],['Horizontal scaling','More machines sharing the work'],['Stateless','Server keeps no user data between requests'],['Autoscaling','Add or remove servers automatically based on load'],['Bottleneck','The part that limits the whole system']],
+ map:['Watch a system grow from 1 server to many','Compare vertical and horizontal scaling','Learn the classic scaling ladder'],pre:['client-server']},
+'load-balancers':{one:`A <b>load balancer</b> sits in front of many servers and spreads incoming requests across them, skipping any server that is unhealthy.`,
+ ana:`<p>The receptionist at a busy clinic sending each patient to whichever doctor is free, and never to a doctor who has gone home sick.</p>`,
+ why:`<ul><li>Needed as soon as you have more than one server, which is every design.</li></ul>`,
+ terms:[['Round robin','Take turns: A, B, C, A…'],['Least connections','Send to the least busy server'],['Health check','Regular "are you alive?" ping'],['L4 / L7','Routes by IP/port vs understands HTTP paths'],['Sticky session','Pin a user to one server (usually avoid)']],
+ map:['Compare balancing algorithms visually','See health checks remove a dead server','Know L4 vs L7'],pre:['scaling']},
+'caching':{one:`A <b>cache</b> keeps a copy of frequently used data somewhere much faster (usually memory) so you don't redo slow work, like querying the database, every time.`,
+ ana:`<p>Keeping your most-used tools on your desk instead of walking to the storeroom each time. The storeroom (database) is the truth; the desk (cache) is a fast copy that can go stale.</p>`,
+ why:`<ul><li>The single biggest performance lever in most designs.</li><li>Brings tricky questions: staleness, invalidation, stampedes.</li></ul>`,
+ terms:[['Cache hit / miss','Found in cache / had to go to the source'],['TTL','Time-to-live: auto-expire after N seconds'],['Eviction (LRU)','When full, remove the least recently used item'],['Invalidation','Removing stale cache entries after data changes'],['Redis','The most popular in-memory cache']],
+ map:['Watch cache-aside handle a miss and then a hit','See LRU eviction','Learn write strategies and their trade-offs'],pre:['client-server']},
+'databases':{one:`A <b>database</b> stores data permanently. <b>SQL</b> databases use tables with strict structure and transactions; <b>NoSQL</b> databases trade some of that for flexibility and easy horizontal scale. <b>Indexes</b> make lookups fast.`,
+ ana:`<p>SQL is a well-organised filing cabinet with labelled folders and strict rules. NoSQL is a set of flexible boxes you can keep adding anywhere. An index is the book's index at the back: jump straight to the page.</p>`,
+ why:`<ul><li>"Which database and why?" appears in every design round.</li></ul>`,
+ terms:[['Table / row / column','How SQL stores records'],['Primary key','Unique ID of a row'],['Index','Extra structure that makes lookups fast (B-tree)'],['Transaction / ACID','All-or-nothing, consistent, isolated, durable writes'],['NoSQL','Key-value, document, wide-column or graph stores']],
+ map:['Refresh tables, rows and keys','Watch a B-tree index find a row','Choose SQL vs NoSQL by workload'],pre:['client-server']},
+'sharding':{one:`<b>Replication</b> keeps copies of the same data on several machines (for reads and backup). <b>Sharding</b> splits different data across machines (for size and write load). <b>Consistent hashing</b> decides which machine owns which data.`,
+ ana:`<p>Replication: photocopies of the same phone book in every branch office. Sharding: splitting the phone book into A–H, I–P and Q–Z volumes kept in different offices.</p>`,
+ why:`<ul><li>How every large system scales its data layer.</li></ul>`,
+ terms:[['Leader / follower','Writes go to the leader; followers copy it'],['Replication lag','Followers being slightly behind'],['Shard','One horizontal slice of the data'],['Shard key','The field that decides a row\'s shard'],['Consistent hashing','Placement that moves little data when servers change']],
+ map:['Watch leader-follower replication and failover','See consistent hashing add a server','Pick a good shard key'],pre:['databases']},
+'cap':{one:`The <b>CAP theorem</b>: if the network between your database copies breaks, you must choose to stay <b>consistent</b> (refuse some requests) or stay <b>available</b> (possibly serve stale data).`,
+ ana:`<p>Two bank branches lose their phone line. Either both stop withdrawals until the line returns (consistent), or both keep serving customers and reconcile later (available).</p>`,
+ why:`<ul><li>Interviewers expect you to choose consistency per feature (payments vs likes).</li></ul>`,
+ terms:[['Consistency','Everyone reads the latest write'],['Availability','Every request gets a response'],['Partition','Network split between nodes'],['Eventual consistency','Copies agree after a short while']],
+ map:['Watch a partition force the choice','Learn PACELC','Choose per feature'],pre:['sharding']},
+'queues':{one:`A <b>message queue</b> lets one part of a system drop off work ("send this email") and immediately move on, while other workers pick it up and do it in the background.`,
+ ana:`<p>A restaurant ticket rail: the waiter clips the order and goes back to customers; cooks take tickets at their own pace. A rush just makes the rail longer, and nothing is lost.</p>`,
+ why:`<ul><li>Decoupling, absorbing traffic spikes and background jobs are in almost every design.</li></ul>`,
+ terms:[['Producer / consumer','Who adds messages / who processes them'],['Topic / queue','The named channel holding messages'],['Async','The caller doesn\'t wait for the work to finish'],['Dead-letter queue','Where repeatedly failing messages go'],['Kafka / RabbitMQ / SQS','Popular queue and streaming systems']],
+ map:['See sync vs async calls','Watch a queue decouple services','Understand Kafka partitions and consumer groups'],pre:['client-server']},
+'api-design':{one:`<b>API design</b> is deciding the endpoints, data formats and rules clients use to talk to your service, so they're clear, safe to retry, efficient, and able to evolve.`,
+ ana:`<p>Designing a restaurant menu: clear item names, prices, what happens if you order twice by accident, and how to add new dishes without confusing regulars.</p>`,
+ why:`<ul><li>The "API" step appears in every design answer.</li><li>Real-time choices (WebSockets vs SSE) come up in chat and notification designs.</li></ul>`,
+ terms:[['REST','Resource URLs + HTTP methods'],['GraphQL','Client asks for exactly the fields it needs'],['gRPC','Fast binary service-to-service calls'],['Idempotency','Repeating a request has no extra effect'],['Pagination','Returning results page by page']],
+ map:['See an idempotency key prevent a double charge','Compare polling, SSE and WebSockets','Compare REST, GraphQL and gRPC'],pre:['client-server']},
+'microservices':{one:`A <b>monolith</b> is one big application deployed as a unit. <b>Microservices</b> split it into small independent services, each owning one business area and its own data, talking over the network.`,
+ ana:`<p>One big department store (monolith) vs a mall of specialist shops (microservices): the shops open and renovate independently, but you need corridors, signs and security between them.</p>`,
+ why:`<ul><li>"Monolith or microservices?" is a frequent trade-off question.</li></ul>`,
+ terms:[['Service','Independently deployable component'],['API gateway','The single front door for clients'],['Service discovery','How services find each other'],['Saga','Multi-service transaction with compensating steps']],
+ map:['Walk through a microservices architecture','Know when NOT to split','Handle data across services'],pre:['api-design','queues']},
+'reliability':{one:`<b>Reliability</b> means the system keeps working when parts fail: timeouts, smart retries, circuit breakers and redundancy contain failures, and SLOs define "working".`,
+ ana:`<p>A building's fuses and fire doors: when one circuit fails, the fuse cuts it off so the whole building doesn't go dark.</p>`,
+ why:`<ul><li>"What happens if X fails?" is asked in every design round.</li></ul>`,
+ terms:[['Timeout','Give up waiting after N ms'],['Retry with backoff','Try again, waiting longer each time'],['Circuit breaker','Stop calling a failing service for a while'],['SLO','Internal reliability target (e.g. 99.9%)'],['Error budget','Allowed failure: 100% − SLO']],
+ map:['Watch a circuit breaker change state','See why retries need jitter','Learn SLI / SLO / SLA'],pre:['microservices']},
+'estimation':{one:`<b>Back-of-the-envelope estimation</b> is quick rough maths (requests per second, storage, bandwidth) to size a system. Plus the step-by-step structure for a 45-minute design interview.`,
+ ana:`<p>Before planning a wedding you estimate guests, food and hall size. Not exact, but enough to know whether you need a hall for 100 or 1,000.</p>`,
+ why:`<ul><li>Interviewers expect quick estimates early, and they justify your later choices.</li></ul>`,
+ terms:[['QPS','Queries (requests) per second'],['DAU','Daily active users'],['Peak','Busiest moment, often 2–3× average'],['Read:write ratio','How read-heavy the system is']],
+ map:['Estimate a Twitter-like app step by step','Memorise the key numbers','Learn the 45-minute structure'],pre:['sd-intro']},
+'url-shortener':{one:`Design a service like bit.ly: turn long URLs into short codes and redirect anyone who opens the short link, at huge read volume.`,
+ ana:`<p>A cloakroom ticket for links: hand in a long URL, get a short ticket; anyone with the ticket is sent straight to the original.</p>`,
+ why:`<ul><li>The classic first design question: small, but covers IDs, caching, databases and scale.</li></ul>`,
+ terms:[['Short code','e.g. aZ3x9Q, the unique key'],['Base62','Encoding with 0–9, a–z, A–Z'],['301 / 302','Permanent / temporary redirect'],['Read-heavy','Far more reads than writes']],
+ map:['Walk through create and redirect paths','Choose a key-generation method','Decide 301 vs 302'],pre:['caching','databases','estimation']},
+'rate-limiter':{one:`A <b>rate limiter</b> caps how many requests a user or client can make in a time window (e.g. 100 per minute) to protect the system from abuse and overload.`,
+ ana:`<p>A nightclub bouncer with a clicker: only so many people in per minute; the rest wait outside.</p>`,
+ why:`<ul><li>Common standalone question and a building block of every public API.</li></ul>`,
+ terms:[['Token bucket','Tokens refill steadily; each request spends one'],['Sliding window','Count requests in the last N seconds'],['429','"Too Many Requests" status code'],['Fail-open / closed','Allow / block traffic if the limiter itself fails']],
+ map:['Watch a token bucket allow bursts then block','Make it distributed with Redis','Compare algorithms'],pre:['caching','api-design']},
+'chat-app':{one:`Design a messaging app like WhatsApp: real-time delivery, online/offline users, sent/delivered/read ticks, group chats, and never losing a message.`,
+ ana:`<p>A postal system where couriers hold an open line to every recipient who's home, and leave a note in the mailbox (push notification) for anyone who's out.</p>`,
+ why:`<ul><li>One of the most-asked designs; tests real-time connections, storage and ordering.</li></ul>`,
+ terms:[['WebSocket','Persistent two-way connection'],['Session registry','Which server each user is connected to'],['Fan-out','Delivering one message to many recipients'],['Push notification','OS-level alert when the app is closed']],
+ map:['Follow one message from A to B','Handle offline users and receipts','Pick storage and IDs'],pre:['api-design','databases','queues']},
+'news-feed':{one:`Design a social feed like Instagram or X: when you open the app, show recent posts from people you follow, ranked, in milliseconds.`,
+ ana:`<p>A newspaper delivery service: for most readers, papers are pre-packed overnight (fan-out on write); for papers with millions of readers, you collect them at the counter when you arrive (fan-out on read).</p>`,
+ why:`<ul><li>Classic trade-off question: push vs pull, and the celebrity problem.</li></ul>`,
+ terms:[['Fan-out on write','Push new posts into followers\' feeds immediately'],['Fan-out on read','Build the feed when the user opens it'],['Celebrity problem','Accounts with millions of followers'],['Hydration','Turning post IDs into full post data']],
+ map:['Compare push and pull feeds','Solve the celebrity problem with a hybrid','Design the read path'],pre:['caching','queues']},
+'notifications':{one:`Design a system that sends notifications through push, SMS, email and in-app channels: respecting user preferences, prioritising urgent messages, retrying failures and never double-sending.`,
+ ana:`<p>A post office sorting room: urgent letters go in the express bin, bulk mail in another, every letter is logged, and failed deliveries are retried or returned.</p>`,
+ why:`<ul><li>A common design question that exercises queues, retries, idempotency and third-party providers.</li></ul>`,
+ terms:[['Channel','Push, SMS, email, in-app'],['Provider','External sender like APNs, FCM, Twilio, SES'],['Priority queue','Urgent messages processed first'],['Deduplication','Never send the same notification twice']],
+ map:['Walk the notification pipeline','Handle priorities, preferences and failures'],pre:['queues','reliability']},
+'youtube':{one:`Design a video platform like YouTube: creators upload large videos, which are converted into many formats, and viewers worldwide stream them smoothly at the right quality.`,
+ ana:`<p>A film distributor: receive the master reel, make copies in every format (cinema, TV, phone), and store copies in warehouses near every city.</p>`,
+ why:`<ul><li>Covers large file uploads, background processing pipelines and CDNs.</li></ul>`,
+ terms:[['Transcoding','Converting video into different resolutions and formats'],['Segment','A short 2–10 second piece of video'],['Adaptive bitrate','Player switches quality as the network changes'],['Pre-signed URL','Temporary permission to upload directly to storage']],
+ map:['Follow a video from upload to playback','See why CDNs dominate cost','Understand adaptive streaming'],pre:['queues','web-basics']}
+});
+
+APP.pre=Object.assign(APP.pre||{},{
+'queues':{type:'flow',title:'Sync vs async: why queues exist',h:330,nodes:[
+ ['u1','User',90,90],['a1','Order API',300,90,'waits for everything','r'],['e1','Email svc (slow)',560,40],['i1','Invoice svc (down!)',560,140,'','r'],
+ ['u2','User',90,260],['a2','Order API',300,260,'just drops a message','g'],['q','Queue',560,260,'workers handle it later','y']],
+ edges:[['u1','a1'],['a1','e1'],['a1','i1'],['u2','a2'],['a2','q']],
+ steps:[
+ {on:'u1 a1',go:'u1>a1',t:`<b>Synchronous</b>: the order API calls every service and waits for all of them before answering the user.`},
+ {bad:'i1',go:'a1>e1 a1>i1',t:`If email is slow, the user waits. If the invoice service is down, the whole order fails, even though the order itself was fine.`},
+ {on:'a2 q',go:'u2>a2 a2>q',t:`<b>Asynchronous</b> with a queue: save the order, drop an "OrderPlaced" message into the queue, reply "done" in milliseconds.`},
+ {ok:'q',t:`Workers process emails and invoices whenever they can. A down service just means messages wait and retry later. Nothing is lost and the user isn't blocked.`}
+]}
+});
 </script>
 <script>/* LearnQuest engine — vanilla JS, no deps */
 (function(){
@@ -892,6 +1132,17 @@ document.documentElement.style.setProperty('--acc',A.accent);
 document.documentElement.style.setProperty('--acc2',A.accent2);
 
 /* ---------- flatten lessons ---------- */
+/* ---------- apply content patches (basics intros, problem details, code sync, concept scenes) ---------- */
+(function(){
+  const applySync=(sc,s)=>{ if(!sc||!s) return; sc.code=s.code; (s.ln||[]).forEach((x,i)=>{ if(sc.frames&&sc.frames[i]) sc.frames[i].ln=x; }); };
+  A.segments.forEach(seg=>seg.lessons.forEach(l=>{
+    if(A.intro&&A.intro[l.id]) l.intro=Object.assign({},A.intro[l.id],l.intro||{});
+    if(l.anim&&!Array.isArray(l.anim)) l.anim=[l.anim];
+    if(A.sync&&l.anim) l.anim.forEach((sc,i)=>applySync(sc,A.sync[l.id+':'+i]));
+    if(A.pre&&A.pre[l.id]) l.anim=[].concat(A.pre[l.id],l.anim||[]);
+    (l.probs||[]).forEach(p=>{ if(A.probx&&A.probx[p.lc||p.n]) Object.assign(p,A.probx[p.lc||p.n]); if(p.trace&&A.sync) applySync(p.trace,A.sync['p'+(p.lc||p.n)]); });
+  }));
+})();
 const LESSONS=[]; A.segments.forEach((s,si)=>s.lessons.forEach(l=>{l.seg=si;l.n=LESSONS.length+1;LESSONS.push(l)}));
 const byId = id=>LESSONS.find(l=>l.id===id);
 
@@ -1091,7 +1342,8 @@ function Player(mount,scenes,opts={}){
     si=k; sc=scenes[k]; stop();
     $$('[data-sc]',mount).forEach((b,j)=>b.classList.toggle('ghost',j!==k));
     $('[data-tt]',mount).textContent=sc.title||'';
-    if(sc.type==='arr'){ steps=sc.frames; prevSig=''; vis.innerHTML=`<div class="arr" data-arr></div>`; }
+    if(sc.type==='arr'){ steps=sc.frames; prevSig='';
+      vis.innerHTML=sc.code?`<div class="arr-split"><div class="arr" data-arr></div><div class="codepane"><div class="cp-h">Python · the highlighted line is running</div>${sc.code.replace(/^\n+|\s+$/g,'').split('\n').map((ln,j)=>`<div class="cl" data-ln="${j+1}"><span class="lno">${j+1}</span>${hl(ln)||' '}</div>`).join('')}</div></div>`:`<div class="arr" data-arr></div>`; }
     else { flow=normFlow(sc); steps=sc.steps; buildSVG(); }
     $('[data-dots]',mount).innerHTML=steps.map((_,j)=>`<i data-d="${j}"></i>`).join('');
     $$('[data-d]',mount).forEach(d=>d.onclick=()=>{touched=true;stop();show(+d.dataset.d)});
@@ -1116,7 +1368,7 @@ function Player(mount,scenes,opts={}){
     $('[data-k]',mount).textContent=st.k||'';
     const cap=$('[data-cap]',mount); cap.innerHTML=st.t||''; cap.style.animation='none'; void cap.offsetWidth; cap.style.animation='';
     $$('[data-d]',mount).forEach((d,j)=>{d.className=j===k?'on':(seen.has(si+':'+j)?'seen':'')});
-    if(sc.type==='arr') renderArr(st); else renderFlow(k);
+    if(sc.type==='arr'){ renderArr(st); if(sc.code){ const on=new Set(ids(st.ln)); $$('.cl',mount).forEach(c=>c.classList.toggle('on',on.has(c.dataset.ln))); } } else renderFlow(k);
     const all=scenes.every((s,a)=>(s.type==='arr'?s.frames:s.steps).every((_,b)=>seen.has(a+':'+b)));
     if(all) onAllSeen();
     if(k===steps.length-1 && playing){ stop(); }
@@ -1235,6 +1487,15 @@ function flashcards(cards){
 }
 
 /* ---------- lesson ---------- */
+function introHTML(l){
+  const I=l.intro; let h=`<div class="intro-hero"><div class="kick">In one sentence</div><div class="one">${I.one}</div></div>`;
+  if(I.ana||I.why) h+=`<div class="grid2" style="margin-top:14px">${I.ana?`<div class="lc analogy"><h4>🧠 Real-life analogy</h4>${I.ana}</div>`:''}${I.why?`<div class="lc"><h4>🎯 Why it matters</h4>${I.why}</div>`:''}</div>`;
+  if(I.body) h+=`<div class="lc" style="margin-top:14px"><h4>${I.bodyh||'📌 The basics'}</h4>${I.body}</div>`;
+  if(I.terms) h+=`<div class="sec-t">🔤 Key words, in plain English</div><div class="tblw"><table class="cmp gl"><tbody>${I.terms.map(t=>`<tr><td>${t[0]}</td><td>${t[1]}</td></tr>`).join('')}</tbody></table></div>`;
+  if(I.map) h+=`<div class="sec-t">🗺️ In this lesson you will</div><div class="lc"><ul class="ticks">${I.map.map(x=>`<li>${x}</li>`).join('')}</ul></div>`;
+  if(I.pre&&I.pre.length) h+=`<div class="sec-t">⏮️ Helps to know first</div><div class="row">${I.pre.map(id=>{const p=byId(id);return p?`<button class="btn sm ghost" data-pre="${id}">${p.em} ${esc(p.t)}${S.done[id]?' ✓':''}</button>`:''}).join('')}</div>`;
+  return h;
+}
 function learnHTML(l){
   const icon={analogy:'🧠',pitfall:'⚠️',say:'🎤'};
   return `<div class="learn">${(l.learn||[]).map(c=>`<div class="lc ${c.k||''}"><h4>${c.k?icon[c.k]+' ':''}${c.h}</h4>${c.b||''}${c.code?codeBlock(c.code):''}</div>`).join('')}</div>`;
@@ -1244,6 +1505,7 @@ function cmpHTML(l){
 }
 function lessonView(l){
   const stages=[];
+  if(l.intro) stages.push(['intro','🧭 Basics']);
   if(l.anim) stages.push(['watch','🎬 Watch']);
   stages.push(['learn','📖 Learn']);
   if(l.cmp) stages.push(['cmp','⚖️ Compare']);
@@ -1267,14 +1529,19 @@ function lessonView(l){
     body.innerHTML=`<div class="pane" data-pn></div>`; const pn=$('[data-pn]',body);
     if(k==='watch'){ pn.innerHTML=`<div data-pl></div><p class="hint">Tip: ← → keys step through, ▶ auto-plays. Watch every step for +10 XP.</p>${nav()}`;
       players.push(Player($('[data-pl]',pn),l.anim,{keys:true,onAllSeen:()=>{if(!watchedXP){watchedXP=true;gainXP(10)}}})); }
+    else if(k==='intro'){ pn.innerHTML=introHTML(l)+nav(); $$('[data-pre]',pn).forEach(b=>b.onclick=()=>go('l-'+b.dataset.pre)); }
     else if(k==='learn'){ pn.innerHTML=learnHTML(l)+nav(); }
     else if(k==='cmp'){ pn.innerHTML=cmpHTML(l)+nav(); }
     else if(k==='cards'){ pn.innerHTML=`<p class="sub">Answer out loud first, then flip. This is how you'll say it in the interview.</p>`+flashcards(l.cards)+nav(); }
     else if(k==='probs'){
-      pn.innerHTML=l.probs.map((p,pi)=>`<div class="card prob"><div class="prob-h"><h4>${pi+1}. ${p.n}</h4><span class="tag ${p.lv}">${{e:'Easy',m:'Medium',h:'Hard'}[p.lv]}</span>${p.lc?`<span class="cx">LeetCode #${p.lc}</span>`:''}</div>
-        <p style="margin:6px 0;color:#d3daf7">${p.q||''}</p><div class="lc analogy" style="margin:10px 0"><h4>💡 Key idea</h4><p>${p.idea}</p></div>
-        ${p.trace?`<div data-tr="${pi}" style="margin:12px 0"></div>`:''}
-        <details class="rev"><summary>🧠 Think first, then reveal the Python solution</summary>${codeBlock(p.code)}<div class="cx">⏱ ${p.cx||''}</div></details></div>`).join('')+nav();
+      pn.innerHTML=`<p class="sub">For each problem: read it, check the examples, think about the slow obvious way, then learn the smart way. Try coding it yourself before you open the solution.</p>`+l.probs.map((p,pi)=>`<div class="card prob"><div class="prob-h"><h4>${pi+1}. ${p.n}</h4><span class="tag ${p.lv}">${{e:'Easy',m:'Medium',h:'Hard'}[p.lv]}</span>${p.lc?`<span class="cx">LeetCode #${p.lc}</span>`:''}</div>
+        <div class="pstep"><div class="pk">📝 The problem</div><div>${p.q||''}</div></div>
+        ${p.ex?`<div class="pstep"><div class="pk">🔎 Examples</div>${p.ex.map(e=>`<div class="ex"><div><span>Input</span><code>${esc(e[0])}</code></div><div><span>Output</span><code>${esc(e[1])}</code></div>${e[2]?`<div class="why">${e[2]}</div>`:''}</div>`).join('')}</div>`:''}
+        ${p.ask?`<div class="pstep"><div class="pk">🤔 What is it really asking?</div><div>${p.ask}</div></div>`:''}
+        ${p.brute?`<div class="pstep brute"><div class="pk">🐢 Brute force (the obvious way)</div><div>${p.brute[0]}</div><div class="cx">⏱ ${p.brute[1]||''}</div></div>`:''}
+        <div class="pstep smart"><div class="pk">💡 The smart way</div><div>${p.idea}</div>${p.steps?`<ol class="steps">${p.steps.map(x=>`<li>${x}</li>`).join('')}</ol>`:''}</div>
+        ${p.trace?`<div class="pk" style="margin:14px 0 6px">🎬 Watch it run</div><div data-tr="${pi}"></div>`:''}
+        <details class="rev"><summary>🧠 Tried it? Reveal the Python solution</summary>${codeBlock(p.code)}<div class="cx">⏱ ${p.cx||''}</div></details></div>`).join('')+nav();
       l.probs.forEach((p,pi)=>{ if(p.trace) players.push(Player($(`[data-tr="${pi}"]`,pn),Object.assign({type:'arr',title:'Trace: '+p.n},p.trace),{autoplay:false})); });
     }
     else if(k==='play'){ runPlay(pn); return; }

@@ -261,6 +261,28 @@ details.rev summary{cursor:pointer;font-weight:700;color:var(--acc2);padding:6px
   .cell{min-width:40px;height:44px;font-size:.9rem}.ptrs div{min-width:40px}
   .cap{font-size:.93rem}
 }
+/* v2: basics stage, problems, code-synced animation */
+.intro-hero{background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 22%,var(--card)),var(--card));border:1px solid color-mix(in srgb,var(--acc) 45%,var(--line));border-radius:18px;padding:22px 24px}
+.intro-hero .one{font-size:1.25rem;font-weight:600;line-height:1.5;margin-top:6px;color:#fff}
+table.gl{min-width:0}table.gl td:first-child{width:28%;white-space:normal;color:var(--acc2)}
+ul.ticks{list-style:none;padding-left:0}ul.ticks li{padding-left:28px;position:relative;margin:7px 0}ul.ticks li:before{content:"✓";position:absolute;left:4px;color:var(--ok);font-weight:700}
+.pstep{margin:12px 0;padding:14px 16px;border-radius:12px;background:#0d1430;border:1px solid var(--line);color:#d3daf7}
+.pstep .pk,.pk{font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--acc2);margin-bottom:6px}
+.pstep.brute{border-left:4px solid var(--warn)}.pstep.smart{border-left:4px solid var(--ok)}
+.pstep p{margin:4px 0}
+.ex{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;padding:10px 0;border-top:1px dashed var(--line)}.ex:first-of-type{border-top:0}
+.ex span{display:block;font-size:.7rem;color:var(--dim);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.ex code{white-space:pre-wrap;word-break:break-word}
+.ex .why{grid-column:1/-1;font-size:.9rem;color:var(--mut)}
+ol.steps{margin:10px 0 0;padding-left:22px}ol.steps li{margin:5px 0}
+.arr-split{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr)}
+.codepane{background:#070b1a;border-left:1px solid var(--line);padding:0 0 10px;font-family:var(--mono);font-size:.78rem;overflow-x:auto}
+.cp-h{font-family:var(--sans);font-size:.7rem;color:var(--dim);padding:8px 12px;border-bottom:1px solid var(--line);margin-bottom:6px;letter-spacing:.04em}
+.cl{white-space:pre;line-height:1.75;padding:0 12px 0 0;color:#c4ccef;transition:background .25s}
+.cl .lno{display:inline-block;width:30px;text-align:right;padding-right:10px;color:#3d4a7a;user-select:none}
+.cl.on{background:color-mix(in srgb,var(--acc2) 22%,transparent);box-shadow:inset 3px 0 0 var(--acc2);color:#fff}
+.cl.on .lno{color:var(--acc2)}
+@media(max-width:820px){.arr-split{grid-template-columns:1fr}.codepane{border-left:0;border-top:1px solid var(--line)}.ex{grid-template-columns:1fr}}
 </style></head><body><div id="app"></div>
 <script>window.APP={id:'ai',name:'AI Engineer Quest',emoji:'🤖',accent:'#8b5cf6',accent2:'#22d3ee',mins:15,
 tagline:`From tokens to production agents. Covers LLM internals, RAG, LangChain/LangGraph, evals and AI system design, aimed at AI Engineer, GenAI/RAG, AI Ops and FDE interviews.`,
@@ -1128,6 +1150,315 @@ order:{q:`Order the AIOps pipeline`,items:['Ingest alerts','Dedupe & correlate',
 cards:[[`What makes an AIOps agent trustworthy?`,`Read-only tools by default, evidence-linked conclusions, an allow-listed action space with human approval, bounded loops, full tracing and audit, evals on replayed incidents, and graceful degradation when the AI fails.`]]
 }
 ]});
+
+/* AI v2: "Start Here" basics section */
+(function(){
+const aiBasics={id:'ai-basics',em:'🌱',t:'AI, ML, Deep Learning & GenAI',mins:15,d:`What each term actually means, how machine learning differs from normal programming, and how a model "learns" from examples.`,
+intro:{one:`<b>AI</b> is the broad goal of making computers do things that seem intelligent. <b>Machine learning (ML)</b> is the main way we do it today: instead of writing rules by hand, we show the computer lots of examples and it learns the pattern itself.`,
+ ana:`<p>Teaching a child to recognise dogs: you don't give them a rulebook ("four legs, fur, tail…"). You point at many dogs and say "dog". Eventually they recognise dogs they've never seen. That's machine learning.</p>`,
+ why:`<ul><li>Every AI-engineering interview assumes you can explain these terms precisely.</li><li>LLMs, RAG and agents all sit on top of these ideas.</li></ul>`,
+ terms:[['Artificial Intelligence','Any technique that makes machines act smart (even hand-written rules)'],['Machine Learning','Learning patterns from data instead of hand-coding rules'],['Deep Learning','ML using large neural networks with many layers'],['Generative AI','Models that create new content: text, images, code, audio'],['Model','The learned "function" that turns inputs into outputs'],['Training',`Showing examples and adjusting the model until it's accurate`],['Inference','Using the trained model to make predictions']],
+ map:['Place AI, ML, DL and GenAI inside each other','See how ML flips normal programming around','Watch a tiny model learn from examples']},
+anim:[{type:'flow',title:'How the terms fit together',h:420,zones:[{x:20,y:20,w:760,h:380,l:'ARTIFICIAL INTELLIGENCE'},{x:60,y:110,w:680,h:270,l:'MACHINE LEARNING'},{x:100,y:190,w:600,h:170,l:'DEEP LEARNING'},{x:420,y:250,w:260,h:95,l:'GENERATIVE AI'}],nodes:[
+ ['rule','Rule-based chess bot',400,65,'AI without learning'],['spam','Spam filter',400,150,'learns from labelled emails'],['img','Face unlock',250,290,'neural network'],['llm','ChatGPT / Claude',550,300,'LLM: generates text','p']],
+ steps:[
+ {on:'rule',t:`<b>AI</b> is the big umbrella: any program that acts "smart". A chess bot with hand-written rules counts, even though it never learns.`},
+ {on:'spam',t:`<b>Machine learning</b> is the part of AI that <b>learns from data</b>. A spam filter sees thousands of emails labelled spam / not-spam and learns which word patterns matter.`},
+ {on:'img',t:`<b>Deep learning</b> is ML with big <b>neural networks</b> (many layers). It's what made images, speech and language work well from about 2012 onwards.`},
+ {on:'llm',t:`<b>Generative AI</b> is deep learning that <b>creates</b> new content. Large language models (LLMs) like Claude and GPT generate text and code. That's the focus of this app.`}
+]},
+{type:'flow',title:'Normal programming vs machine learning',h:365,nodes:[
+ ['r','Rules (code you write)',120,70],['d1','Data',120,150],['p','Program',380,110,'','b'],['a1','Answers',640,110,'','g'],
+ ['d2','Data (examples)',120,250],['a2','Answers (labels)',120,320],['t','Training',380,285,'','y'],['m','Model = learned rules',640,285,'','p']],
+ edges:[['r','p'],['d1','p'],['p','a1'],['d2','t'],['a2','t'],['t','m']],
+ steps:[
+ {on:'r d1 p a1',go:'r>p d1>p p>a1',t:`<b>Normal programming:</b> you write the rules ("if the email contains 'lottery', mark it spam"), feed in data, and get answers. Rules break whenever the world changes.`},
+ {on:'d2 a2 t',go:'d2>t a2>t',t:`<b>Machine learning flips it:</b> you provide data <i>and</i> the correct answers (labels), e.g. 10,000 emails each marked spam or not.`},
+ {on:'m',go:'t>m',t:`<b>Training</b> finds the rules automatically. The output is a <b>model</b>, which you then use on new data. Using it is called <b>inference</b>.`}
+]},
+{type:'arr',title:'Watch a tiny model learn (price = w × size)',frames:[
+ {rows:[{lab:'house size (100 sq ft)',a:[10,15,20]},{lab:'real price (lakh)',a:[50,75,100]}],t:`Training data: 3 houses with their real prices. Our model is the simplest possible: <b>price = w × size</b>. We need to learn the number w (a "weight").`},
+ {rows:[{lab:'real price',a:[50,75,100]},{lab:'model guess (w = 2)',a:[20,30,40],bad:'0 1 2'}],v:{w:2,'error (loss)':'large'},t:`Start with a random guess, w = 2. The predictions are way too low. The gap between guess and truth is the <b>loss</b>.`},
+ {rows:[{lab:'real price',a:[50,75,100]},{lab:'model guess (w = 4)',a:[40,60,80],hl:'0 1 2'}],v:{w:4,'error (loss)':'smaller'},t:`Nudge w in the direction that reduces the error → w = 4. Closer.`},
+ {rows:[{lab:'real price',a:[50,75,100]},{lab:'model guess (w = 5)',a:[50,75,100],ok:'0 1 2'}],v:{w:5,'error (loss)':0},t:`w = 5 → perfect. That's <b>training</b>: repeatedly adjust weights to shrink the loss.`},
+ {rows:[{lab:'new house size',a:[12]},{lab:'model predicts',a:[60],ok:'0'}],v:{inference:'5 × 12 = 60'},t:`<b>Inference:</b> use the learned w on a house it has never seen. Real models learn <b>billions</b> of weights at once instead of one.`}
+]}],
+learn:[
+ {h:'Three ways machines learn',b:`<ul><li><b>Supervised:</b> learn from labelled examples (email → spam?). Covers classification (pick a category) and regression (predict a number).</li><li><b>Unsupervised:</b> find structure without labels: clustering customers, grouping similar tickets.</li><li><b>Reinforcement learning:</b> learn by trial and reward: games, robotics, and the RLHF step that makes chatbots helpful.</li></ul>`},
+ {h:'Words you will hear constantly',b:`<ul><li><b>Features:</b> the input signals (size, location).</li><li><b>Label:</b> the correct answer in training data.</li><li><b>Parameters / weights:</b> the numbers the model learns.</li><li><b>Train / validation / test split:</b> learn on one part, tune on another, report on unseen data.</li><li><b>Overfitting:</b> memorising the training data instead of learning the pattern, so it fails on new data.</li></ul>`},
+ {k:'say',h:'Say it in the interview',b:`<p>"AI is the umbrella; machine learning learns patterns from data instead of hand-written rules; deep learning does that with large neural networks; and generative AI, including LLMs, uses deep learning to create new content. Training adjusts the parameters to minimise a loss on examples; inference applies the trained model to new inputs."</p>`}
+],
+cmp:[{cols:['Term','What it is','Example'],rows:[['AI','any "smart" behaviour','rule-based chess engine'],['Machine learning','learns patterns from data','spam filter, fraud detection'],['Deep learning','ML with big neural networks','face recognition, speech-to-text'],['Generative AI','creates new content','Claude, GPT, image generators'],['LLM','generative model for text','summarise, chat, write code']]},
+ {t:'Types of learning',cols:['Type','Data','Example'],rows:[['Supervised','inputs + correct labels','predict ticket priority'],['Unsupervised','inputs only','cluster similar alerts'],['Reinforcement','actions + rewards','game AI, RLHF']]}],
+quiz:[
+ {q:`Which is the broadest term?`,o:['Deep learning','Machine learning','Artificial intelligence','LLM'],a:2,x:`AI contains ML, which contains DL, which contains generative models like LLMs.`},
+ {q:`In machine learning, what do you provide to training?`,o:['Hand-written rules','Data and the correct answers (labels)','Only the final program','Nothing'],a:1,x:`The model learns the rules from examples.`},
+ {q:`Using a trained model on new data is called…`,o:['Training','Inference','Labelling','Overfitting'],a:1,x:`Training learns; inference predicts.`},
+ {q:`A model scores 99% on training data but 60% on new data. This is…`,o:['Underfitting','Overfitting','Inference','Clustering'],a:1,x:`It memorised instead of generalising.`}
+],
+order:{q:`Order the ML workflow`,items:['Collect data with labels','Train: adjust weights to reduce loss','Validate on held-out data','Deploy and run inference on new inputs']},
+match:{pairs:[['Supervised','Learns from labelled examples'],['Unsupervised','Finds groups without labels'],['Reinforcement','Learns from rewards'],['Generative AI','Creates new content']]},
+cards:[[`Explain AI vs ML vs deep learning vs GenAI in 30 seconds.`,`AI is any smart behaviour. ML is AI that learns from data. Deep learning is ML with large neural networks. Generative AI is deep learning that creates content, like LLMs generating text.`]]
+};
+
+const nn={id:'neural-nets',em:'🕸️',t:'Neural Networks & How Training Works',mins:20,d:`Neurons, weights, layers, the forward pass, loss, and gradient descent: the engine underneath every LLM, made visual.`,
+intro:{one:`A <b>neural network</b> is a stack of simple maths units called neurons. Each one multiplies its inputs by <b>weights</b>, adds them up and passes the result on. <b>Training</b> nudges all those weights until the network's outputs are correct.`,
+ ana:`<p>A panel of judges scoring a dish: each judge cares about different things (salt, spice, texture) with a different weight. Their scores combine into a final verdict. If the verdict is wrong, every judge adjusts how much they care about each thing. Repeat millions of times.</p>`,
+ why:`<ul><li>LLMs are just enormous neural networks (billions of weights).</li><li>Understanding weights, loss and gradient descent makes fine-tuning, quantization and GPU costs make sense.</li></ul>`,
+ terms:[['Neuron','Computes weighted sum of inputs + bias, then an activation'],['Weight','A learned number saying how important an input is'],['Layer','A group of neurons working side by side'],['Activation (e.g. ReLU)','A simple non-linear step so networks can learn complex patterns'],['Loss','A number measuring how wrong the output is'],['Gradient descent','Adjust each weight a little in the direction that lowers loss'],['Epoch','One full pass over the training data']],
+ map:['Watch one neuron compute','See data flow through layers (forward pass)','Follow the training loop: loss → gradients → update'],pre:['ai-basics']},
+anim:[{type:'flow',title:'One neuron',h:320,nodes:[
+ ['x1','x₁ = 2',100,70],['x2','x₂ = 1',100,160],['x3','x₃ = 3',100,250],['n','Σ wᵢxᵢ + b',400,160,'weighted sum','p'],['act','ReLU',590,160,'max(0, z)','y'],['out','output',730,160,'','g']],
+ edges:[{f:'x1',t:'n',l:'w=0.5'},{f:'x2',t:'n',l:'w=-1'},{f:'x3',t:'n',l:'w=1'},['n','act'],['act','out']],
+ steps:[
+ {on:'x1 x2 x3',t:`A neuron receives inputs, numbers like pixel values or (in LLMs) parts of a token's vector.`},
+ {on:'n',go:'x1>n x2>n x3>n',sub:{n:'2(0.5) + 1(−1) + 3(1) + 0 = 3'},t:`Each input is multiplied by its <b>weight</b> and summed, plus a <b>bias</b>: 0.5×2 − 1×1 + 1×3 = <b>3</b>. The weights are what training learns.`},
+ {on:'act',go:'n>act',sub:{act:'max(0, 3) = 3'},t:`An <b>activation function</b> like ReLU (negative → 0) adds non-linearity. Without it, stacking layers would be no smarter than one layer.`},
+ {ok:'out',go:'act>out',t:`Output: 3. That's all a neuron does. The magic comes from stacking millions of them.`}
+]},
+{type:'flow',title:'Layers and the forward pass',h:380,nodes:[
+ ['i1','input',100,90],['i2','input',100,190],['i3','input',100,290],['h1','hidden',330,90,'','p'],['h2','hidden',330,190,'','p'],['h3','hidden',330,290,'','p'],['o1','"cat" 0.9',580,140,'','g'],['o2','"dog" 0.1',580,250,'','r']],
+ edges:[['i1','h1'],['i1','h2'],['i2','h2'],['i2','h3'],['i3','h1'],['i3','h3'],['h1','o1'],['h2','o1'],['h2','o2'],['h3','o2']],
+ steps:[
+ {on:'i1 i2 i3',t:`<b>Input layer:</b> the raw numbers (pixels of a photo, or token vectors for text).`},
+ {on:'h1 h2 h3',go:'i1>h1 i1>h2 i2>h2 i2>h3 i3>h1 i3>h3',t:`<b>Hidden layers:</b> each neuron combines the previous layer's outputs. Early layers learn simple features; deeper ones learn complex concepts.`},
+ {on:'o1 o2',go:'h1>o1 h2>o1 h2>o2 h3>o2',t:`<b>Output layer:</b> final scores, often turned into probabilities. Here: 90% cat. For an LLM, the output is a probability for <b>every token</b> in its vocabulary.`},
+ {ok:'o1',t:`One trip from input to output is the <b>forward pass</b>, which is exactly what happens at inference time. Deep learning = many hidden layers; LLMs have dozens of transformer layers and billions of weights.`}
+]},
+{type:'flow',title:'The training loop',h:360,nodes:[
+ ['d','Training example',110,80,'photo + label "cat"'],['f','Forward pass',360,80,'prediction: 0.6 cat','p'],['l','Loss',610,80,'how wrong? (0.4)','r'],['g','Backpropagation',610,260,'which weights caused it?','y'],['u','Update weights',360,260,'w = w − lr × gradient','g']],
+ edges:[['d','f'],['f','l'],['l','g'],['g','u'],{f:'u',t:'f',l:'repeat',dash:1}],
+ steps:[
+ {on:'d f',go:'d>f',t:`Take a training example and run the <b>forward pass</b>. The untrained network guesses "60% cat".`},
+ {on:'l',go:'f>l',t:`Compare with the true label (100% cat). The <b>loss</b> measures the error.`},
+ {on:'g',go:'l>g',t:`<b>Backpropagation</b> works backwards through the layers to compute each weight's <b>gradient</b>: how much nudging it would change the loss.`},
+ {on:'u',go:'g>u',t:`<b>Gradient descent:</b> move every weight a small step (the <b>learning rate</b>) in the direction that lowers the loss.`},
+ {ok:'f',go:'u>f',t:`Repeat over millions of examples (each full pass is an <b>epoch</b>). The loss falls and the network gets accurate. Training LLMs this way takes thousands of GPUs for weeks.`}
+]}],
+learn:[
+ {h:'Gradient descent in one picture',b:`<p>Imagine standing on a foggy hill (the loss) and wanting to reach the valley (low loss). You feel the slope under your feet (the gradient) and take a small step downhill (the learning rate). Too big a step and you overshoot; too small and it takes forever.</p>`},
+ {h:'Why GPUs?',b:`<p>A layer's work is a giant <b>matrix multiplication</b>: inputs × weights. GPUs do thousands of multiplications in parallel, so training and serving LLMs is GPU-bound. Model size (parameters) drives memory, which is why quantization (storing weights in fewer bits) matters.</p>`},
+ {h:'Training vs inference costs',b:`<ul><li><b>Training:</b> forward + backward passes over huge datasets. Extremely expensive, done rarely.</li><li><b>Inference:</b> forward pass only, per request. This is what your app pays for with an API.</li><li><b>Fine-tuning:</b> a small extra training run on your own examples.</li></ul>`},
+ {k:'say',h:'Say it in the interview',b:`<p>"A neural network is layers of weighted sums with non-linear activations. Training runs a forward pass, measures loss against the label, backpropagates gradients and updates the weights by gradient descent, over many epochs. Inference is just the forward pass. LLMs are the same idea at billions of parameters with transformer layers."</p>`}
+],
+cmp:[{cols:['','Training','Inference'],rows:[['Passes','forward + backward','forward only'],['Changes weights?','yes','no'],['Cost','huge, one-time-ish','per request'],['Who does it','model labs (or you, for fine-tuning)','your app via API or self-hosting']]}],
+quiz:[
+ {q:`What does training change in a neural network?`,o:['The input data','The weights','The number of GPUs','The labels'],a:1,x:`Weights are the learned parameters.`},
+ {q:`What does the loss measure?`,o:['Speed','How wrong the prediction is','Number of layers','GPU memory'],a:1,x:`Lower loss = better predictions.`},
+ {q:`Gradient descent moves weights…`,o:['Randomly','In the direction that reduces the loss','To zero','Only at inference'],a:1,x:`Step downhill on the loss surface.`},
+ {q:`Why are GPUs used for deep learning?`,o:['Bigger hard drives','They do massive parallel matrix multiplications','They run Python faster','They store labels'],a:1,x:`Layers are matrix math.`}
+],
+order:{q:`Order one training step`,items:['Forward pass on an example','Compute the loss','Backpropagate gradients','Update weights by gradient descent']},
+match:{pairs:[['Weight','Learned importance of an input'],['Activation','Non-linear step like ReLU'],['Learning rate','Size of each update step'],['Epoch','One full pass over data']]},
+cards:[[`Explain how a neural network learns.`,`It makes a prediction (forward pass), measures error with a loss, uses backpropagation to compute how each weight affected that error, and nudges every weight downhill with gradient descent. That repeats over many examples until the loss is low.`]]
+};
+
+const llm={id:'llm-basics',em:'💬',t:'What is an LLM & How You Use One',mins:20,d:`Next-token prediction, how chat models are trained (pretraining → instruction tuning → RLHF), and what an LLM API call actually looks like.`,
+intro:{one:`A <b>large language model (LLM)</b> is a huge neural network trained on enormous amounts of text to do one thing: <b>predict the next token</b>. Chatting, coding and summarising all emerge from repeating that prediction over and over.`,
+ ana:`<p>Your phone keyboard's next-word suggestion, scaled up enormously: trained on a large share of the internet and books, with billions of weights, until its "next word" guesses can write essays and code.</p>`,
+ why:`<ul><li>Every AI engineering role builds products on top of LLM APIs.</li><li>Knowing how LLMs are trained explains their strengths (fluency) and weaknesses (hallucination, knowledge cutoff, no memory), which is why RAG, tools and evals exist.</li></ul>`,
+ terms:[['Token','A chunk of text (≈ ¾ of a word) that the model reads and writes'],['Pretraining','Learning next-token prediction on huge raw text'],['Instruction tuning (SFT)','Extra training on question → good answer examples'],['RLHF / preference tuning','Training on human preferences to be helpful and safe'],['Prompt','The input text/messages you send'],['Context window','Maximum tokens per request'],['Hallucination','Confident but false output'],['Knowledge cutoff','The date after which the model saw no training data']],
+ map:['Watch next-token prediction build a sentence','See the 3 stages that turn a text predictor into a chat assistant','Read a real API request and response','Learn the core limitations that later lessons solve'],pre:['neural-nets']},
+anim:[{type:'arr',title:'Generation = predicting one token at a time',frames:[
+ {rows:[{lab:'prompt',a:['The','capital','of','France','is']}],t:`You give the model some text. It doesn't "look up" an answer; it scores every possible <b>next token</b>.`},
+ {rows:[{lab:'prompt',a:['The','capital','of','France','is']},{lab:'next-token candidates',a:['Paris 92%','a 3%','the 2%','Lyon 1%'],ok:'0'}],t:`Probabilities over its whole vocabulary (~100k tokens). "Paris" is by far the most likely, because it has seen this pattern many times in training.`},
+ {rows:[{lab:'text so far',a:['The','capital','of','France','is','Paris'],ok:'5'}],t:`Pick a token (sampling) and <b>append</b> it to the text…`},
+ {rows:[{lab:'text so far',a:['The','capital','of','France','is','Paris','.'],ok:'5 6'}],t:`…then predict again with the longer text. Repeat until a stop token or max_tokens. That's all generation is: a loop of next-token predictions.`},
+ {rows:[{lab:'risk',a:['The','capital','of','Wakanda','is','Birnin Zana'],bad:'5'}],t:`Because it predicts what <i>sounds</i> right rather than checking facts, it can produce fluent but false answers: <b>hallucinations</b>. Grounding with RAG reduces this.`}
+]},
+{type:'flow',title:'From text predictor to chat assistant',h:340,nodes:[
+ ['data','Internet + books + code',122,80,'trillions of tokens','b'],['pre','1. Pretraining',330,80,'learn next-token prediction','p'],['base','Base model',560,80,'great autocomplete'],
+ ['sft','2. Instruction tuning',560,250,'Q → good answer examples','y'],['rl','3. Preference tuning',330,250,'RLHF / DPO: helpful, honest, safe','y'],['chat','Chat model',110,250,'Claude, GPT, Llama-Instruct','g']],
+ edges:[['data','pre'],['pre','base'],['base','sft'],['sft','rl'],['rl','chat']],
+ steps:[
+ {on:'data pre',go:'data>pre',t:`<b>Pretraining:</b> the network reads a huge amount of text and learns to predict the next token. This is where its knowledge and language skill come from. It costs months and millions of dollars.`},
+ {on:'base',go:'pre>base',t:`The result is a <b>base model</b>: excellent at continuing text, but it doesn't reliably follow instructions. Ask it a question and it may just add more questions.`},
+ {on:'sft',go:'base>sft',t:`<b>Instruction tuning (SFT):</b> train further on curated examples of instructions paired with ideal answers.`},
+ {on:'rl',go:'sft>rl',t:`<b>Preference tuning (RLHF / DPO):</b> humans or AI judges rank answers, and the model learns to prefer helpful, honest, harmless ones.`},
+ {ok:'chat',go:'rl>chat',t:`The <b>chat model</b> you call through an API. Notice what it still lacks: your private data, events after the cutoff, memory between calls and real-world actions. Those gaps are why the rest of this course exists.`}
+]},
+{type:'flow',title:'What an API call looks like',h:340,nodes:[
+ ['app','Your app',100,170],['req','HTTP request',330,80,'model, messages, max_tokens','b'],['prov','LLM provider',560,170,'GPU servers run inference','p'],['res','Response',330,270,'text + token usage','g']],
+ edges:[['app','req'],['req','prov'],['prov','res'],['res','app']],
+ steps:[
+ {on:'app req',go:'app>req',t:`Your code sends a request: which <b>model</b>, a list of <b>messages</b> (a system instruction plus the conversation), and settings like <b>max_tokens</b> and <b>temperature</b>.`},
+ {on:'prov',go:'req>prov',t:`The provider runs the forward pass token by token on GPUs (you can <b>stream</b> tokens as they're produced).`},
+ {ok:'res',go:'prov>res res>app',t:`You get back the generated text plus <b>usage</b> (input and output tokens), which is what you're billed for.`},
+ {on:'app',t:`Crucially, the API is <b>stateless</b>: it remembers nothing. For a follow-up question you resend the whole conversation. Managing that is "memory" (a later lesson).`}
+]}],
+learn:[
+ {h:'A minimal API call (Python)',code:`from anthropic import Anthropic      # other providers look very similar
+
+client = Anthropic()                  # reads your API key from the environment
+resp = client.messages.create(
+    model="MODEL_NAME",
+    max_tokens=300,
+    system="You are a concise SRE assistant.",
+    messages=[{"role": "user", "content": "What does HTTP 503 mean?"}],
+)
+print(resp.content[0].text)           # the answer
+print(resp.usage)                     # input/output tokens -> cost`},
+ {h:'Message roles',b:`<ul><li><b>system:</b> instructions and persona, e.g. "You are a support bot. Only answer from the docs."</li><li><b>user:</b> what the human said.</li><li><b>assistant:</b> what the model said earlier (you send this back to keep conversation history).</li><li><b>tool</b> results: outputs of functions the model asked to call (agents lesson).</li></ul>`},
+ {h:'Core limitations → what solves them',b:`<ul><li>Doesn't know your private or recent data → <b>RAG</b>.</li><li>Can't take actions or fetch live data → <b>tool calling / agents</b>.</li><li>No memory between calls → <b>memory / context engineering</b>.</li><li>Can be wrong or unsafe → <b>evals and guardrails</b>.</li><li>Cost and latency → <b>serving, caching, routing</b>.</li></ul><p>That's the roadmap of this whole app.</p>`},
+ {h:'Closed vs open-weight models',b:`<p><b>Closed</b> (Claude, GPT, Gemini): use via API, strongest models, no infrastructure to run. <b>Open-weight</b> (Llama, Mistral, Qwen…): download and self-host, with full control and data residency, but you run the GPUs.</p>`},
+ {k:'say',h:'Say it in the interview',b:`<p>"An LLM is a transformer trained to predict the next token, first by pretraining on massive text, then aligned with instruction tuning and preference optimisation into a chat model. We use it through a stateless API with system and user messages, paying per token. Its gaps (private data, freshness, actions, memory, reliability) are what RAG, tools, memory and evals address."</p>`}
+],
+cmp:[{cols:['','Base model','Chat / instruct model'],rows:[['Trained with','pretraining only','+ SFT + preference tuning'],['Behaviour','continues text','follows instructions, converses'],['Use','research, further fine-tuning','apps, agents, assistants']]},
+ {t:'Closed vs open-weight',cols:['','Closed API','Open-weight'],rows:[['Examples','Claude, GPT, Gemini','Llama, Mistral, Qwen'],['Setup','API key','GPUs + serving stack'],['Control / privacy','provider terms','full control'],['Typical use','fastest path to quality','data residency, high steady volume, customisation']]}],
+quiz:[
+ {q:`What is an LLM fundamentally trained to do?`,o:['Search the web','Predict the next token','Store facts in a database','Translate only'],a:1,x:`Everything else emerges from next-token prediction.`},
+ {q:`Which stage teaches the model to follow instructions?`,o:['Pretraining','Instruction tuning (SFT) + preference tuning','Tokenization','Inference'],a:1,x:`Base models only continue text.`},
+ {q:`You send a follow-up question but the model forgot the earlier conversation. Why?`,o:['Bug in the model','The API is stateless; you must resend the history','Temperature too high','The context window is infinite'],a:1,x:`Your app manages conversation state.`},
+ {q:`Why do LLMs hallucinate?`,o:['They are lazy','They generate likely-sounding text rather than verifying facts','They have no GPUs','Because of HTTPS'],a:1,x:`Grounding (RAG) and evals help.`}
+],
+order:{q:`How a chat model is made`,items:['Collect huge text data','Pretrain on next-token prediction','Instruction tuning on Q→A examples','Preference tuning (RLHF/DPO)','Serve as a chat model via API']},
+match:{pairs:[['system message','Instructions & persona'],['usage','Tokens you are billed for'],['knowledge cutoff','Date after which it saw no data'],['open-weight','Model you can self-host']]},
+cards:[[`What is an LLM, and what can't it do on its own?`,`A transformer trained to predict the next token, then aligned into a chat assistant. On its own it lacks your private and fresh data, can't take actions, has no memory between calls, and can hallucinate. RAG, tools, memory and evals fill those gaps.`]]
+};
+
+APP.segments.unshift({name:'Start Here: AI Basics',em:'🌱',desc:'what AI, neural networks and LLMs really are',lessons:[aiBasics,nn,llm]});
+})();
+
+/* AI v2: plain-English basics for every lesson + extra concept scenes */
+APP.intro=Object.assign(APP.intro||{},{
+'tokens':{one:`A <b>token</b> is a small chunk of text (a word, part of a word, or punctuation) that an LLM reads and writes. Models see numbered tokens, never letters, and everything is priced and limited in tokens.`,
+ ana:`<p>LEGO bricks: a tokenizer has a fixed box of brick shapes. Common words are a single brick; rare words are built from several smaller bricks.</p>`,
+ why:`<ul><li>Cost, speed and the context limit are all measured in tokens.</li><li>It explains odd behaviour (letter counting, some languages costing more).</li></ul>`,
+ terms:[['Token','A chunk of text from the model\'s vocabulary'],['Tokenizer','The tool that splits text into tokens and IDs'],['Vocabulary','The fixed list of all tokens a model knows'],['Context window','Max tokens per request (input + output)']],
+ map:['Watch text become tokens, then IDs, then vectors','See what fills the context window and what it costs','Learn how BPE builds a vocabulary'],pre:['llm-basics']},
+'embeddings':{one:`An <b>embedding</b> turns a piece of text into a list of numbers (a vector) so that texts with similar <b>meaning</b> get similar numbers. That lets computers search by meaning, not exact words.`,
+ ana:`<p>A library shelved by topic instead of title: books about dogs sit near books about puppies. To find related books you just look nearby.</p>`,
+ why:`<ul><li>The core of semantic search and RAG retrieval.</li><li>Also used for clustering, dedup, recommendations and semantic caching.</li></ul>`,
+ terms:[['Vector','An ordered list of numbers, e.g. 1,536 of them'],['Embedding model','A model that maps text to vectors'],['Cosine similarity','How closely two vectors point the same way (−1 to 1)'],['Semantic search','Finding results by meaning']],
+ map:['See meaning turned into positions on a map','Compute cosine similarity by hand','Compare dense vs keyword search'],pre:['tokens']},
+'attention':{one:`<b>Self-attention</b> lets every token in a sentence look at every other token and decide which ones matter for its meaning. It's the core idea of the <b>transformer</b>, the architecture inside every modern LLM.`,
+ ana:`<p>Reading "The animal didn't cross the street because <i>it</i> was tired", your brain links "it" to "animal" instantly. Attention is the mechanism that lets the model make that link.</p>`,
+ why:`<ul><li>Explains why long context is expensive and why the KV cache matters for latency.</li><li>A favourite "explain how LLMs work" interview question.</li></ul>`,
+ terms:[['Transformer','The neural network design built from attention + feed-forward layers'],['Query / Key / Value','What a token looks for / offers / passes on'],['Multi-head','Several attention patterns running in parallel'],['Autoregressive','Generates one token at a time, feeding outputs back in'],['KV cache','Stored keys/values so past tokens aren\'t recomputed']],
+ map:['Watch "it" attend to "animal"','Follow the full generation loop','Compare decoder, encoder and encoder-decoder models'],pre:['neural-nets','embeddings']},
+'sampling':{one:`After the model scores every possible next token, <b>decoding</b> settings like <b>temperature</b> and <b>top-p</b> decide how it picks one: safely (most likely) or creatively (more random).`,
+ ana:`<p>Ordering at a restaurant: temperature 0 always orders the house favourite; higher temperature sometimes tries something unusual, occasionally something weird.</p>`,
+ why:`<ul><li>Choosing settings per use case (extraction vs brainstorming) is everyday AI-engineering work.</li><li>max_tokens and stop sequences control cost and output length.</li></ul>`,
+ terms:[['Temperature','Randomness dial: 0 = predictable, higher = creative'],['Top-p','Only sample from the most likely tokens covering p of the probability'],['Greedy','Always pick the top token'],['max_tokens','Upper limit on output length']],
+ map:['Watch probabilities sharpen and flatten','Compare greedy, top-k and top-p','Pick settings for real tasks'],pre:['attention']},
+'prompting':{one:`<b>Prompt engineering</b> is writing the instructions and context you send to an LLM so it reliably does what you want: right task, right facts, right format.`,
+ ana:`<p>Briefing a smart new intern: say who they are, give the documents, show a couple of examples of good work, state the task clearly, and say exactly what format to hand back.</p>`,
+ why:`<ul><li>The cheapest and fastest way to improve quality, so always try it before fine-tuning.</li><li>Production prompts are versioned and tested like code.</li></ul>`,
+ terms:[['System prompt','Standing instructions for the model\'s role and rules'],['Few-shot','Including a few worked examples in the prompt'],['Chain-of-thought','Asking the model to reason step by step'],['Structured output','Forcing JSON or schema-shaped responses']],
+ map:['Build a production prompt piece by piece','Compare zero-shot, few-shot, CoT and chaining','Learn habits that make prompts reliable'],pre:['llm-basics']},
+'rag-basics':{one:`<b>RAG (retrieval-augmented generation)</b> means: before the LLM answers, <b>search your own documents</b> for the relevant pieces and paste them into the prompt, so the answer is grounded in your data.`,
+ ana:`<p>An open-book exam. The model is a smart student who hasn't read your company wiki; RAG is the librarian who hands over the right 4 pages just before each question.</p>`,
+ why:`<ul><li>The most common LLM application in companies: chat over docs, support bots, internal search.</li><li>Directly relevant for GenAI / RAG engineering roles.</li></ul>`,
+ terms:[['Retrieval','Finding the relevant chunks for a question'],['Augmentation','Adding those chunks to the prompt'],['Chunk','A small piece of a document (a few paragraphs)'],['Grounded','Based on provided sources, with citations'],['Vector database','Stores embeddings for fast similarity search']],
+ map:['See why an LLM fails without your data','Watch the offline indexing pipeline','Watch a question get answered end to end'],pre:['embeddings','prompting']},
+'chunking':{one:`<b>Chunking</b> is how you cut documents into pieces before embedding them, and a <b>vector database</b> is where those pieces live so the closest ones can be found in milliseconds.`,
+ ana:`<p>Cutting a textbook into index cards: too big and each card covers many topics; too small and a card loses its context. The card box (vector DB) has a clever index so you can find similar cards fast.</p>`,
+ why:`<ul><li>Bad chunking is the #1 hidden cause of poor RAG answers.</li><li>Choosing and tuning a vector store is a standard design question.</li></ul>`,
+ terms:[['Chunk size / overlap','How big each piece is / how much neighbours share'],['Recursive splitting','Split by headings, then paragraphs, then sentences'],['ANN','Approximate nearest neighbour: fast, slightly inexact search'],['HNSW','The most common ANN index (a layered graph)']],
+ map:['Compare chunking strategies visually','See how HNSW finds neighbours fast','Choose a vector database'],pre:['rag-basics']},
+'retrieval-plus':{one:`Plain vector search often misses. <b>Advanced retrieval</b> combines keyword and meaning search, <b>reranks</b> the results with a smarter model, and <b>rewrites</b> vague questions, so the best chunks reach the LLM.`,
+ ana:`<p>Hiring: a recruiter quickly skims 500 CVs (fast search), the manager interviews the top 20 carefully (reranker), and only the best 5 reach the final round (the LLM).</p>`,
+ why:`<ul><li>These are the upgrades interviewers expect you to suggest when "RAG isn't accurate enough".</li></ul>`,
+ terms:[['BM25','Classic keyword search scoring'],['Hybrid search','Keyword + vector search combined'],['Reranker (cross-encoder)','Model that scores query + chunk together for precise relevance'],['Query rewriting','LLM rephrases or expands the question before searching'],['HyDE','Search using a fake generated answer']],
+ map:['Watch two-stage retrieval (recall → precision)','See multi-query, HyDE and decomposition','Know when each upgrade is worth it'],pre:['chunking']},
+'rag-types':{one:`There are several <b>flavours of RAG</b>, from simple "search once, then answer" to <b>agentic</b> systems that decide when and where to search, check their own results and try again.`,
+ ana:`<p>A junior researcher looks in one place and writes up whatever they find. A senior researcher picks the right sources, double-checks relevance, searches again if needed, and verifies the final claims.</p>`,
+ why:`<ul><li>Shows you know the landscape (CRAG, Self-RAG, GraphRAG) and the trade-offs.</li></ul>`,
+ terms:[['Naive RAG','Retrieve once → generate'],['Agentic RAG','An LLM agent controls retrieval as a tool'],['Corrective RAG','Grades retrieved docs and fixes bad retrieval'],['GraphRAG','Uses a knowledge graph of entities and relationships']],
+ map:['Watch an agentic, self-correcting RAG loop','Compare 8 RAG types and when to use each'],pre:['retrieval-plus']},
+'agents-react':{one:`An <b>AI agent</b> is an LLM that can <b>use tools</b> (call APIs, run queries) in a loop: think → act → observe the result → think again, until the task is done.`,
+ ana:`<p>A manager who can't touch a keyboard: they write instructions on sticky notes ("check CPU on prod-1"), an assistant runs them and reports back, and the manager decides the next step.</p>`,
+ why:`<ul><li>Agents are the centre of current AI engineering (FDE, AIOps, automation roles).</li><li>Tool calling is how LLMs connect to real systems.</li></ul>`,
+ terms:[['Tool / function','An action the model may request, described by a JSON schema'],['Tool call','The model\'s structured request: name + arguments'],['Observation','The tool\'s result, fed back to the model'],['ReAct','Reason + Act loop'],['Workflow vs agent','Steps fixed in code vs decided by the LLM']],
+ map:['See a chatbot vs an agent side by side','Watch a full ReAct loop with real tools','Learn when to use a workflow instead of an agent'],pre:['llm-basics','prompting']},
+'langchain':{one:`<b>LangChain</b> is a Python/JS framework that gives standard building blocks (model wrappers, prompt templates, retrievers, tools, parsers) and a pipe syntax to connect them into LLM apps.`,
+ ana:`<p>LEGO Technic for LLM apps: standard pieces with matching connectors, so swapping one model or vector store for another doesn't mean rebuilding everything.</p>`,
+ why:`<ul><li>Widely used in industry and named in many AI job descriptions.</li><li>LangGraph and LangSmith build on its interfaces.</li></ul>`,
+ terms:[['Runnable','Any LangChain component with invoke/stream/batch'],['LCEL','The pipe syntax: prompt | model | parser'],['Retriever','Component that returns relevant documents'],['Output parser','Turns model text into strings, JSON or objects']],
+ map:['Watch a prompt | model | parser chain run','Read a minimal RAG chain in Python','Know when to switch to LangGraph'],pre:['rag-basics','agents-react']},
+'langgraph':{one:`<b>LangGraph</b> builds agents as a <b>graph</b>: nodes are steps (Python functions), edges decide what runs next, and a shared <b>state</b> is passed along and saved. That gives you loops, branching, pauses for human approval, and resumable runs.`,
+ ana:`<p>A flowchart that actually runs: boxes are steps, diamonds are decisions, arrows can loop back, and a clipboard (the state) travels with the work and is photocopied at every step (checkpoints).</p>`,
+ why:`<ul><li>The leading framework for production agents with human-in-the-loop.</li><li>Agent-resilience roles care about checkpoints, retries and interrupts.</li></ul>`,
+ terms:[['State','Shared data (messages, variables) passed between nodes'],['Node','A function: reads state, returns updates'],['Edge / conditional edge','Fixed next step / next step chosen by a function'],['Checkpointer','Saves state after each step so runs can pause and resume'],['Interrupt','Pause the graph to wait for a human']],
+ map:['Walk through an incident-triage graph','Read a minimal LangGraph agent in Python','Learn persistence, interrupts and streaming'],pre:['langchain','agents-react']},
+'multi-agent':{one:`<b>Multi-agent systems</b> split a big task across specialist agents coordinated by a supervisor. <b>MCP (Model Context Protocol)</b> is an open standard for plugging tools and data into any AI app the same way.`,
+ ana:`<p>A hospital: a coordinator routes the patient to the right specialists and combines their findings. MCP is like a universal plug socket, so any device fits any outlet.</p>`,
+ why:`<ul><li>Common in enterprise agent design discussions.</li><li>MCP is quickly becoming the standard way to give agents tools.</li></ul>`,
+ terms:[['Supervisor','Agent that delegates and merges results'],['Handoff','One agent passing control to another'],['MCP server','Wraps a system (GitHub, a DB) and exposes its tools'],['MCP client','Lives in the AI app and calls MCP servers']],
+ map:['Watch a supervisor coordinate specialists','See why MCP reduces integration work','Know when multi-agent is (and isn\'t) worth it'],pre:['langgraph']},
+'memory':{one:`LLMs remember nothing between calls. <b>Memory</b> is your app deciding what past information (recent messages, summaries, saved facts) to put back into each prompt. This is called <b>context engineering</b>.`,
+ ana:`<p>A doctor with no memory but excellent notes: before each visit they read the latest notes, a summary of your history and your allergies. What goes in the notes decides the quality of care.</p>`,
+ why:`<ul><li>Every chatbot and agent needs it.</li><li>Bad memory means a forgetful bot or a huge, expensive, confused prompt.</li></ul>`,
+ terms:[['Short-term memory','The current conversation thread'],['Long-term memory','Facts saved across sessions'],['Summarisation','Compressing old messages'],['Context engineering','Choosing exactly what goes into the context window']],
+ map:['See every source that fills the context window','Compare memory strategies','Know the risks: staleness, privacy, context rot'],pre:['llm-basics','langgraph']},
+'llm-evals':{one:`<b>Evaluation (evals)</b> means testing an LLM app on a fixed set of examples and scoring its answers, so you know whether a prompt or model change made things better or worse.`,
+ ana:`<p>Unit tests for software you can't fully predict. You can't eyeball every answer, so you keep a "golden" exam and re-grade the app after every change.</p>`,
+ why:`<ul><li>LLM outputs vary and prompt changes can silently break other cases.</li><li>Interviewers strongly favour candidates who mention evals without being asked.</li></ul>`,
+ terms:[['Golden dataset','Curated inputs (and ideal outputs) used for testing'],['Evaluator','Code or an LLM judge that scores an output'],['LLM-as-judge','Using an LLM with a rubric to grade answers'],['Offline vs online eval','Before deploy vs on live traffic'],['Regression','Something that used to work now fails']],
+ map:['Follow the eval-driven development loop','Compare evaluator types','Learn LLM-as-judge pitfalls and agent evals'],pre:['prompting']},
+'rag-evals':{one:`<b>RAG evaluation</b> scores the two halves separately: did <b>retrieval</b> find the right information, and did <b>generation</b> answer faithfully from it? That tells you where to fix things.`,
+ ana:`<p>If a student's answer is wrong, was it because the library gave them the wrong book, or because they misread the right book? You fix those differently.</p>`,
+ why:`<ul><li>"How would you measure your RAG system?" is a standard question.</li></ul>`,
+ terms:[['Faithfulness','Every claim is supported by the retrieved context'],['Answer relevancy','The answer addresses the question'],['Context precision','Retrieved chunks are relevant (little noise)'],['Context recall','Retrieved chunks contain all the needed info'],['RAGAS','A popular library implementing these metrics']],
+ map:['Learn the 4 core RAG metrics on one diagram','Map each bad score to its fix'],pre:['rag-basics','llm-evals']},
+'langsmith':{one:`<b>LangSmith</b> is a platform that <b>records every step</b> of your LLM app (a trace) and lets you build datasets, run experiments and monitor quality in production. It's observability for AI apps.`,
+ ana:`<p>A flight recorder plus a test lab: every request's journey is recorded, so when something goes wrong you replay it and see exactly which step failed.</p>`,
+ why:`<ul><li>Debugging LLM apps without traces is guesswork.</li><li>Observability and evaluation tooling comes up in every production-AI interview.</li></ul>`,
+ terms:[['Trace','The full record of one request'],['Run / span','One step inside a trace (retriever, LLM call, tool)'],['Dataset','Saved examples for testing'],['Experiment','An app version run against a dataset with evaluators']],
+ map:['Look inside a trace step by step','See traces flow into datasets and dashboards','Know the alternatives (Langfuse, Phoenix…)'],pre:['llm-evals','langchain']},
+'finetuning':{one:`<b>Fine-tuning</b> means training an existing model a bit more on your own examples to change its <b>behaviour</b> (style, format, a specialised task). For adding <b>knowledge</b>, RAG is usually the better tool.`,
+ ana:`<p>Hiring an experienced chef (pretrained model) and training them for two weeks in your restaurant's style (fine-tuning), vs. just giving them your recipe book each day (RAG).</p>`,
+ why:`<ul><li>"Should we fine-tune or use RAG?" is one of the most common AI-engineering questions.</li></ul>`,
+ terms:[['SFT','Supervised fine-tuning on input → ideal output pairs'],['LoRA','Train tiny add-on matrices instead of all weights'],['QLoRA','LoRA on a 4-bit compressed model, so it fits one GPU'],['DPO / RLHF','Training on preferred vs rejected answers'],['Distillation','A big model teaches a small one']],
+ map:['Follow a decision tree: prompt vs RAG vs fine-tune','See how LoRA makes fine-tuning cheap','Compare all three approaches'],pre:['neural-nets','rag-basics']},
+'guardrails':{one:`<b>Guardrails</b> are checks around an LLM app that block harmful inputs and outputs, protect private data, and limit what an agent can do, so mistakes or attacks can't cause real damage.`,
+ ana:`<p>The safety systems around a powerful machine: guards on the input, a stop button, sensors on the output, and the operator only allowed to press certain buttons.</p>`,
+ why:`<ul><li>Every production LLM app needs basic protections; interviewers expect you to mention them.</li></ul>`,
+ terms:[['Prompt injection','Text that tries to override the app\'s instructions'],['Indirect injection','Malicious instructions hidden in documents or web pages'],['PII','Personally identifiable information'],['Least privilege','Give tools only the access they truly need']],
+ map:['Watch layered defences around an LLM','Learn the top risks and their controls'],pre:['agents-react']},
+'llm-serving':{one:`<b>LLM serving</b> is running models in production fast and affordably: routing requests, caching answers, streaming output, handling failures, and (if self-hosting) using GPUs efficiently.`,
+ ana:`<p>Running a busy restaurant kitchen: prep common dishes in advance (caching), send simple orders to junior cooks and complex ones to the head chef (routing), and serve starters while the main course cooks (streaming).</p>`,
+ why:`<ul><li>Cost and latency decide whether an AI feature survives in production.</li><li>A standard system-design deep dive.</li></ul>`,
+ terms:[['AI gateway','A single proxy for all LLM calls (keys, limits, logging)'],['Semantic cache','Reuse answers to similar questions'],['Model routing','Send each request to the cheapest capable model'],['Streaming','Show tokens as they are generated'],['Quantization','Storing weights in fewer bits to save memory']],
+ map:['Walk through a production LLM gateway','List latency and cost levers','Understand vLLM-style self-hosting basics'],pre:['llm-basics','tokens']},
+'design-rag':{one:`A full <b>AI system-design round</b>: design a company-wide assistant that answers questions from millions of internal documents, respects permissions, and stays accurate, fast and affordable.`,
+ ana:`<p>Designing a smart company librarian: a back office that keeps the catalogue up to date, a front desk that answers fast, and strict rules about who may read which files.</p>`,
+ why:`<ul><li>This is the most likely AI design question for GenAI/RAG roles.</li><li>It ties together everything in the RAG and evals segments.</li></ul>`,
+ terms:[['Functional requirements','What it must do (answer with citations)'],['Non-functional requirements','How well (latency, scale, security)'],['ACL','Access control list: who can see a document'],['Ingestion pipeline','Background process that indexes documents']],
+ map:['Follow the 6-step design answer','Separate the ingestion path from the query path','Practise the deep dives interviewers probe'],pre:['rag-basics','retrieval-plus','llm-evals','llm-serving']},
+'design-aiops':{one:`A full design round for an <b>AIOps incident copilot</b>: an agent that triages alerts, investigates logs, metrics and deploys, finds the likely root cause and proposes a safe fix for an engineer to approve.`,
+ ana:`<p>A sharp junior on-call engineer who never sleeps: groups related alerts, digs through dashboards, writes up "here's what I think happened and the evidence", and waits for your OK before touching anything.</p>`,
+ why:`<ul><li>Directly relevant to AI Ops and agent-resilience roles.</li><li>Tests agent design, safety and evaluation together.</li></ul>`,
+ terms:[['Alert correlation','Grouping related alerts into one incident'],['RCA','Root cause analysis'],['Runbook','A pre-approved step-by-step fix'],['MTTR','Mean time to resolve incidents']],
+ map:['Walk the alert → triage → RCA → approval flow','Learn the safety principles for action-taking agents','Plan how to evaluate it with past incidents'],pre:['agents-react','langgraph','llm-evals']}
+});
+
+APP.pre=Object.assign(APP.pre||{},{
+'rag-basics':{type:'flow',title:'Why RAG? Same question, with and without your data',h:330,nodes:[
+ ['q','"What is our VPN reset process?"',165,70,'','b'],['llm1','LLM alone',150,190,'never saw your wiki','p'],['bad','Generic or invented answer',150,290,'','r'],
+ ['docs','Your runbook pages',520,70,'retrieved','y'],['llm2','LLM + context',520,190,'reads the provided pages','p'],['good','Correct answer + source',520,290,'','g']],
+ edges:[['q','llm1'],['llm1','bad'],['docs','llm2'],{f:'q',t:'llm2',dash:1},['llm2','good']],
+ steps:[
+ {on:'q',t:`An employee asks about an internal process. The LLM was trained on public internet text, not on your company wiki.`},
+ {bad:'bad',go:'q>llm1 llm1>bad',t:`<b>Without RAG</b> it either says "I don't know" or, worse, confidently invents a plausible-sounding process (a hallucination).`},
+ {on:'docs',go:'docs>llm2 q>llm2',t:`<b>With RAG</b>, we first search the company docs for the most relevant pages and paste them into the prompt.`},
+ {ok:'good',go:'llm2>good',t:`Now the model answers from the provided text and can cite the source. No retraining was needed. Update the doc and the next answer is up to date.`}
+]},
+'agents-react':{type:'flow',title:'Chatbot vs agent',h:320,nodes:[
+ ['u1','"Restart the stuck job"',130,70],['cb','Chatbot',130,170,'text in → text out','p'],['t1','"Here\'s how you could…"',130,270,'','y'],
+ ['u2','"Restart the stuck job"',520,70],['ag','Agent',520,170,'LLM + tools + loop','p'],['tl','Tools: check_job(), restart_job()',520,270,'','b']],
+ edges:[['u1','cb'],['cb','t1'],['u2','ag'],{f:'ag',t:'tl',bi:1}],
+ steps:[
+ {on:'u1 cb t1',go:'u1>cb cb>t1',t:`A plain <b>chatbot</b> can only produce text. It can explain how to restart a job, but you still have to do it.`},
+ {on:'u2 ag',go:'u2>ag',t:`An <b>agent</b> is given <b>tools</b>, functions it may ask your code to run.`},
+ {ok:'tl',go:'ag>tl tl>ag',t:`It calls check_job(), reads the result, decides to call restart_job(), verifies, and reports back. Model + tools + a loop = agent. The next scene shows that loop in detail.`}
+]},
+'llm-evals':{type:'arr',title:'Why LLM apps need evals',frames:[
+ {rows:[{lab:'prompt v1 results',a:['Q1 ✓','Q2 ✓','Q3 ✗','Q4 ✓'],ok:'0 1 3',bad:'2'}],t:`You notice question 3 gets a wrong answer, so you tweak the prompt to fix it.`},
+ {rows:[{lab:'prompt v2 results',a:['Q1 ✓','Q2 ✗','Q3 ✓','Q4 ✗'],ok:'0 2',bad:'1 3'}],t:`Q3 is fixed… but Q2 and Q4 silently broke. With LLMs, every change can have side effects you won't see by spot-checking.`},
+ {rows:[{lab:'golden dataset (200 questions)',a:['v1: 82%','v2: 79%','v3: 88%'],bad:'1',ok:'2'}],t:`The fix: a fixed test set scored automatically after every change. Ship v3, reject v2. That's an eval.`}
+]}
+});
 </script>
 <script>/* LearnQuest engine — vanilla JS, no deps */
 (function(){
@@ -1144,6 +1475,17 @@ document.documentElement.style.setProperty('--acc',A.accent);
 document.documentElement.style.setProperty('--acc2',A.accent2);
 
 /* ---------- flatten lessons ---------- */
+/* ---------- apply content patches (basics intros, problem details, code sync, concept scenes) ---------- */
+(function(){
+  const applySync=(sc,s)=>{ if(!sc||!s) return; sc.code=s.code; (s.ln||[]).forEach((x,i)=>{ if(sc.frames&&sc.frames[i]) sc.frames[i].ln=x; }); };
+  A.segments.forEach(seg=>seg.lessons.forEach(l=>{
+    if(A.intro&&A.intro[l.id]) l.intro=Object.assign({},A.intro[l.id],l.intro||{});
+    if(l.anim&&!Array.isArray(l.anim)) l.anim=[l.anim];
+    if(A.sync&&l.anim) l.anim.forEach((sc,i)=>applySync(sc,A.sync[l.id+':'+i]));
+    if(A.pre&&A.pre[l.id]) l.anim=[].concat(A.pre[l.id],l.anim||[]);
+    (l.probs||[]).forEach(p=>{ if(A.probx&&A.probx[p.lc||p.n]) Object.assign(p,A.probx[p.lc||p.n]); if(p.trace&&A.sync) applySync(p.trace,A.sync['p'+(p.lc||p.n)]); });
+  }));
+})();
 const LESSONS=[]; A.segments.forEach((s,si)=>s.lessons.forEach(l=>{l.seg=si;l.n=LESSONS.length+1;LESSONS.push(l)}));
 const byId = id=>LESSONS.find(l=>l.id===id);
 
@@ -1343,7 +1685,8 @@ function Player(mount,scenes,opts={}){
     si=k; sc=scenes[k]; stop();
     $$('[data-sc]',mount).forEach((b,j)=>b.classList.toggle('ghost',j!==k));
     $('[data-tt]',mount).textContent=sc.title||'';
-    if(sc.type==='arr'){ steps=sc.frames; prevSig=''; vis.innerHTML=`<div class="arr" data-arr></div>`; }
+    if(sc.type==='arr'){ steps=sc.frames; prevSig='';
+      vis.innerHTML=sc.code?`<div class="arr-split"><div class="arr" data-arr></div><div class="codepane"><div class="cp-h">Python · the highlighted line is running</div>${sc.code.replace(/^\n+|\s+$/g,'').split('\n').map((ln,j)=>`<div class="cl" data-ln="${j+1}"><span class="lno">${j+1}</span>${hl(ln)||' '}</div>`).join('')}</div></div>`:`<div class="arr" data-arr></div>`; }
     else { flow=normFlow(sc); steps=sc.steps; buildSVG(); }
     $('[data-dots]',mount).innerHTML=steps.map((_,j)=>`<i data-d="${j}"></i>`).join('');
     $$('[data-d]',mount).forEach(d=>d.onclick=()=>{touched=true;stop();show(+d.dataset.d)});
@@ -1368,7 +1711,7 @@ function Player(mount,scenes,opts={}){
     $('[data-k]',mount).textContent=st.k||'';
     const cap=$('[data-cap]',mount); cap.innerHTML=st.t||''; cap.style.animation='none'; void cap.offsetWidth; cap.style.animation='';
     $$('[data-d]',mount).forEach((d,j)=>{d.className=j===k?'on':(seen.has(si+':'+j)?'seen':'')});
-    if(sc.type==='arr') renderArr(st); else renderFlow(k);
+    if(sc.type==='arr'){ renderArr(st); if(sc.code){ const on=new Set(ids(st.ln)); $$('.cl',mount).forEach(c=>c.classList.toggle('on',on.has(c.dataset.ln))); } } else renderFlow(k);
     const all=scenes.every((s,a)=>(s.type==='arr'?s.frames:s.steps).every((_,b)=>seen.has(a+':'+b)));
     if(all) onAllSeen();
     if(k===steps.length-1 && playing){ stop(); }
@@ -1487,6 +1830,15 @@ function flashcards(cards){
 }
 
 /* ---------- lesson ---------- */
+function introHTML(l){
+  const I=l.intro; let h=`<div class="intro-hero"><div class="kick">In one sentence</div><div class="one">${I.one}</div></div>`;
+  if(I.ana||I.why) h+=`<div class="grid2" style="margin-top:14px">${I.ana?`<div class="lc analogy"><h4>🧠 Real-life analogy</h4>${I.ana}</div>`:''}${I.why?`<div class="lc"><h4>🎯 Why it matters</h4>${I.why}</div>`:''}</div>`;
+  if(I.body) h+=`<div class="lc" style="margin-top:14px"><h4>${I.bodyh||'📌 The basics'}</h4>${I.body}</div>`;
+  if(I.terms) h+=`<div class="sec-t">🔤 Key words, in plain English</div><div class="tblw"><table class="cmp gl"><tbody>${I.terms.map(t=>`<tr><td>${t[0]}</td><td>${t[1]}</td></tr>`).join('')}</tbody></table></div>`;
+  if(I.map) h+=`<div class="sec-t">🗺️ In this lesson you will</div><div class="lc"><ul class="ticks">${I.map.map(x=>`<li>${x}</li>`).join('')}</ul></div>`;
+  if(I.pre&&I.pre.length) h+=`<div class="sec-t">⏮️ Helps to know first</div><div class="row">${I.pre.map(id=>{const p=byId(id);return p?`<button class="btn sm ghost" data-pre="${id}">${p.em} ${esc(p.t)}${S.done[id]?' ✓':''}</button>`:''}).join('')}</div>`;
+  return h;
+}
 function learnHTML(l){
   const icon={analogy:'🧠',pitfall:'⚠️',say:'🎤'};
   return `<div class="learn">${(l.learn||[]).map(c=>`<div class="lc ${c.k||''}"><h4>${c.k?icon[c.k]+' ':''}${c.h}</h4>${c.b||''}${c.code?codeBlock(c.code):''}</div>`).join('')}</div>`;
@@ -1496,6 +1848,7 @@ function cmpHTML(l){
 }
 function lessonView(l){
   const stages=[];
+  if(l.intro) stages.push(['intro','🧭 Basics']);
   if(l.anim) stages.push(['watch','🎬 Watch']);
   stages.push(['learn','📖 Learn']);
   if(l.cmp) stages.push(['cmp','⚖️ Compare']);
@@ -1519,14 +1872,19 @@ function lessonView(l){
     body.innerHTML=`<div class="pane" data-pn></div>`; const pn=$('[data-pn]',body);
     if(k==='watch'){ pn.innerHTML=`<div data-pl></div><p class="hint">Tip: ← → keys step through, ▶ auto-plays. Watch every step for +10 XP.</p>${nav()}`;
       players.push(Player($('[data-pl]',pn),l.anim,{keys:true,onAllSeen:()=>{if(!watchedXP){watchedXP=true;gainXP(10)}}})); }
+    else if(k==='intro'){ pn.innerHTML=introHTML(l)+nav(); $$('[data-pre]',pn).forEach(b=>b.onclick=()=>go('l-'+b.dataset.pre)); }
     else if(k==='learn'){ pn.innerHTML=learnHTML(l)+nav(); }
     else if(k==='cmp'){ pn.innerHTML=cmpHTML(l)+nav(); }
     else if(k==='cards'){ pn.innerHTML=`<p class="sub">Answer out loud first, then flip. This is how you'll say it in the interview.</p>`+flashcards(l.cards)+nav(); }
     else if(k==='probs'){
-      pn.innerHTML=l.probs.map((p,pi)=>`<div class="card prob"><div class="prob-h"><h4>${pi+1}. ${p.n}</h4><span class="tag ${p.lv}">${{e:'Easy',m:'Medium',h:'Hard'}[p.lv]}</span>${p.lc?`<span class="cx">LeetCode #${p.lc}</span>`:''}</div>
-        <p style="margin:6px 0;color:#d3daf7">${p.q||''}</p><div class="lc analogy" style="margin:10px 0"><h4>💡 Key idea</h4><p>${p.idea}</p></div>
-        ${p.trace?`<div data-tr="${pi}" style="margin:12px 0"></div>`:''}
-        <details class="rev"><summary>🧠 Think first, then reveal the Python solution</summary>${codeBlock(p.code)}<div class="cx">⏱ ${p.cx||''}</div></details></div>`).join('')+nav();
+      pn.innerHTML=`<p class="sub">For each problem: read it, check the examples, think about the slow obvious way, then learn the smart way. Try coding it yourself before you open the solution.</p>`+l.probs.map((p,pi)=>`<div class="card prob"><div class="prob-h"><h4>${pi+1}. ${p.n}</h4><span class="tag ${p.lv}">${{e:'Easy',m:'Medium',h:'Hard'}[p.lv]}</span>${p.lc?`<span class="cx">LeetCode #${p.lc}</span>`:''}</div>
+        <div class="pstep"><div class="pk">📝 The problem</div><div>${p.q||''}</div></div>
+        ${p.ex?`<div class="pstep"><div class="pk">🔎 Examples</div>${p.ex.map(e=>`<div class="ex"><div><span>Input</span><code>${esc(e[0])}</code></div><div><span>Output</span><code>${esc(e[1])}</code></div>${e[2]?`<div class="why">${e[2]}</div>`:''}</div>`).join('')}</div>`:''}
+        ${p.ask?`<div class="pstep"><div class="pk">🤔 What is it really asking?</div><div>${p.ask}</div></div>`:''}
+        ${p.brute?`<div class="pstep brute"><div class="pk">🐢 Brute force (the obvious way)</div><div>${p.brute[0]}</div><div class="cx">⏱ ${p.brute[1]||''}</div></div>`:''}
+        <div class="pstep smart"><div class="pk">💡 The smart way</div><div>${p.idea}</div>${p.steps?`<ol class="steps">${p.steps.map(x=>`<li>${x}</li>`).join('')}</ol>`:''}</div>
+        ${p.trace?`<div class="pk" style="margin:14px 0 6px">🎬 Watch it run</div><div data-tr="${pi}"></div>`:''}
+        <details class="rev"><summary>🧠 Tried it? Reveal the Python solution</summary>${codeBlock(p.code)}<div class="cx">⏱ ${p.cx||''}</div></details></div>`).join('')+nav();
       l.probs.forEach((p,pi)=>{ if(p.trace) players.push(Player($(`[data-tr="${pi}"]`,pn),Object.assign({type:'arr',title:'Trace: '+p.n},p.trace),{autoplay:false})); });
     }
     else if(k==='play'){ runPlay(pn); return; }
