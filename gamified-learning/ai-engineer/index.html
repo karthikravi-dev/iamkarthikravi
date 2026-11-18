@@ -283,6 +283,11 @@ ol.steps{margin:10px 0 0;padding-left:22px}ol.steps li{margin:5px 0}
 .cl.on{background:color-mix(in srgb,var(--acc2) 22%,transparent);box-shadow:inset 3px 0 0 var(--acc2);color:#fff}
 .cl.on .lno{color:var(--acc2)}
 @media(max-width:820px){.arr-split{grid-template-columns:1fr}.codepane{border-left:0;border-top:1px solid var(--line)}.ex{grid-template-columns:1fr}}
+
+/* lesson video */
+.vwrap video{width:100%;aspect-ratio:16/9;background:#000;border-radius:16px;border:1px solid var(--line);display:block}
+.vbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px}
+.chs{display:flex;flex-wrap:wrap;gap:8px}.chs .chip{font-size:.82rem;padding:6px 10px}.chs .chip b{color:var(--acc2);margin-right:4px}
 </style></head><body><div id="app"></div>
 <script>window.APP={id:'ai',name:'AI Engineer Quest',emoji:'🤖',accent:'#8b5cf6',accent2:'#22d3ee',mins:15,
 tagline:`From tokens to production agents. Covers LLM internals, RAG, LangChain/LangGraph, evals and AI system design, aimed at AI Engineer, GenAI/RAG, AI Ops and FDE interviews.`,
@@ -1519,10 +1524,11 @@ const nextLesson=()=>LESSONS.find(l=>!S.done[l.id]);
 
 /* ---------- top bar ---------- */
 const root=document.getElementById('app');
-document.body.insertAdjacentHTML('afterbegin',`<div class="top"><div class="in">
+const VIDEO=!!window.LQ_VIDEO;
+if(!VIDEO) document.body.insertAdjacentHTML('afterbegin',`<div class="top"><div class="in">
  <div class="brand" id="brand"><div class="logo">${A.emoji}</div><span class="nm">${esc(A.name)}</span></div>
  <div class="stats" id="stats"></div></div></div>`);
-$('#brand').onclick=()=>go('');
+if(!VIDEO) $('#brand').onclick=()=>go('');
 let timer={left:0,total:0,run:false,h:null};
 function renderTop(){
   const L=lvl();
@@ -1690,7 +1696,7 @@ function Player(mount,scenes,opts={}){
     else { flow=normFlow(sc); steps=sc.steps; buildSVG(); }
     $('[data-dots]',mount).innerHTML=steps.map((_,j)=>`<i data-d="${j}"></i>`).join('');
     $$('[data-d]',mount).forEach(d=>d.onclick=()=>{touched=true;stop();show(+d.dataset.d)});
-    show(0); touched=false; if(opts.autoplay!==false) setTimeout(()=>alive&&!touched&&play(),700);
+    show(0); touched=false; if(opts.autoplay!==false&&!opts.manual) setTimeout(()=>alive&&!touched&&play(),700);
   }
   function buildSVG(){
     const {nodes,edges,zones,H}=flow;
@@ -1730,12 +1736,15 @@ function Player(mount,scenes,opts={}){
       g.classList.toggle('hid',at>k); $('path',g).classList.toggle('on',act.has([e.f,e.t].sort().join('|')));});
     packets(goes);
   }
-  function packets(goes){
+  let manualPk=null;
+  function setPk(p){ if(!manualPk) return; const e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2; manualPk.paths.forEach((pt,j)=>{const q=pt(e);manualPk.cs[j].setAttribute('cx',q[0]);manualPk.cs[j].setAttribute('cy',q[1]);manualPk.cs[j].style.opacity=1}); }
+  function packets(goes){ manualPk=null;
     const tok=++pkTok; const g=$('[data-pk]',mount); if(!g) return; g.innerHTML='';
     const paths=goes.map(([a,b])=>{const A1=flow.NM[a],B1=flow.NM[b]; if(!A1||!B1) return null;
       const e=flow.edges.find(x=>(x.f===a&&x.t===b)||(x.f===b&&x.t===a)); let cv=e&&e.cv||0; if(e&&e.f===b) cv=-cv; return geo(A1,B1,cv).pt;}).filter(Boolean);
     if(!paths.length) return;
     const cs=paths.map(()=>{const c=document.createElementNS('http://www.w3.org/2000/svg','circle');c.setAttribute('r',7);c.setAttribute('class','pk');g.appendChild(c);return c});
+    if(opts.manual){ manualPk={paths,cs}; setPk(0); return; }
     let t0=null; const D=1100;
     function fr(ts){ if(tok!==pkTok||!alive) return; if(!t0)t0=ts; let p=((ts-t0)%(D+500))/D; const vis=p<=1; p=Math.min(1,p); const e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;
       paths.forEach((pt,j)=>{const q=pt(e);cs[j].setAttribute('cx',q[0]);cs[j].setAttribute('cy',q[1]);cs[j].style.opacity=vis?1:0}); requestAnimationFrame(fr);}
@@ -1776,7 +1785,7 @@ function Player(mount,scenes,opts={}){
     if(e.key==='ArrowRight'){touched=true;stop();show(i+1)} else if(e.key==='ArrowLeft'){touched=true;stop();show(i-1)} }
   if(opts.keys) window.addEventListener('keydown',key);
   setScene(0);
-  return {destroy(){alive=false;clearTimeout(tmo);pkTok++;window.removeEventListener('keydown',key)}};
+  return {goto(a,b){ if(a!==si) setScene(a); show(b); }, setPk, hasPk:()=>!!manualPk, destroy(){alive=false;clearTimeout(tmo);pkTok++;window.removeEventListener('keydown',key)}};
 }
 
 /* ---------- games ---------- */
@@ -1830,6 +1839,25 @@ function flashcards(cards){
 }
 
 /* ---------- lesson ---------- */
+const VBASE=/^https?:/.test(location.protocol)&&location.pathname.indexOf('/gamified-learning/')===0?'/gamified-learning/videos/'+A.id+'/':(window.LQ_VBASE||'');
+function videoStage(pn,l,navh){
+  const src=VBASE+l.id+'.mp4';
+  pn.innerHTML=`<div class="vwrap"><video id="lv" controls preload="metadata" playsinline src="${src}"></video>
+   <div class="vbar"><span class="hint" style="margin:0">A narrated walkthrough of this whole lesson. Then do the steps below to practise.</span>
+   <span class="row" style="gap:6px;margin-left:auto">${[1,1.25,1.5,1.75].map(r=>`<button class="btn sm ${r===1?'':'ghost'}" data-rate="${r}">${r}x</button>`).join('')}</span></div>
+   <div class="vch" data-ch></div></div>`+navh;
+  const v=$('#lv',pn);
+  $$('[data-rate]',pn).forEach(b=>b.onclick=()=>{v.playbackRate=+b.dataset.rate;$$('[data-rate]',pn).forEach(x=>x.classList.toggle('ghost',x!==b));});
+  let gave=false; v.addEventListener('ended',()=>{if(!gave){gave=true;gainXP(15);}});
+  v.addEventListener('error',()=>{$('.vwrap',pn).insertAdjacentHTML('beforeend','<p class="hint">Video not available yet for this lesson.</p>')});
+  fetch(VBASE+l.id+'.json').then(r=>r.ok?r.json():null).then(j=>{ if(!j) return; const ch=[]; let last=null;
+    j.segments.forEach((s,si)=>{ const sec=si===0?'Intro':(s.sec||'').replace(/^Watch: /,'🎬 ').replace(/^Problem (\d+): /,'🧩 $1. '); if(sec&&sec!==last){ch.push({t:s.t,sec});last=sec;} });
+    const fm=t=>Math.floor(t/60)+':'+String(Math.floor(t%60)).padStart(2,'0');
+    $('[data-ch]',pn).innerHTML=`<div class="kick" style="margin:14px 0 8px">Chapters · ${fm(j.duration)}</div><div class="chs">${ch.map(c=>`<button class="chip" data-t="${c.t}"><b>${fm(c.t)}</b> ${esc(c.sec)}</button>`).join('')}</div>`;
+    $$('[data-t]',pn).forEach(b=>b.onclick=()=>{v.currentTime=+b.dataset.t;v.play().catch(()=>{});});
+  }).catch(()=>{});
+  cleanup.push(()=>{try{v.pause()}catch(e){}});
+}
 function introHTML(l){
   const I=l.intro; let h=`<div class="intro-hero"><div class="kick">In one sentence</div><div class="one">${I.one}</div></div>`;
   if(I.ana||I.why) h+=`<div class="grid2" style="margin-top:14px">${I.ana?`<div class="lc analogy"><h4>🧠 Real-life analogy</h4>${I.ana}</div>`:''}${I.why?`<div class="lc"><h4>🎯 Why it matters</h4>${I.why}</div>`:''}</div>`;
@@ -1848,6 +1876,7 @@ function cmpHTML(l){
 }
 function lessonView(l){
   const stages=[];
+  if(VBASE) stages.push(['video','📺 Video']);
   if(l.intro) stages.push(['intro','🧭 Basics']);
   if(l.anim) stages.push(['watch','🎬 Watch']);
   stages.push(['learn','📖 Learn']);
@@ -1872,6 +1901,7 @@ function lessonView(l){
     body.innerHTML=`<div class="pane" data-pn></div>`; const pn=$('[data-pn]',body);
     if(k==='watch'){ pn.innerHTML=`<div data-pl></div><p class="hint">Tip: ← → keys step through, ▶ auto-plays. Watch every step for +10 XP.</p>${nav()}`;
       players.push(Player($('[data-pl]',pn),l.anim,{keys:true,onAllSeen:()=>{if(!watchedXP){watchedXP=true;gainXP(10)}}})); }
+    else if(k==='video'){ videoStage(pn,l,nav()); bindNav(); return; }
     else if(k==='intro'){ pn.innerHTML=introHTML(l)+nav(); $$('[data-pre]',pn).forEach(b=>b.onclick=()=>go('l-'+b.dataset.pre)); }
     else if(k==='learn'){ pn.innerHTML=learnHTML(l)+nav(); }
     else if(k==='cmp'){ pn.innerHTML=cmpHTML(l)+nav(); }
@@ -1936,6 +1966,6 @@ function bossView(key){
   },{lives:3,combo:true,title:'Boss'});
 }
 
-renderTop(); route();
+if(VIDEO){ window.LQ={A,LESSONS,byId,Player,hl,esc,codeBlock,learnHTML,cmpHTML,introHTML,ids}; } else { renderTop(); route(); }
 })();
 </script></body></html>
