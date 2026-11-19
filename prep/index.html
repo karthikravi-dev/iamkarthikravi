@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Prep Notes · Karthik Ravi</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Karthik's study notes for AI engineering interviews: lessons, labs, question bank and a topic tracker.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout: left sidebar of sections (top chip bar on phones) + one reading column. Dark, to match /gamified-learning/. */
+:root{
+  --bg:#0b1020; --panel:#121a33; --card:#162042; --line:#2a3768; --tx:#e8ecff; --mut:#a3add6; --dim:#6b77a6;
+  --accent:#22d3ee; --violet:#8b5cf6; --ok:#34d399; --warn:#fbbf24; --bad:#f87171;
+  --head:"Space Grotesk",system-ui,sans-serif; --body:"Inter",system-ui,-apple-system,sans-serif; --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.65 var(--body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:var(--accent)}
+.shell{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:240px minmax(0,1fr);gap:40px;padding-block:32px 80px}
+
+/* sidebar */
+nav.side{position:sticky;top:24px;align-self:start;max-height:calc(100vh - 48px);overflow:auto;padding-right:6px}
+.brand{font:700 1rem var(--head);color:#fff;text-decoration:none;display:block;margin-bottom:4px}
+.brand-sub{font-size:.8rem;color:var(--dim);margin-bottom:18px}
+.navgrp{font:600 .7rem var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin:18px 0 6px}
+nav.side a.nl{display:block;color:var(--mut);text-decoration:none;font-size:.9rem;padding:5px 10px;border-radius:8px;border-left:2px solid transparent}
+nav.side a.nl:hover{color:#fff;background:var(--panel)}
+nav.side a.nl.on{color:#fff;border-left-color:var(--accent);background:var(--panel)}
+.mbar{display:none}
+
+/* content */
+main{min-width:0}
+.kick{font:600 .78rem var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+h1{font:700 clamp(2rem,4.5vw,2.8rem)/1.1 var(--head);margin:8px 0 10px;letter-spacing:-.02em;text-wrap:balance}
+.lead{color:var(--mut);font-size:1.05rem;max-width:66ch;margin:0}
+section.sec{padding-top:56px;border-top:1px solid var(--line);margin-top:56px}
+section.sec:first-of-type{border-top:0;margin-top:0;padding-top:0}
+h2{font:700 1.7rem/1.2 var(--head);margin:4px 0 12px;letter-spacing:-.01em;text-wrap:balance}
+h3{font:600 1.2rem/1.3 var(--head);margin:34px 0 10px;color:#fff}
+h4{font:600 1rem var(--head);margin:22px 0 6px;color:#fff}
+p,li{max-width:72ch}
+p{margin:0 0 12px}
+ul,ol{padding-left:1.3em;margin:0 0 14px}
+li{margin:4px 0}
+strong{color:#fff;font-weight:600}
+.secmeta{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.tag{font:500 .72rem var(--mono);padding:3px 9px;border-radius:999px;border:1px solid var(--line);color:var(--mut);background:var(--panel)}
+.tag.hi{color:#fdba74;border-color:#7c3a1d;background:#2a160d}
+code{font:500 .86em var(--mono);background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:1px 5px}
+pre{background:#070b17;border:1px solid var(--line);border-radius:12px;padding:14px 16px;overflow-x:auto;font:500 .84rem/1.6 var(--mono);color:#dbe3ff;max-width:100%}
+pre code{background:none;border:0;padding:0;font-size:inherit}
+.tw{overflow-x:auto;margin:6px 0 18px;max-width:100%}
+table{border-collapse:collapse;width:100%;font-size:.92rem;min-width:420px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:600 .78rem var(--mono);letter-spacing:.04em;color:var(--mut);text-transform:uppercase;background:var(--panel)}
+td{font-variant-numeric:tabular-nums}
+.callout{border:1px solid var(--line);border-left:3px solid var(--accent);background:var(--panel);border-radius:10px;padding:12px 16px;margin:14px 0 18px;max-width:72ch}
+.callout.warn{border-left-color:var(--warn)}
+.callout.ok{border-left-color:var(--ok)}
+.callout p:last-child,.callout ul:last-child{margin-bottom:0}
+.say{border:1px solid #1f4d55;background:#0c2228;border-radius:10px;padding:12px 16px;margin:10px 0 16px;max-width:72ch}
+.say::before{content:"Say it in the interview";display:block;font:600 .7rem var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+.say p:last-child{margin:0}
+
+/* Q&A */
+details.qa{border:1px solid var(--line);border-radius:10px;background:var(--panel);margin:8px 0;max-width:72ch}
+details.qa summary{cursor:pointer;padding:11px 14px;font-weight:500;list-style:none;display:flex;gap:10px}
+details.qa summary::-webkit-details-marker{display:none}
+details.qa summary::before{content:"Q";font:600 .75rem var(--mono);color:var(--bg);background:var(--accent);border-radius:5px;padding:1px 6px;height:fit-content;margin-top:3px}
+details.qa[open] summary{border-bottom:1px solid var(--line)}
+details.qa .ans{padding:10px 14px 4px}
+
+/* start-here cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:18px 0}
+.gcard{border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,var(--card),var(--panel));padding:16px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:4px}
+.gcard:hover{border-color:var(--accent)}
+.gcard b{font:600 1rem var(--head);color:#fff}
+.gcard span{color:var(--mut);font-size:.88rem}
+.progress{display:flex;flex-wrap:wrap;gap:8px 22px;align-items:baseline;margin:18px 0 8px;font-variant-numeric:tabular-nums}
+.progress b{font:700 1.4rem var(--head);color:#fff}
+.progress span{color:var(--mut);font-size:.9rem}
+.track{height:8px;border-radius:9px;background:#0d1430;overflow:hidden;max-width:520px}
+.track i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--violet),var(--accent));transition:width .6s}
+
+/* tracker */
+.filters{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 4px}
+.filters button{font:500 .8rem var(--body);padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--tx);cursor:pointer}
+.filters button[aria-pressed="true"]{background:#fff;color:var(--bg);border-color:#fff}
+.tgroup h4{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.tgroup h4 small{font:500 .75rem var(--mono);color:var(--dim)}
+ul.tl{list-style:none;padding:0;margin:0;border:1px solid var(--line);border-radius:12px;background:var(--panel);max-width:none}
+ul.tl li{margin:0;border-top:1px solid var(--line);max-width:none}
+ul.tl li:first-child{border-top:0}
+ul.tl label{display:grid;grid-template-columns:20px minmax(0,1fr);gap:12px;padding:11px 14px;cursor:pointer}
+ul.tl input{width:17px;height:17px;margin:4px 0 0;accent-color:var(--accent);cursor:pointer}
+.tt{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}
+.tk{color:var(--mut);font-size:.86rem}
+.tl a.les{font:500 .72rem var(--mono);text-decoration:none;border:1px solid #1f4d55;border-radius:6px;padding:1px 7px}
+ul.tl li.done strong{color:var(--dim);text-decoration:line-through}
+.empty{padding:12px 14px;color:var(--dim);font-size:.88rem}
+
+button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.foot{margin-top:70px;color:var(--dim);font-size:.85rem}
+.foot a{color:var(--mut)}
+
+@media (max-width:900px){
+  .shell{grid-template-columns:minmax(0,1fr);gap:0;padding-top:0}
+  nav.side{display:none}
+  .mbar{display:flex;position:sticky;top:0;z-index:5;gap:6px;overflow-x:auto;background:var(--bg);padding:10px 0;margin-bottom:20px;border-bottom:1px solid var(--line);scrollbar-width:none}
+  .mbar a{flex:none;font-size:.82rem;color:var(--mut);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:5px 12px;background:var(--panel)}
+  .mbar a.on{color:var(--bg);background:#fff;border-color:#fff}
+}
+@media (prefers-reduced-motion:reduce){.track i{transition:none}}
+</style></head>
+<body>
+<div class="shell">
+
+<nav class="side" aria-label="Sections">
+  <a class="brand" href="/prep/">Prep Notes</a>
+  <div class="brand-sub">AI &amp; Automation Engineer</div>
+  <div class="navgrp">Start</div>
+  <a class="nl" href="#start">Start here</a>
+  <a class="nl" href="#tracker">Topic tracker</a>
+  <a class="nl" href="#plans">Study plans</a>
+  <div class="navgrp">Lessons</div>
+  <a class="nl" href="#llm-basics">1 · LLM basics</a>
+  <a class="nl" href="#embeddings">2 · Embeddings &amp; vector search</a>
+  <a class="nl" href="#rag">3 · RAG end to end</a>
+  <a class="nl" href="#rag-failures">3b · RAG failures in detail</a>
+  <a class="nl" href="#edge-ai">4 · Edge AI &amp; small models</a>
+  <a class="nl" href="#kubernetes">5 · Kubernetes</a>
+  <div class="navgrp">Roles &amp; practice</div>
+  <a class="nl" href="#roles">Role guides</a>
+  <a class="nl" href="#glossary">Skill glossary</a>
+  <a class="nl" href="#projects">Hands-on projects</a>
+  <a class="nl" href="#questions">Question bank</a>
+</nav>
+
+<main>
+<div class="mbar" aria-label="Sections">
+  <a href="#start">Start</a><a href="#tracker">Tracker</a><a href="#plans">Plans</a>
+  <a href="#llm-basics">LLM basics</a><a href="#embeddings">Embeddings</a><a href="#rag">RAG</a><a href="#rag-failures">RAG failures</a>
+  <a href="#edge-ai">Edge AI</a><a href="#kubernetes">Kubernetes</a><a href="#roles">Roles</a><a href="#glossary">Glossary</a>
+  <a href="#projects">Projects</a><a href="#questions">Questions</a>
+</div>
+
+<!-- ============ START ============ -->
+<section class="sec" id="start">
+  <div class="kick">Interview prep</div>
+  <h1>Prep notes for AI engineering roles</h1>
+  <p class="lead">Everything from my prep sessions in one place: lessons that start from zero, hands-on labs, a question bank with model answers, and a tracker for every topic on my resume.</p>
+  <div class="progress" aria-live="polite">
+    <div><b id="pDone">0</b> <span>of <span id="pTotal">0</span> topics closed</span></div>
+    <div><b id="pHi">0</b> <span>of <span id="pHiTotal">0</span> role-critical closed</span></div>
+  </div>
+  <div class="track" aria-hidden="true"><i id="pFill"></i></div>
+
+  <h3>How to use this</h3>
+  <ol>
+    <li><strong>Pick the next open topic</strong> in the tracker, role-critical first.</li>
+    <li><strong>Read its lesson</strong>, then answer the check questions out loud without looking.</li>
+    <li><strong>Open the answers</strong> and compare. Only tick the topic when you can explain it with an example from your own work.</li>
+    <li><strong>About 1 hour a day</strong>, split across AI engineering, system design and DSA. Use <a href="/gamified-learning/">Gamified Learning</a> for the daily drills.</li>
+  </ol>
+
+  <div class="grid">
+    <a class="gcard" href="#llm-basics"><b>Lessons</b><span>Tokens, embeddings, RAG, edge AI, Kubernetes. Each starts from the basics.</span></a>
+    <a class="gcard" href="#projects"><b>Hands-on projects</b><span>An edge AI agent and a Kubernetes capstone that close my biggest gaps.</span></a>
+    <a class="gcard" href="#questions"><b>Question bank</b><span>Likely interview questions with answers to compare against.</span></a>
+    <a class="gcard" href="#roles"><b>Role guides</b><span>What each role does and what its interviews test.</span></a>
+  </div>
+</section>
+
+<!-- ============ TRACKER ============ -->
+<section class="sec" id="tracker">
+  <div class="kick">Tracker</div>
+  <h2>Every topic on my resume</h2>
+  <p>Tick a topic only when I can explain it out loud with an example from my own work. Ticks are saved in this browser.</p>
+  <div class="filters" role="group" aria-label="Filter topics">
+    <button type="button" id="f-all" data-f="all" aria-pressed="true">All</button>
+    <button type="button" id="f-todo" data-f="todo" aria-pressed="false">To do</button>
+    <button type="button" id="f-hi" data-f="hi" aria-pressed="false">Role-critical</button>
+    <button type="button" id="f-done" data-f="done" aria-pressed="false">Done</button>
+  </div>
+  <div id="tracker-list"></div>
+</section>
+
+<!-- ============ PLANS ============ -->
+<section class="sec" id="plans">
+  <div class="kick">Study plans</div>
+  <h2>What to study, in what order</h2>
+
+  <h3>Two weeks for an edge AI software engineer role</h3>
+  <p>For roles that build AI apps and agents for network operations and run small models on edge devices.</p>
+  <div class="tw"><table>
+    <tr><th>Asked for</th><th>Where I stand</th><th>Action</th></tr>
+    <tr><td>Agents, RAG, MCP, tool calling</td><td><strong>Strong</strong> (NetAuto MCP, SVS Pulse, SVS One)</td><td>Polish the stories</td></tr>
+    <tr><td>AI coding agents and validating their output</td><td><strong>Strong</strong> (daily Claude Code, led team enablement)</td><td>Prepare one concrete example</td></tr>
+    <tr><td>Networking: TCP/IP, security</td><td><strong>Good</strong> (CCNP Automation, DevNet, IOS-XR/XE)</td><td>Quick refresh</td></tr>
+    <tr><td>Python, DSA, debugging</td><td>Good Python, DSA rusty</td><td>Two problems a day</td></tr>
+    <tr><td>PyTorch / Hugging Face, model evaluation</td><td>Partial (IEEE deep learning paper, RAG evals)</td><td>Hands-on refresh</td></tr>
+    <tr><td>Small models at the edge: LoRA, quantization, distillation, llama.cpp</td><td><strong>Gap</strong></td><td><a href="#edge-ai">Lesson 4</a> + <a href="#proj-edge">edge project</a></td></tr>
+    <tr><td>A second language (C, C++, Go, Java)</td><td>Gap</td><td>Learn C basics: pointers, memory, structs</td></tr>
+    <tr><td>LangGraph, A2A</td><td>A2A yes, LangGraph no</td><td>Use LangGraph in the project</td></tr>
+  </table></div>
+  <ul>
+    <li><strong>Week 1:</strong> Lesson 4, then build the edge project steps 1–4. Two DSA problems a day in Python.</li>
+    <li><strong>Week 2:</strong> project steps 5–6, networking refresh, project stories, mock interviews.</li>
+  </ul>
+
+  <h3>Four weeks for a forward deployed engineer role</h3>
+  <div class="tw"><table>
+    <tr><th>#</th><th>Module</th><th>Why it matters</th></tr>
+    <tr><td>1</td><td><a href="#kubernetes">Kubernetes &amp; containers</a></td><td>Customers run their AI agents on Kubernetes; you install, configure and debug there.</td></tr>
+    <tr><td>2</td><td>Observability &amp; OpenTelemetry</td><td>Agent traces, metrics and logs are collected through OpenTelemetry.</td></tr>
+    <tr><td>3</td><td>LLM evaluation</td><td>Scoring agent quality: hallucination, tool selection, RAG adherence.</td></tr>
+    <tr><td>4</td><td>Agents in production</td><td>RAG, tool calling, MCP and token cost. My strongest area.</td></tr>
+    <tr><td>5</td><td>Cloud basics</td><td>IAM, networking and managed Kubernetes (EKS / GKE / AKS).</td></tr>
+    <tr><td>6</td><td>Interview skills</td><td>Discovery, scoping, and "how would you deploy this?" case answers.</td></tr>
+  </table></div>
+</section>
+
+<!-- ============ LESSON 1 ============ -->
+<section class="sec" id="llm-basics">
+  <div class="kick">Lesson 1</div>
+  <h2>LLM basics: tokens, context window, temperature</h2>
+
+  <h3>What an LLM actually does</h3>
+  <p>An LLM does one thing over and over: <strong>it predicts the next piece of text.</strong> You give it some text, it works out a probability for every possible next piece, picks one, adds it, and repeats until it's finished. Every answer is built one piece at a time.</p>
+  <p>Given <em>"The BGP session is"</em>, the next-piece probabilities might be:</p>
+  <div class="tw"><table>
+    <tr><th>Next piece</th><th>Probability</th></tr>
+    <tr><td>" down"</td><td>45%</td></tr><tr><td>" up"</td><td>30%</td></tr>
+    <tr><td>" established"</td><td>15%</td></tr><tr><td>" flapping"</td><td>5%</td></tr><tr><td>everything else</td><td>5%</td></tr>
+  </table></div>
+  <p>Those pieces are called <strong>tokens</strong>.</p>
+
+  <h3>1. Tokens</h3>
+  <p><strong>A token is the unit of text a model reads and writes</strong>, usually a word or part of a word. Each model has a fixed vocabulary of about 30,000–200,000 tokens, and all text is split into pieces from it:</p>
+  <ul>
+    <li><em>"Cisco routers are reliable"</em> → <code>Cisco</code> · <code> routers</code> · <code> are</code> · <code> reliable</code> (4 tokens)</li>
+    <li><em>"IOS-XR"</em> → <code>IOS</code> · <code>-</code> · <code>XR</code> (uncommon words get split)</li>
+    <li><em>"10.24.156.3"</em> → about 7 tokens. IP addresses, logs, code and JSON use more tokens per word.</li>
+  </ul>
+  <div class="callout">
+    <p><strong>Rules of thumb (English):</strong> 1 token ≈ 4 characters ≈ ¾ of a word. <strong>1 word ≈ 1.33 tokens.</strong> Tokens are smaller than words, so you always get <em>more</em> tokens than words: 3,000 words ≈ 4,000 tokens; 600 words ≈ 800 tokens.</p>
+  </div>
+  <p>Tokens matter because <strong>cost</strong> (APIs charge per input and output token), <strong>limits</strong> (the context window) and <strong>speed</strong> (one token written at a time) are all measured in them.</p>
+
+  <h3>2. Context window</h3>
+  <p><strong>The context window is the maximum number of tokens the model can handle in one request.</strong> It's one box that has to hold everything: the instructions, the chat history, retrieved documents, tool results, <strong>and the answer the model writes</strong>. Common sizes today are about 128K–200K tokens; some reach about 1M.</p>
+
+  <h4>Why the answer counts</h4>
+  <p>The answer is written <em>inside</em> the same API call, one token at a time, and each new token is added to the text the model is reading. To choose the next token, the model needs the whole text so far: your input plus everything it has already written.</p>
+  <div class="tw"><table>
+    <tr><th>Step</th><th>What the model is looking at</th><th>What it does</th></tr>
+    <tr><td>1</td><td>Your input (32,000 tokens)</td><td>Writes token 1: "To"</td></tr>
+    <tr><td>2</td><td>Input + "To" (32,001)</td><td>Writes token 2: "upgrade"</td></tr>
+    <tr><td>3</td><td>Input + "To upgrade" (32,002)</td><td>Writes token 3: "IOS-XR"</td></tr>
+  </table></div>
+  <p>When you call the API you also send <code>max_tokens</code>, the longest answer you'll allow. So the API can check before doing any work: <strong>input tokens + max_tokens ≤ context window?</strong> If not, most APIs return an error ("prompt is too long"); some cut the answer off when the box fills.</p>
+
+  <h4>Worked example</h4>
+  <div class="tw"><table>
+    <tr><th>Goes in the window</th><th>Tokens</th></tr>
+    <tr><td>Instructions</td><td>2,000</td></tr>
+    <tr><td>30 chunks × 1,000</td><td>30,000</td></tr>
+    <tr><td><strong>Used before the answer starts</strong></td><td><strong>32,000</strong></td></tr>
+    <tr><td>Window size</td><td>32,000 → <strong>no room for the answer</strong></td></tr>
+  </table></div>
+  <p><strong>Fix:</strong> re-rank and send only the top 5 chunks: 2,000 + 5,000 = 7,000 used, 25,000 left. Cheaper, faster and usually more accurate.</p>
+  <p><strong>How to check every time:</strong> (1) add up the input: instructions + chunks × chunk size + question; (2) add <code>max_tokens</code>; (3) compare with the window.</p>
+  <h4>Why there's a limit, and why bigger isn't better</h4>
+  <ul>
+    <li>Each token is compared with every other token, so double the length roughly quadruples the work.</li>
+    <li>A very full context costs more, is slower, and can be <strong>less accurate</strong>: models tend to miss details buried in the middle.</li>
+    <li><strong>Context window management</strong> = deciding what goes in the box: only the relevant pieces, in a compact form. SVS Pulse does this: pre-structured records instead of raw data, <strong>50K → 3K tokens per report</strong>.</li>
+  </ul>
+
+  <h3>3. Temperature</h3>
+  <p><strong>Temperature controls how random the model is when picking the next token.</strong></p>
+  <div class="tw"><table>
+    <tr><th>Temperature</th><th>Behaviour</th><th>BGP example</th></tr>
+    <tr><td>0</td><td>Always the top choice</td><td>Always " down". Nearly the same output every time.</td></tr>
+    <tr><td>1</td><td>Uses the real probabilities</td><td>" down" ~45% of the time, " up" ~30%…</td></tr>
+    <tr><td>1.5+</td><td>Flattens the odds</td><td>More varied, more mistakes</td></tr>
+  </table></div>
+  <ul>
+    <li><strong>0–0.3:</strong> classification, extraction, code, answers from your own data (SVS Pulse reports).</li>
+    <li><strong>0.7–1.0:</strong> brainstorming and writing.</li>
+    <li><strong>Trap:</strong> low temperature does <em>not</em> stop hallucination. It makes the model consistent, not correct. Grounding reduces hallucination.</li>
+    <li><strong>Top-p:</strong> pick only from the smallest set of tokens whose probabilities add up to p (e.g. 0.9).</li>
+  </ul>
+  <div class="say">
+    <p><strong>Token:</strong> "The unit an LLM reads and writes, about 4 characters in English. Cost, speed and limits are measured in tokens."</p>
+    <p><strong>Context window:</strong> "The maximum tokens per request, counting prompt, history, retrieved data and the output. I keep context small and relevant, as in SVS Pulse, 50K down to 3K."</p>
+    <p><strong>Temperature:</strong> "Controls randomness in picking the next token. Low for factual work. It doesn't reduce hallucination; grounding does."</p>
+  </div>
+
+  <h3>Check yourself</h3>
+  <details class="qa"><summary>A 3,000-word document is roughly how many tokens?</summary><div class="ans"><p>About <strong>4,000</strong> (3,000 × 1.33). Dividing by 4 is the rule for <em>characters</em>, not words.</p></div></details>
+  <details class="qa"><summary>A 2,000-token prompt plus 30 chunks of 1,000 tokens, on a 32K model. What goes wrong?</summary><div class="ans"><p>The input is exactly 32,000, the whole window, so there's <strong>zero room for the answer</strong>. Re-rank and keep the top 5 chunks.</p></div></details>
+  <details class="qa"><summary>16K window; 1K instructions; 10 chunks of 1.5K; max_tokens 1K. Does it fit?</summary><div class="ans"><p>No. 1,000 + 15,000 + 1,000 = <strong>17,000</strong>, which is 1,000 over. Send the top 6 chunks: 11,000 total. Chunk size and <code>max_tokens</code> are different numbers: <code>max_tokens</code> only limits the answer.</p></div></details>
+  <details class="qa"><summary>Which temperature for the SVS Pulse report assistant, and why?</summary><div class="ans"><p><strong>0</strong>. Reports must be factual and the same every time. Temperature makes it consistent; grounding in records keeps it accurate.</p></div></details>
+</section>
+
+<!-- ============ LESSON 2 ============ -->
+<section class="sec" id="embeddings">
+  <div class="kick">Lesson 2</div>
+  <h2>Embeddings &amp; vector search</h2>
+
+  <h3>The problem</h3>
+  <p>An engineer searches <strong>"BGP neighbor down"</strong>. The answer document says <strong>"peer session dropped on the router."</strong> They share no words, so keyword search misses it. We need search by <strong>meaning</strong>.</p>
+
+  <h3>1. What an embedding is</h3>
+  <p><strong>An embedding is a list of numbers that represents the meaning of a piece of text</strong>, produced by an <strong>embedding model</strong> (a separate, smaller model from the chat LLM). <strong>Similar meanings get similar numbers.</strong> "Vector" just means a list of numbers.</p>
+  <div class="tw"><table>
+    <tr><th>Text</th><th>Toy embedding [networking, failure, food]</th></tr>
+    <tr><td>Question: "BGP neighbor down"</td><td>[0.90, 0.80, 0.00]</td></tr>
+    <tr><td>A: "Peer session dropped on router"</td><td>[0.85, 0.90, 0.05]</td></tr>
+    <tr><td>B: "OSPF configuration guide"</td><td>[0.90, 0.10, 0.00]</td></tr>
+    <tr><td>C: "Best biryani in Bangalore"</td><td>[0.00, 0.10, 0.95]</td></tr>
+  </table></div>
+  <p>Real embeddings have hundreds to a few thousand numbers (384, 768, 1,536…). The model learns what they mean.</p>
+
+  <h3>2. Cosine similarity</h3>
+  <p>One score for "how similar": <strong>1.0 = same meaning, 0 = unrelated</strong>. (Multiply the lists number by number, add up, divide by both lengths.)</p>
+  <div class="tw"><table>
+    <tr><th>Document</th><th>Similarity to the question</th></tr>
+    <tr><td>A: "Peer session dropped on router"</td><td><strong>0.99</strong>, best match with no shared words</td></tr>
+    <tr><td>B: "OSPF configuration guide"</td><td>0.82, networking but not a failure</td></tr>
+    <tr><td>C: "Best biryani in Bangalore"</td><td>0.07, unrelated</td></tr>
+  </table></div>
+
+  <h3>3. Vector search end to end</h3>
+  <p><strong>Indexing (once):</strong> split documents into chunks → embed each chunk → store text + vector in a vector database.<br>
+  <strong>Searching (every question):</strong> embed the question with the <strong>same model</strong> → find the closest stored vectors → return the top-k chunks.</p>
+  <p><strong>Same model, always:</strong> each model builds its own number space, so vectors from two models are like coordinates on two different maps.</p>
+
+  <h3>4. pgvector</h3>
+  <p>A PostgreSQL extension that stores vectors next to normal data. I used it in EcoVisionaries.</p>
+<pre><code>CREATE EXTENSION vector;
+CREATE TABLE chunks (
+  id        serial PRIMARY KEY,
+  text      text,
+  embedding vector(1536)
+);
+-- 5 chunks closest in meaning to the question
+SELECT text FROM chunks
+ORDER BY embedding &lt;=&gt; '[0.12, -0.03, ...]'   -- &lt;=&gt; = cosine distance
+LIMIT 5;</code></pre>
+  <ul>
+    <li><strong>Distance = 1 − similarity</strong>, so the smallest distance is the best match (ascending sort).</li>
+    <li><strong>ANN (approximate nearest neighbour):</strong> indexes like <strong>HNSW</strong> and <strong>IVFFlat</strong> find <em>almost</em> the closest vectors much faster than comparing against all of them.</li>
+    <li>Other vector databases: Pinecone, Weaviate, Milvus. Same idea.</li>
+  </ul>
+
+  <h3>5. Where embeddings fail</h3>
+  <p>They're weak on <strong>exact identifiers</strong>: bug IDs (<code>CSCwe12345</code>), IPs, serial numbers, error codes. <code>CSCwe12345</code> and <code>CSCwe12346</code> get nearly identical vectors. The fix is <strong>hybrid search</strong>: keyword search plus vector search, merged. And high similarity means "similar meaning," not "correct."</p>
+  <div class="tw"><table>
+    <tr><th>Search type</th><th>Matches</th><th>"router CPU spike" picks</th></tr>
+    <tr><td>Keyword</td><td>same words</td><td>"Router configuration backup steps" ❌ (shares "router")</td></tr>
+    <tr><td>Vector</td><td>same meaning</td><td>"High processor utilization on ASR 9000" ✅</td></tr>
+    <tr><td>Hybrid</td><td>both</td><td>"High processor utilization on ASR 9000" ✅</td></tr>
+  </table></div>
+  <div class="say">
+    <p>"An embedding is a list of numbers, produced by an embedding model, that represents a text's meaning. For vector search I embed and store chunks once, then embed the question with the same model and return the closest chunks by cosine similarity. I used pgvector in Postgres. Embeddings are weak on exact IDs, so I'd add keyword search: hybrid search."</p>
+  </div>
+
+  <h3>Check yourself</h3>
+  <details class="qa"><summary>"Switch memory leak": which wins with keyword search, and which with vector search? A: "Switch port naming conventions"; B: "Gradual RAM growth on Catalyst 9300 until it crashes"</summary><div class="ans"><p><strong>Keyword: A</strong>, because it shares "switch." <strong>Vector: B</strong>, because RAM growth until crash means memory leak, and a Catalyst 9300 is a switch.</p></div></details>
+  <details class="qa"><summary>A search for bug "CSCwe12345" returns the wrong bug. Why, and what would you add?</summary><div class="ans"><p>An ID has no meaning for an embedding to capture, so similar IDs get almost identical vectors. Add <strong>keyword search</strong>, i.e. hybrid search.</p></div></details>
+  <details class="qa"><summary>Why embed questions and documents with the same model?</summary><div class="ans"><p>Each model has its own number space; vectors from different models can't be compared, even for the same sentence.</p></div></details>
+</section>
+
+<!-- ============ LESSON 3 ============ -->
+<section class="sec" id="rag">
+  <div class="kick">Lesson 3</div>
+  <h2>RAG end to end</h2>
+
+  <h3>The problem RAG solves</h3>
+  <ol>
+    <li>The LLM doesn't know your <strong>private data</strong> (CXTM, recordings, internal docs).</li>
+    <li>Its knowledge stops at a <strong>cutoff date</strong>.</li>
+    <li>You <strong>can't paste everything</strong> into the context window.</li>
+  </ol>
+  <p><strong>RAG (Retrieval-Augmented Generation): first find the few relevant pieces of your data, then give only those to the LLM and have it answer from them.</strong> It's an open-book exam. Retrieval = find the pages; augmented = add them to the prompt; generation = the LLM answers.</p>
+
+  <h3>Phase 1: Ingestion (ahead of time)</h3>
+  <div class="tw"><table>
+    <tr><th>Step</th><th>What happens</th><th>SVS One example</th></tr>
+    <tr><td>1. Load</td><td>Pull in source data</td><td>Recordings → transcripts, plus 430+ resources</td></tr>
+    <tr><td>2. Clean</td><td>Remove junk</td><td>Strip filler words, noise, duplicates</td></tr>
+    <tr><td>3. Chunk</td><td>Split into small pieces</td><td>8.1K transcript chunks</td></tr>
+    <tr><td>4. Embed</td><td>Vector per chunk</td><td>Embedding model</td></tr>
+    <tr><td>5. Store</td><td>Text + vector + <strong>metadata</strong></td><td>Session, date, speaker, who may see it</td></tr>
+  </table></div>
+
+  <h3>Phase 2: Query (every question)</h3>
+  <ol>
+    <li><strong>Embed the question</strong> with the same model.</li>
+    <li><strong>Retrieve</strong> the top ~20 closest chunks.</li>
+    <li><strong>Filter</strong> out chunks this user may not see (metadata).</li>
+    <li><strong>Re-rank</strong> and keep the best ~5.</li>
+    <li><strong>Build the prompt</strong>: instructions + chunks + question.</li>
+    <li><strong>Generate</strong> the answer, with sources.</li>
+  </ol>
+<pre><code>SYSTEM:
+You are a support assistant for the SVS team.
+Answer ONLY using the context below.
+If the answer is not in the context, say "I don't know."
+Cite the source ID for every fact, like [S2].
+
+CONTEXT:
+[S1] (Session: CXTM onboarding, 12 Mar) "To create a test case in CXTM, open..."
+[S2] (Session: Automation tips, 4 Apr) "Robot suites are linked to CXTM by..."
+
+QUESTION:
+How do I link a Robot test suite to CXTM?</code></pre>
+
+  <h3>Chunking</h3>
+  <div class="tw"><table>
+    <tr><th>Too small (~50 tokens)</th><th>Too big (~3,000 tokens)</th></tr>
+    <tr><td>Loses context; needs many chunks</td><td>One vector covers many topics, so matching blurs; wastes the context window</td></tr>
+  </table></div>
+  <ul>
+    <li>Start around <strong>300–800 tokens</strong>, then test.</li>
+    <li><strong>Overlap</strong> ~10–20% so ideas across a boundary aren't lost.</li>
+    <li>Split at headings, paragraphs or speaker turns, never mid-sentence.</li>
+  </ul>
+
+  <h3>Evaluating RAG</h3>
+  <ol>
+    <li><strong>Retrieval:</strong> did the right chunk come back? Measure <strong>recall@k</strong> on test questions.</li>
+    <li><strong>Generation:</strong> is the answer correct and <strong>faithful</strong> (based only on the chunks)?</li>
+  </ol>
+  <p>Test them separately: a bad answer can come from either, and the fixes differ.</p>
+
+  <h3>RAG vs fine-tuning</h3>
+  <div class="tw"><table>
+    <tr><th></th><th>RAG</th><th>Fine-tuning</th></tr>
+    <tr><td>Teaches</td><td>Facts (by lookup)</td><td>Behaviour, style, format</td></tr>
+    <tr><td>Updating</td><td>Re-index</td><td>Retrain</td></tr>
+    <tr><td>Sources</td><td>Yes</td><td>No</td></tr>
+    <tr><td>Cost</td><td>Low</td><td>Higher</td></tr>
+  </table></div>
+  <p>Use RAG for knowledge and fine-tuning for behaviour. Retrieval doesn't have to be vector search: a database query or API call counts too.</p>
+  <div class="say">
+    <p>"RAG retrieves the most relevant pieces of our own data and gives them to the LLM as context, so it answers from current, private data with sources. In SVS One I chunked and embedded 8.1K transcript chunks; at query time I retrieve, filter by access, re-rank to the top few, and answer only from those, with citations. When it fails, I check retrieval and generation separately."</p>
+  </div>
+
+  <h3>Check yourself</h3>
+  <details class="qa"><summary>Why use RAG instead of asking the LLM directly?</summary><div class="ans"><p>The LLM doesn't know our private or recent data, and we can't paste everything in. RAG fetches just the relevant pieces so it answers from them, with sources.</p></div></details>
+  <details class="qa"><summary>The assistant says "I don't know," but the right document is in the database. Which stage failed? Two fixes?</summary><div class="ans"><p><strong>Retrieval.</strong> Fixes: better chunking, hybrid search, query rewriting, HyDE.</p></div></details>
+  <details class="qa"><summary>Chunks are 3,000 tokens each. Two problems?</summary><div class="ans"><p>Each vector mixes many topics, so matching gets blurry; and fewer chunks fit in the context window, wasting tokens.</p></div></details>
+  <details class="qa"><summary>A user without access asks about Project X. Where do you stop the leak, and why isn't a prompt instruction enough?</summary><div class="ans"><p><strong>At retrieval</strong>: filter chunks by the user's permissions so restricted chunks never reach the prompt. A prompt instruction fails because the model doesn't know who's authorised, users can trick it, and once the chunk is in the prompt it has already leaked.</p></div></details>
+</section>
+
+<!-- ============ LESSON 3b ============ -->
+<section class="sec" id="rag-failures">
+  <div class="kick">Lesson 3b</div>
+  <h2>RAG failures in detail</h2>
+  <p>Running example: an SVS team assistant answering from team docs and session transcripts.</p>
+  <div class="tw"><table>
+    <tr><th>What fails</th><th>Symptom</th><th>Fixes</th></tr>
+    <tr><td>Retrieval misses</td><td>Right doc exists but wasn't retrieved</td><td>Chunking, hybrid search, query rewriting, HyDE</td></tr>
+    <tr><td>Irrelevant chunks</td><td>Loosely related chunks; answer drifts</td><td>Re-ranking, metadata filters, similarity threshold</td></tr>
+    <tr><td>Not grounded</td><td>Good chunks, but invented facts</td><td>Strict instructions, temperature 0, citations, evaluation</td></tr>
+    <tr><td>Context overflow</td><td>Request fails or answer cut off</td><td>Smaller top-k, smaller chunks, trim history, compress tool output</td></tr>
+    <tr><td>Stale answers</td><td>Old content after docs change</td><td>Re-index on schedule or on change</td></tr>
+    <tr><td>Access leak</td><td>User sees restricted content</td><td>Filter by permissions at retrieval</td></tr>
+  </table></div>
+
+  <h3>1. Retrieval misses</h3>
+  <p><strong>Looks like:</strong> "How do I link a Robot suite to CXTM?" The answer chunk says "…to attach your automation to a test case, use the cxtm-cli upload command…" but it isn't in the top 5.</p>
+  <p><strong>Why:</strong> the answer was split across chunks or buried in a huge one; different wording; exact terms embeddings handle badly; vague questions.</p>
+  <p><strong>Spot it:</strong> log retrieved chunks. If the right one isn't in the list, it's retrieval, not the LLM.</p>
+  <ul>
+    <li><strong>Better chunking:</strong> natural boundaries plus overlap; one idea per chunk.</li>
+    <li><strong>Hybrid search:</strong> keyword catches exact terms; vector catches different wording.</li>
+    <li><strong>Query rewriting:</strong> an LLM turns "it's broken after upgrade" into "BGP sessions not recovering after NX-OS upgrade," or searches several rewrites.</li>
+    <li><strong>HyDE:</strong> generate a fake answer first and search with it, since answers resemble answer chunks more than questions do.</li>
+  </ul>
+
+  <h3>2. Irrelevant chunks</h3>
+  <p><strong>Looks like:</strong> "Escalation process for a P1 on the Verizon project?" returns escalation for a different project, P1 definitions and onboarding. The model blends them into a confident wrong answer.</p>
+  <p><strong>Why:</strong> vector search always returns top-k, never "no match"; similar topics for different projects look alike; it knows nothing about project or date.</p>
+  <ul>
+    <li><strong>Re-ranking:</strong> retrieve ~20, have a careful model score each chunk <em>with</em> the question, keep the best 5.</li>
+    <li><strong>Metadata filters:</strong> e.g. only <code>project = Verizon</code> or recent dates.</li>
+    <li><strong>Similarity threshold:</strong> drop weak matches; if none pass, say "I don't know."</li>
+  </ul>
+
+  <h3>3. Not grounded</h3>
+  <p><strong>Looks like:</strong> the chunk says "Upgrade window is Saturday 2–6 AM." The answer adds "notify the NOC 48 hours before," which isn't in any chunk.</p>
+  <p><strong>Why:</strong> models fill gaps with likely-sounding text; instructions didn't forbid it; higher temperature adds randomness.</p>
+  <ul>
+    <li><strong>Strict instructions:</strong> "Answer ONLY from the context; otherwise say I don't know."</li>
+    <li><strong>Temperature 0:</strong> consistency helper, not the main fix.</li>
+    <li><strong>Citations:</strong> keep the model close to sources and let you auto-flag uncited sentences.</li>
+    <li><strong>Evaluate faithfulness</strong> on a test set so you know if changes help.</li>
+  </ul>
+
+  <h3>4. Context overflow</h3>
+  <p><strong>Why:</strong> input + <code>max_tokens</code> exceeds the window; history grows; agents pile up tool output. Even below the limit, full contexts cost more and lose accuracy.</p>
+  <ul>
+    <li>Retrieve 20, re-rank, <strong>send 3–5</strong>.</li>
+    <li>Smaller chunks; trim or summarise history; extract only relevant log lines.</li>
+    <li>Pre-structure data: SVS Pulse, <strong>50K → 3K</strong>.</li>
+  </ul>
+
+  <h3>5. Stale answers</h3>
+  <p><strong>Why:</strong> the vector database is a copy of the docs at ingestion time; edits and deletions don't flow through by themselves.</p>
+  <ul>
+    <li>Nightly re-index of changed docs, or re-index on change (store a <strong>document ID</strong> per chunk).</li>
+    <li>Store and show <code>last_updated</code>; prefer newer chunks on conflict.</li>
+  </ul>
+
+  <h3>6. Access leak</h3>
+  <p><strong>Why:</strong> the store holds everyone's chunks and search doesn't know who's asking. A prompt instruction can't fix it: the model doesn't know who's authorised, prompt injection can override it, and once a chunk is in the prompt it has leaked.</p>
+  <ul>
+    <li>Store permissions as <strong>metadata</strong> (<code>project</code>, <code>allowed_groups</code>).</li>
+    <li><strong>Filter in the search itself</strong>, so restricted chunks never come back.</li>
+    <li>Take the user's groups from <strong>SSO / LDAP</strong>, never from what they type; keep permissions in sync.</li>
+  </ul>
+  <div class="say"><p>"When a RAG answer is wrong, I first check retrieval: was the right chunk retrieved? If not, chunking, hybrid search or query rewriting. If the chunks are right but the answer adds facts, it's grounding: tighter instructions, citations, faithfulness evals. Access control always happens at retrieval, never in the prompt."</p></div>
+</section>
+
+<!-- ============ LESSON 4 ============ -->
+<section class="sec" id="edge-ai">
+  <div class="kick">Lesson 4</div>
+  <h2>Edge AI &amp; small models</h2>
+
+  <h3>Why small models at the edge</h3>
+  <p>Factories and plants often have little or no internet, strict privacy rules, and need fast responses, so the model runs on the device: a switch, gateway or industrial PC. The job is a trade-off between <strong>quality, memory, compute and latency</strong>.</p>
+
+  <h3>Quantization, from zero</h3>
+  <p><strong>A model is a huge list of numbers (weights).</strong> "1B model" = 1 billion numbers, and all of them must fit in RAM to run.</p>
+  <p><strong>Every number takes space in bits</strong> (8 bits = 1 byte). 16-bit allows ~65,000 values per number (precise, 2 bytes). <strong>4-bit allows only 16 values</strong> (rough, half a byte).</p>
+  <p><strong>Quantization = rounding the numbers to fewer levels</strong>, like rounding ₹523 to ₹520. With weights between −1 and 1, 4 bits gives 16 evenly spaced allowed values: −1.0, −0.87, −0.73 … 0.47, 0.60 … 1.0. The weight 0.52 becomes 0.47 and is stored as "level 11" in 4 bits; at run time level 11 turns back into 0.47. That small error is the accuracy loss.</p>
+  <div class="tw"><table>
+    <tr><th>Stored as</th><th>Per number</th><th>1B model</th><th>3B model</th></tr>
+    <tr><td>16-bit</td><td>2 bytes</td><td>~2 GB</td><td>~6 GB</td></tr>
+    <tr><td>8-bit</td><td>1 byte</td><td>~1 GB</td><td>~3 GB</td></tr>
+    <tr><td>4-bit</td><td>0.5 bytes</td><td>~0.5–0.7 GB</td><td>~1.5–2 GB</td></tr>
+  </table></div>
+  <p><strong>In one line:</strong> 4-bit makes a model about 4× smaller and faster with slightly lower accuracy, like a smaller, slightly blurrier JPEG. Post-training quantization is quick; quantization-aware training keeps more quality. Formats: <strong>GGUF</strong> (llama.cpp), <strong>INT8 TF Lite</strong>.</p>
+
+  <h3>Fine-tuning, LoRA, PEFT, QLoRA</h3>
+  <ul>
+    <li><strong>Full fine-tuning</strong> updates every weight: expensive, makes a full new copy.</li>
+    <li><strong>LoRA</strong> freezes the base model and trains two small matrices (A × B) added to chosen layers. Only ~0.1–1% of parameters train, and the result is a small adapter file you can merge or swap.</li>
+    <li><strong>QLoRA</strong> = LoRA on a 4-bit base, so it fits on one free GPU.</li>
+    <li><strong>PEFT</strong> = parameter-efficient fine-tuning, the umbrella term and the Hugging Face library.</li>
+  </ul>
+
+  <h3>Distillation</h3>
+  <p>A big <strong>teacher</strong> model's outputs train a small <strong>student</strong>. Example: a frontier LLM labels 2,000 syslog lines; a 1B model learns from those labels and gets near-teacher quality at a fraction of the size.</p>
+
+  <h3>On-device inference</h3>
+  <ul>
+    <li><strong>llama.cpp:</strong> runs GGUF models in C/C++ on CPU and ARM, no GPU needed.</li>
+    <li><strong>TF Lite:</strong> runs small ML and vision models on edge chips.</li>
+    <li>Always measure <strong>RAM, tokens/second, p95 latency and accuracy before and after quantization</strong>.</li>
+  </ul>
+
+  <h3>Check yourself</h3>
+  <details class="qa"><summary>How much memory do a 3B model's weights need at 4-bit?</summary><div class="ans"><p>3B × 0.5 bytes = 1.5 GB, plus overhead: about <strong>1.5–2 GB</strong> (vs ~6 GB at 16-bit).</p></div></details>
+  <details class="qa"><summary>What does LoRA actually train?</summary><div class="ans"><p>Small low-rank matrices added to frozen layers. The base model stays frozen.</p></div></details>
+  <details class="qa"><summary>A big LLM labels data and a 1B model trains on the labels. What is this called?</summary><div class="ans"><p><strong>Distillation</strong> (teacher → student).</p></div></details>
+  <details class="qa"><summary>After 4-bit quantization, F1 drops from 0.91 to 0.82. First step?</summary><div class="ans"><p>Try higher precision (5- or 8-bit) and compare size, latency and F1; pick the smallest that meets the target. Next option: quantization-aware training.</p></div></details>
+</section>
+
+<!-- ============ LESSON 5 ============ -->
+<section class="sec" id="kubernetes">
+  <div class="kick">Lesson 5</div>
+  <h2>Kubernetes, explained with SVS Pulse</h2>
+  <p>SVS Pulse already solves the problems Kubernetes solves, by hand, on one Linux VM.</p>
+  <div class="tw"><table>
+    <tr><th>On the SVS Pulse VM</th><th>In Kubernetes</th></tr>
+    <tr><td>FastAPI process</td><td><strong>Pod</strong>: one or more containers running together</td></tr>
+    <tr><td>systemd restarts it on crash</td><td><strong>Deployment</strong> keeps N copies running</td></tr>
+    <tr><td>Nginx forwards traffic</td><td><strong>Service</strong> (stable address) + <strong>Ingress</strong> (outside HTTP in)</td></tr>
+    <tr><td><code>.env</code> with DB URL and keys</td><td><strong>ConfigMap</strong> (settings) + <strong>Secret</strong> (keys)</td></tr>
+    <tr><td>PostgreSQL on the VM disk</td><td><strong>StatefulSet</strong> + <strong>PersistentVolumeClaim</strong></td></tr>
+    <tr><td>Staging vs production</td><td><strong>Namespaces</strong> or separate clusters</td></tr>
+    <tr><td>Deploy script</td><td><code>kubectl apply</code> with a <strong>rolling update</strong></td></tr>
+    <tr><td><code>/health</code> URL</td><td><strong>Liveness and readiness probes</strong></td></tr>
+    <tr><td>One VM</td><td>A <strong>cluster</strong> of <strong>nodes</strong></td></tr>
+  </table></div>
+  <div class="callout"><p><strong>The big idea: declarative desired state.</strong> You declare "3 copies of this app," and controllers keep comparing what is running with what should be, fixing any difference. Delete a pod and it comes back.</p></div>
+  <p><strong>Architecture:</strong> the <strong>control plane</strong> has the API server (everything talks to it), etcd (the database), the scheduler (picks a node for each pod) and controllers (fix differences). Each <strong>node</strong> runs the kubelet (starts containers) and kube-proxy (networking).</p>
+
+  <h3>Labs (in order)</h3>
+  <p><strong>Where:</strong> Killercoda (free, in the browser), or <code>kind</code> / <code>minikube</code> locally. On a work laptop use Podman: <code>minikube start --driver=podman</code>.</p>
+  <h4>Lab 1: first cluster (~45 min)</h4>
+<pre><code>kind create cluster --name fde          # or: minikube start
+kubectl get nodes
+kubectl create deployment hello --image=nginx --replicas=2
+kubectl get pods -o wide
+kubectl delete pod &lt;pod-name&gt;          # then: kubectl get pods -w
+kubectl expose deployment hello --port=80
+kubectl port-forward svc/hello 8080:80 # open localhost:8080
+kubectl scale deployment hello --replicas=4
+kubectl set image deployment/hello nginx=nginx:1.27   # rolling update
+kubectl rollout undo deployment/hello                 # roll back
+kubectl describe pod &lt;pod-name&gt;; kubectl logs &lt;pod-name&gt;</code></pre>
+  <ol start="2">
+    <li><strong>Your own app:</strong> containerize a small FastAPI service; write the Deployment and Service YAML by hand.</li>
+    <li><strong>Config &amp; health:</strong> ConfigMap, a Secret for an LLM key, probes, CPU/memory limits.</li>
+    <li><strong>Data:</strong> PostgreSQL via Helm; delete the pod and confirm the data survives.</li>
+    <li><strong>Traffic &amp; scaling:</strong> Ingress, then a HorizontalPodAutoscaler; load-test until it scales.</li>
+    <li><strong>Capstone:</strong> see <a href="#proj-k8s">Kubernetes capstone</a>.</li>
+    <li><strong>Break-it drills:</strong> CrashLoopBackOff, ImagePullBackOff, Pending, OOMKilled, wrong Service selector.</li>
+  </ol>
+
+  <h3>Check yourself</h3>
+  <details class="qa"><summary>You delete one pod of a Deployment with replicas=3. What happens?</summary><div class="ans"><p>A controller sees 2 running instead of 3 and creates a replacement.</p></div></details>
+  <details class="qa"><summary>Which object gives a set of pods one stable internal address?</summary><div class="ans"><p>A <strong>Service</strong>. An Ingress then routes outside HTTP traffic to Services.</p></div></details>
+  <details class="qa"><summary>Where does an LLM API key go?</summary><div class="ans"><p>A <strong>Secret</strong>. Never a ConfigMap, never baked into the image.</p></div></details>
+  <details class="qa"><summary>Pod in CrashLoopBackOff. First command?</summary><div class="ans"><p><code>kubectl logs &lt;pod&gt; --previous</code> to see why the last run died; then <code>kubectl describe pod</code>.</p></div></details>
+  <details class="qa"><summary>Which component decides which node a new pod runs on?</summary><div class="ans"><p>The <strong>scheduler</strong>.</p></div></details>
+</section>
+
+<!-- ============ ROLES ============ -->
+<section class="sec" id="roles">
+  <div class="kick">Role guides</div>
+  <h2>What each role does, and what it tests</h2>
+
+  <h3>Forward Deployed Engineer (FDE)</h3>
+  <p>A software engineer who works directly with a customer and builds whatever makes the company's product work inside that customer's business. Part <strong>engineer</strong> (production code), part <strong>consultant</strong> (find the real problem), part <strong>product scout</strong> (feed back what customers keep needing).</p>
+  <div class="tw"><table>
+    <tr><th>Role</th><th>Main job</th><th>Production code?</th></tr>
+    <tr><td>Software Engineer</td><td>Builds the core product</td><td>Yes, for all users</td></tr>
+    <tr><td><strong>FDE</strong></td><td>Makes the product work for specific customers</td><td><strong>Yes, a lot</strong></td></tr>
+    <tr><td>Solutions / Sales Engineer</td><td>Demos and proofs of concept</td><td>Some, mostly prototypes</td></tr>
+    <tr><td>Consultant</td><td>Advises and designs</td><td>Rarely</td></tr>
+    <tr><td>Customer Success</td><td>Keeps customers happy and renewing</td><td>No</td></tr>
+  </table></div>
+  <h4>A typical engagement</h4>
+  <ol>
+    <li><strong>Discovery:</strong> learn workflows, data, systems, pain points. "What does success look like in 3 months?"</li>
+    <li><strong>Scoping:</strong> turn a vague wish into a concrete, buildable plan.</li>
+    <li><strong>Prototype</strong> on real data.</li>
+    <li><strong>Production:</strong> security review, access control, monitoring, error handling, integration (SSO, databases, ticketing).</li>
+    <li><strong>Measure and iterate.</strong></li>
+    <li><strong>Feed back</strong> to the product team.</li>
+  </ol>
+  <h4>Skills</h4>
+  <ul>
+    <li><strong>Technical breadth:</strong> Python/TypeScript, APIs and auth, quick UIs, SQL and ETL, Docker, a cloud, CI/CD, debugging unfamiliar systems.</li>
+    <li><strong>AI-focused FDE:</strong> LLM APIs and tool calling, RAG, agents, <strong>evals</strong>, guardrails, privacy, hallucination handling.</li>
+    <li><strong>People:</strong> good questions, explaining trade-offs to non-technical people, managing scope, deciding with incomplete information.</li>
+  </ul>
+  <h4>Agent observability concepts (for AI-agent platform teams)</h4>
+  <ul>
+    <li><strong>Agent evaluation:</strong> scoring what an agent did: action completion, tool selection, hallucination, RAG adherence.</li>
+    <li><strong>Evals become guardrails:</strong> an eval that scores reliably in testing is promoted to a runtime check that blocks a bad action before the tool fires.</li>
+    <li><strong>Cheap always-on evaluation:</strong> small evaluator models score every interaction; a frontier LLM as judge is too costly and slow at scale.</li>
+    <li><strong>Token and cost tracking</strong> by request, model, agent and workflow.</li>
+    <li><strong>OpenTelemetry:</strong> traces, spans, and the collector that ships them.</li>
+  </ul>
+  <h4>What FDE interviews test</h4>
+  <ul>
+    <li>Practical coding (parse this data, build this small API).</li>
+    <li>Case rounds: "A hospital wants AI to summarise patient records. Walk me through it."</li>
+    <li>Customer scenarios: "The demo is wrong and their VP is angry. What do you do?"</li>
+    <li>Behavioural: ambiguity, ownership, difficult stakeholders.</li>
+  </ul>
+  <div class="callout warn"><p><strong>My honest gap:</strong> no direct customer work. My closest story is SVS Pulse with internal users: found their problem (30–40 min report prep), built the fix, got a PRD approved, demoed it at a showcase booth.</p></div>
+
+  <h3>AI Operations / GenAI Engineer</h3>
+  <p>Builds RAG and agent systems for enterprise data. Typical asks:</p>
+  <ul>
+    <li>LangChain / LangGraph orchestration and agentic workflows</li>
+    <li>Vector databases; building and tuning RAG pipelines</li>
+    <li><strong>Hybrid search</strong>, <strong>re-ranking</strong>, <strong>context window management</strong></li>
+    <li>Web-research tools with LLMs; a cloud AI platform (Vertex AI, AWS, Azure)</li>
+    <li>Evaluating LLMs and upgrading models without losing quality</li>
+    <li>Guardrails against hallucination and PII leakage; MCP servers; grounding</li>
+    <li>Classic NLP: text cleaning, similarity, clustering, matching and deduplication</li>
+  </ul>
+
+  <h3>AI Software Engineer, edge / industrial networking</h3>
+  <ul>
+    <li>Build AI apps and agents with LLMs, small models, RAG, MCP and tool calling</li>
+    <li>AI for network operations: troubleshooting, observability, anomaly and threat detection</li>
+    <li>Fine-tune, quantize and deploy small models on edge hardware</li>
+    <li>AI-first development with coding agents, validating correctness and security</li>
+    <li>Python plus one of C, C++, Go, Java; DSA, design, debugging; PyTorch / Hugging Face</li>
+  </ul>
+</section>
+
+<!-- ============ GLOSSARY ============ -->
+<section class="sec" id="glossary">
+  <div class="kick">Skill glossary</div>
+  <h2>What job-portal skills actually mean</h2>
+  <p>Before selecting a skill, ask: can I give a real example from my own work? Anything selected can be asked about.</p>
+  <div class="tw"><table>
+    <tr><th>Skill</th><th>What it means</th><th>Me</th></tr>
+    <tr><td>AI Solution Architecture</td><td>Designing how an AI system fits together: data, model, retrieval, tools, access, deployment</td><td>✅ SVS Pulse, SVS One</td></tr>
+    <tr><td>LLM Deployment</td><td>Running LLM apps in production for real users</td><td>✅ SVS Pulse, SVS One</td></tr>
+    <tr><td>Product Collaboration</td><td>Working with PMs on what to build and why</td><td>✅ PRD approved by CX-PM</td></tr>
+    <tr><td>Engineering Collaboration</td><td>Working across engineers and teams</td><td>✅ enablement, shared MCP servers</td></tr>
+    <tr><td>ML Application Deployment</td><td>Deploying apps that use ML models</td><td>⚠️ LLM apps yes; classic ML not really</td></tr>
+    <tr><td>Consulting</td><td>Advising clients on technical decisions</td><td>⚠️ only internal "clients"</td></tr>
+    <tr><td>Customer Engagement</td><td>Talking with customers directly</td><td>❌</td></tr>
+    <tr><td>Technical Customer Success</td><td>Helping customers adopt a product after purchase</td><td>❌</td></tr>
+    <tr><td>Forward Deployment</td><td>Placed with a customer to build in their environment</td><td>❌</td></tr>
+    <tr><td>Solutions Engineering</td><td>Designing solutions for a specific customer, often pre-sale</td><td>❌ (I build internal tools)</td></tr>
+    <tr><td>MLOps</td><td>Pipelines to train, version, deploy and monitor models</td><td>❌</td></tr>
+    <tr><td>Distributed Systems</td><td>Systems spread across many machines, consistent and fault-tolerant</td><td>❌ single-server apps</td></tr>
+    <tr><td>Cloud Infrastructure</td><td>AWS / GCP / Azure VMs, networking, storage</td><td>❌ Cisco-hosted Linux</td></tr>
+  </table></div>
+</section>
+
+<!-- ============ PROJECTS ============ -->
+<section class="sec" id="projects">
+  <div class="kick">Hands-on projects</div>
+  <h2>Builds that close the gaps</h2>
+
+  <h3 id="proj-edge">Edge NetOps agent</h3>
+  <p>Closes the small-model gap and builds on my network-agent work.</p>
+  <ol>
+    <li><strong>Data:</strong> 1–2K syslog lines from a lab or synthetic, labelled by a big LLM (link flap, BGP down, high CPU, auth failure, normal). That's the distillation story. Clean the text first. <strong>Never use customer logs on a personal machine or Colab.</strong></li>
+    <li><strong>Baseline:</strong> TF-IDF + logistic regression; record F1.</li>
+    <li><strong>Fine-tune</strong> a ~1B open model with LoRA (Hugging Face <code>transformers</code> + <code>peft</code>, free Colab).</li>
+    <li><strong>Quantize:</strong> merge the adapter, convert to GGUF, 4-bit, run with llama.cpp on a laptop CPU.</li>
+    <li><strong>Agent:</strong> wrap the classifier as an MCP tool; a <strong>LangGraph</strong> agent classifies the log, then runs <code>show</code> commands through NetAuto MCP.</li>
+    <li><strong>README:</strong> one table: model | size | RAM | tokens/s | F1. That table is the interview story.</li>
+  </ol>
+
+  <h3 id="proj-k8s">Kubernetes capstone</h3>
+  <ol>
+    <li>Instrument a small agent app with OpenTelemetry.</li>
+    <li>Install the OTel Collector with Helm; view traces in Jaeger.</li>
+    <li>Switch to Splunk's collector chart (it has a guide for AI agent monitoring on Kubernetes).</li>
+    <li>Run an evaluation job (DeepEval) as a Kubernetes <strong>CronJob</strong>.</li>
+    <li>Add a runtime check that blocks a risky tool call, and track tokens and cost per request.</li>
+  </ol>
+  <p><strong>Outcome:</strong> "I deployed an instrumented AI agent on Kubernetes, collected its telemetry through OpenTelemetry, and ran evals on it."</p>
+</section>
+
+<!-- ============ QUESTIONS ============ -->
+<section class="sec" id="questions">
+  <div class="kick">Question bank</div>
+  <h2>Likely interview questions</h2>
+
+  <h3>My projects</h3>
+  <details class="qa"><summary>Walk me through SVS Pulse's architecture.</summary><div class="ans"><p>Cover: why I built it (report prep took 30–40 min across dozens of CXTM tabs), FastAPI + PostgreSQL backend, React frontend, Nginx on Linux, Duo/OIDC SSO with LDAP, the Ask SVS Pulse assistant and Pulse MCP server answering from pre-structured, access-scoped records, production plus staging. Numbers: 500+ projects, 60+ customers, 26K+ test cases, one-click reports.</p></div></details>
+  <details class="qa"><summary>How did you measure the ~94% token saving?</summary><div class="ans"><p>Prepare this precisely: same report, raw data through the CXTM MCP ≈ 50K input tokens vs pre-structured records ≈ 3K. Know which reports, how many runs, and that answer quality held.</p></div></details>
+  <details class="qa"><summary>How was EcoVisionaries' 72% precision measured? Why precision, not recall?</summary><div class="ans"><p>Prepare: the labelled set of good/bad matches, how many, who judged. Precision = of the matches shown, how many were good; it matters most because a bad suggestion wastes a member's time. Mention the naive RAG baseline at 33%.</p></div></details>
+  <details class="qa"><summary>How do you validate code from Claude Code?</summary><div class="ans"><p>Tests first; read every diff; run it; check security and edge cases; keep changes small and reviewable; never merge what I can't explain.</p></div></details>
+
+  <h3>AI concepts</h3>
+  <details class="qa"><summary>Explain LoRA.</summary><div class="ans"><p>Freeze the base model; train two small low-rank matrices added to selected layers; ~0.1–1% of parameters; a small adapter file.</p></div></details>
+  <details class="qa"><summary>How much RAM does a 3B model need at 4-bit?</summary><div class="ans"><p>~1.5–2 GB (0.5 bytes per weight plus overhead).</p></div></details>
+  <details class="qa"><summary>How would you detect anomalies in network telemetry?</summary><div class="ans"><p>Learn a baseline per metric; flag deviations with z-score or EWMA; isolation forest or autoencoders for multi-metric patterns; then use an LLM to explain the likely cause from logs and context.</p></div></details>
+  <details class="qa"><summary>Design an agent that troubleshoots an industrial switch with no cloud access.</summary><div class="ans"><p>Quantized small model running locally (llama.cpp); tools for read-only <code>show</code> commands; a local log classifier; RAG over a local runbook index; human approval before any config change; a budget for memory and latency; logs of every action.</p></div></details>
+
+  <h3>Networking</h3>
+  <details class="qa"><summary>TCP vs UDP, and the 3-way handshake.</summary><div class="ans"><p>TCP: connection-based, ordered, reliable (SYN → SYN-ACK → ACK). UDP: connectionless, no delivery guarantee, lower latency (DNS, streaming, syslog).</p></div></details>
+  <details class="qa"><summary>What does a port flap look like, and how would you investigate?</summary><div class="ans"><p>Repeated link up/down syslog messages on an interface. Check interface counters and errors, optics levels, cabling, the far end, and spanning tree or LACP events.</p></div></details>
+  <details class="qa"><summary>Name three industrial protocols.</summary><div class="ans"><p>Modbus, PROFINET, OPC UA. Know one line on each.</p></div></details>
+
+  <h3>DSA to drill (Python)</h3>
+  <p>Hashmaps, two pointers, sliding window, heaps, and BFS/DFS. Networks are graphs, so expect a graph question. Daily drills: <a href="/gamified-learning/dsa/">DSA track</a>.</p>
+</section>
+
+<p class="foot">Personal study notes · <a href="/">karthikravi.in</a> · <a href="/gamified-learning/">Gamified Learning</a></p>
+</main>
+</div>
+
+<script>
+const GROUPS=[
+ {id:"ai",name:"AI & LLM concepts"},{id:"proj",name:"My projects"},{id:"web",name:"Backend, web & data"},
+ {id:"ops",name:"Platforms & automation"},{id:"talks",name:"Talks & enablement"},{id:"gap",name:"Edge AI role gaps"}];
+const TOPICS=[
+ {id:"llm-basics",g:"ai",t:"LLM basics: tokens, context window, temperature",k:"What a token is, why context limits exist, what temperature changes.",hi:1,l:"#llm-basics"},
+ {id:"embeddings",g:"ai",t:"Embeddings & vector search",k:"Text → vectors, cosine similarity, how pgvector finds nearest neighbours.",hi:1,l:"#embeddings"},
+ {id:"rag",g:"ai",t:"RAG end to end",k:"Chunk, embed, retrieve, build the prompt, answer with sources; failure modes.",hi:1,l:"#rag"},
+ {id:"rerank",g:"ai",t:"Re-ranking",k:"Retrieve many then re-rank; cross-encoder vs LLM re-ranker.",hi:1,l:"#rag-failures"},
+ {id:"hyde",g:"ai",t:"HyDE",k:"Generate a hypothetical answer, embed it, search with it.",hi:0,l:"#rag-failures"},
+ {id:"grounding",g:"ai",t:"Grounding & hallucination",k:"What a grounded answer is; how SVS Pulse keeps answers to its records.",hi:1,l:"#rag-failures"},
+ {id:"context-opt",g:"ai",t:"Context & token optimization",k:"How pre-structured records cut 50K to 3K tokens per report.",hi:1,l:"#llm-basics"},
+ {id:"llm-eval",g:"ai",t:"LLM evaluation",k:"Precision, recall, F1; labelled eval sets; LLM-as-judge.",hi:1},
+ {id:"prompting",g:"ai",t:"Prompt engineering",k:"System prompts, few-shot examples, structured output.",hi:0},
+ {id:"agents",g:"ai",t:"Agents & tool calling",k:"The agent loop and how function calling works.",hi:1},
+ {id:"mcp",g:"ai",t:"MCP",k:"Host, client, server; tools vs resources vs prompts; stdio vs HTTP.",hi:1},
+ {id:"a2a",g:"ai",t:"A2A protocol",k:"Agent-to-agent communication and how it differs from MCP.",hi:0},
+ {id:"langchain",g:"ai",t:"LangChain",k:"Chains, retrievers, tools; where I used it.",hi:0},
+ {id:"adk",g:"ai",t:"Google ADK",k:"What it is and what I built with it.",hi:0},
+ {id:"deep-learning",g:"ai",t:"Deep learning basics",k:"Neurons, loss, backprop, CNNs; the IEEE paper's model.",hi:1},
+ {id:"nlp-class",g:"ai",t:"NLP text classification",k:"TF-IDF + logistic regression vs a fine-tuned transformer.",hi:1},
+ {id:"svs-pulse",g:"proj",t:"SVS Pulse",k:"Architecture end to end and every number: 500+, 26K+, ~94%, 30–40 min.",hi:1},
+ {id:"svs-one",g:"proj",t:"SVS One",k:"Data model, SSO and roles, transcript RAG, 8.1K chunks, 430+ resources.",hi:1},
+ {id:"ecovisionaries",g:"proj",t:"EcoVisionaries",k:"The 5 stages and how 72% vs 33% precision was measured.",hi:1},
+ {id:"topic-search",g:"proj",t:"Topic Search MCP",k:"What it searches, containerization, adoption.",hi:0},
+ {id:"netauto",g:"proj",t:"MCP AI Studio & NetAuto MCP",k:"Plain language → device commands, and keeping it safe.",hi:1},
+ {id:"webex",g:"proj",t:"Webex Knowledge Assistant",k:"Ingestion, retrieval, citing sources.",hi:0},
+ {id:"mop",g:"proj",t:"CX MoP Automation",k:"Netmiko collection, parsing, Excel and Word generation.",hi:0},
+ {id:"aiops-data",g:"proj",t:"AIOps training datasets",k:"How CLI logs were cleaned and labelled.",hi:0},
+ {id:"scde",g:"proj",t:"SCDE patent",k:"A one-line, non-confidential pitch.",hi:0},
+ {id:"ieee",g:"proj",t:"IEEE paper: underwater trash detection",k:"Problem, model, dataset, results in two minutes.",hi:0},
+ {id:"python",g:"web",t:"Python depth",k:"Async, typing, virtual environments, pytest.",hi:1},
+ {id:"fastapi",g:"web",t:"FastAPI",k:"Routes, Pydantic, async, dependency injection.",hi:0},
+ {id:"flask",g:"web",t:"Flask",k:"How it differs from FastAPI.",hi:0},
+ {id:"rest",g:"web",t:"REST API design",k:"Methods, status codes, auth, pagination.",hi:0},
+ {id:"react-next",g:"web",t:"React & Next.js",k:"Components, state, hooks; routing and server rendering.",hi:0},
+ {id:"typescript",g:"web",t:"TypeScript",k:"Types, interfaces, why over JavaScript.",hi:0},
+ {id:"sql",g:"web",t:"SQL, PostgreSQL & SQLAlchemy",k:"Joins, indexes, transactions; ORM basics.",hi:0},
+ {id:"sql-nosql",g:"web",t:"MariaDB vs MongoDB",k:"Relational vs document databases.",hi:0},
+ {id:"sso",g:"web",t:"SSO: OIDC, Duo, LDAP, role-based access",k:"OIDC login flow, LDAP lookups, roles.",hi:0},
+ {id:"linux-nginx",g:"ops",t:"Linux, Nginx & systemd",k:"Reverse proxy, services, logs; how SVS Pulse is deployed.",hi:0},
+ {id:"containers",g:"ops",t:"Docker & Podman",k:"Images vs containers, Dockerfiles, volumes.",hi:0},
+ {id:"git",g:"ops",t:"Git",k:"Branching, rebasing, conflicts.",hi:0},
+ {id:"robot",g:"ops",t:"Robot Framework",k:"Keywords, suites, how my 20+ suites are structured.",hi:0},
+ {id:"netmiko",g:"ops",t:"Netmiko & SSH automation",k:"Connect, send commands, parse output.",hi:0},
+ {id:"networking",g:"ops",t:"Networking basics",k:"IOS-XR vs IOS-XE, TCP/IP, handshake, BGP and OSPF.",hi:1},
+ {id:"splunk",g:"ops",t:"Splunk & SPL",k:"Getting data in, SPL searches, dashboards.",hi:0},
+ {id:"enablement",g:"talks",t:"Enablement stories",k:"15+ sessions, 5 labs, 50+ trainees: one concrete story.",hi:0},
+ {id:"summit-talk",g:"talks",t:"Security Summit talk",k:"The main idea in two sentences.",hi:0},
+ {id:"quantization",g:"gap",t:"4-bit quantization",k:"Rounding weights to 16 levels; 1B ≈ 2 GB at 16-bit vs ~0.5 GB at 4-bit.",hi:1,l:"#edge-ai"},
+ {id:"lora",g:"gap",t:"LoRA, PEFT & QLoRA",k:"Freeze the model, train small adapters.",hi:1,l:"#edge-ai"},
+ {id:"distillation",g:"gap",t:"Distillation",k:"Teacher outputs train a student.",hi:1,l:"#edge-ai"},
+ {id:"on-device",g:"gap",t:"On-device inference: llama.cpp & TF Lite",k:"Measure RAM, latency, accuracy.",hi:1,l:"#edge-ai"},
+ {id:"pytorch-hf",g:"gap",t:"PyTorch & Hugging Face basics",k:"Load, infer, fine-tune with transformers + peft.",hi:1},
+ {id:"anomaly",g:"gap",t:"Anomaly detection basics",k:"Baselines, z-score/EWMA, isolation forest, LLM explanations.",hi:1},
+ {id:"langgraph",g:"gap",t:"LangGraph",k:"Graph agent workflows: nodes, edges, state.",hi:0},
+ {id:"second-lang",g:"gap",t:"Second language basics (C)",k:"Pointers, memory, structs, compiling, debugging.",hi:1},
+ {id:"dsa",g:"gap",t:"DSA in Python",k:"Hashmaps, two pointers, sliding window, heaps, BFS/DFS.",hi:1},
+ {id:"kubernetes",g:"gap",t:"Kubernetes basics",k:"Pods, Deployments, Services, probes; Lab 1.",hi:0,l:"#kubernetes"}
+];
+const KEY="prep:topics", SEED={quantization:true,"llm-basics":true,embeddings:true};
+let S={};
+try{const raw=localStorage.getItem(KEY);S=raw?JSON.parse(raw):Object.assign({},SEED)}catch(e){S=Object.assign({},SEED)}
+let F="all";
+const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e};
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function show(t){const d=!!S[t.id];return F==="todo"?!d:F==="done"?d:F==="hi"?!!t.hi:true}
+function render(){
+  const box=document.getElementById("tracker-list");box.textContent="";
+  for(const g of GROUPS){
+    const items=TOPICS.filter(t=>t.g===g.id),vis=items.filter(show);
+    const wrap=el("div","tgroup"),h=el("h4");h.append(el("span",null,g.name),el("small",null,items.filter(t=>S[t.id]).length+" / "+items.length));
+    const ul=el("ul","tl");
+    if(!vis.length){ul.append(el("li","empty",F==="done"?"Nothing closed here yet.":"All closed in this section."))}
+    for(const t of vis){
+      const li=el("li",S[t.id]?"done":""),lab=el("label"),cb=el("input");cb.type="checkbox";cb.id="t-"+t.id;cb.checked=!!S[t.id];
+      cb.addEventListener("change",()=>{S[t.id]=cb.checked;save();render()});
+      const b=el("div"),tt=el("div","tt");tt.append(el("strong",null,t.t));
+      if(t.hi)tt.append(el("span","tag hi","Role-critical"));
+      if(t.l){const a=el("a","les","Lesson →");a.href=t.l;tt.append(a)}
+      b.append(tt,el("div","tk",t.k));lab.append(cb,b);li.append(lab);ul.append(li)}
+    wrap.append(h,ul);box.append(wrap)}
+  const done=TOPICS.filter(t=>S[t.id]).length,hi=TOPICS.filter(t=>t.hi);
+  document.getElementById("pDone").textContent=done;document.getElementById("pTotal").textContent=TOPICS.length;
+  document.getElementById("pHi").textContent=hi.filter(t=>S[t.id]).length;document.getElementById("pHiTotal").textContent=hi.length;
+  document.getElementById("pFill").style.width=(done/TOPICS.length*100)+"%";
+}
+document.querySelectorAll(".filters button").forEach(b=>b.addEventListener("click",()=>{F=b.dataset.f;
+  document.querySelectorAll(".filters button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));render()}));
+render();
+
+// highlight the section in view
+const links=[...document.querySelectorAll('nav.side a.nl, .mbar a')];
+const io=new IntersectionObserver(es=>{for(const e of es){if(e.isIntersecting){const id="#"+e.target.id;
+  links.forEach(a=>{const on=a.getAttribute("href")===id;a.classList.toggle("on",on);
+    if(on&&a.parentElement.classList.contains("mbar")){const bar=a.parentElement;bar.scrollTo({left:a.offsetLeft-16,behavior:"smooth"})}})}}},{rootMargin:"-30% 0px -65% 0px"});
+document.querySelectorAll("section.sec").forEach(s=>io.observe(s));
+</script>
+</body></html>
