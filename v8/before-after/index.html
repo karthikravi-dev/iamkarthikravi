@@ -35,9 +35,9 @@ button { font: inherit; color: inherit; }
 h1 { color: var(--ink); font-weight: 800; font-size: clamp(42px, 5.8vw, 82px); text-wrap: balance; line-height: .98; letter-spacing: -.035em; }
 .hero p.intro { margin-top: 28px; font-size: clamp(18px, 1.6vw, 21px); max-width: 46ch; }
 .clock { border-left: 1.5px solid var(--line); padding-left: clamp(24px, 4vw, 56px); }
-.clock .t { position: relative; display: inline-block; color: var(--before); font-weight: 700; font-size: clamp(76px, 11vw, 168px); line-height: .9; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+.clock .t { position: relative; display: inline-block; color: var(--before); font-weight: 700; font-size: clamp(76px, 9.4vw, 136px); line-height: .9; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
 .clock .t::after { content: ""; position: absolute; left: -2%; right: -2%; top: 52%; height: 6px; background: var(--ink); transform: scaleX(var(--strike, 1)); transform-origin: left; }
-.clock .now { margin-top: 18px; color: var(--after); font-weight: 800; font-size: clamp(44px, 6vw, 84px); line-height: 1; letter-spacing: -.03em; opacity: var(--show, 1); transform: translateY(calc((1 - var(--show, 1)) * 12px)); }
+.clock .now { margin-top: 18px; color: var(--after); font-weight: 800; font-size: clamp(44px, 4.6vw, 64px); white-space: nowrap; line-height: 1; letter-spacing: -.03em; opacity: var(--show, 1); transform: translateY(calc((1 - var(--show, 1)) * 12px)); }
 .clock p { margin-top: 18px; color: var(--muted); font-size: 15.5px; max-width: 34ch; }
 
 /* changes */
