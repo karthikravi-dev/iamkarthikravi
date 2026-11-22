@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Site stats · karthikravi.in</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#e6e6e6">
+<link rel="icon" href="/v2/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@600..800&family=Geist:wght@400..600&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --canvas: #e6e6e6; --card: #f3f3f3; --ink: #0a0a0a; --ink-2: #333; --mute: #5c5c5c;
+    --line: rgb(10 10 10 / .14); --bar: #0a0a0a; --bar-soft: #bdbdbd; --track: #dcdcdc;
+    --good: #1f6f43; --bad: #9b2c2c;
+    --display: "Funnel Display", "Helvetica Neue", Arial, sans-serif;
+    --sans: "Geist", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --mono: "Geist Mono", ui-monospace, Menlo, monospace;
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--canvas); color: var(--ink); font: 400 15px/1.5 var(--sans); -webkit-font-smoothing: antialiased; }
+  button, input { font: inherit; color: inherit; }
+  a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 clamp(16px, 3.5vw, 40px); }
+  header .wrap { display: flex; justify-content: space-between; align-items: center; height: 68px; border-bottom: 1px solid var(--line); }
+  .brand { font: 700 20px var(--display); letter-spacing: -0.03em; text-decoration: none; }
+  .brand span { color: var(--mute); font-weight: 600; }
+  .tag { font: 500 11px var(--mono); letter-spacing: .1em; text-transform: uppercase; border: 1px solid var(--line); padding: 4px 8px; }
+  .eyebrow { font: 500 11px/1.2 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--mute); margin: 0; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; height: 44px; padding: 0 18px; background: var(--ink); color: var(--canvas); border: 1px solid var(--ink); cursor: pointer; font-weight: 500; }
+  .btn:hover { background: #262626; }
+  .btn--ghost { background: transparent; color: var(--ink); border-color: rgb(10 10 10 / .3); }
+  .btn--ghost:hover { background: var(--ink); color: var(--canvas); }
+  .link { background: none; border: 0; padding: 0; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; color: var(--ink-2); }
+
+  /* lock */
+  .lock { min-height: calc(100svh - 68px); display: grid; place-items: center; padding: 40px 0; }
+  .lock form { width: min(420px, 100%); display: grid; gap: 14px; }
+  .lock h1 { font: 800 clamp(40px, 7vw, 64px)/.95 var(--display); letter-spacing: -0.04em; margin: 8px 0 4px; }
+  .lock p { margin: 0 0 8px; color: var(--ink-2); }
+  .field { display: flex; border: 1px solid rgb(10 10 10 / .3); background: var(--card); }
+  .field input { flex: 1; min-width: 0; border: 0; background: none; padding: 0 14px; height: 48px; font-size: 16px; }
+  .field input:focus { outline: none; }
+  .field:focus-within { border-color: var(--ink); }
+  .check { display: flex; gap: 10px; align-items: center; font-size: 14px; color: var(--ink-2); }
+  .msg { min-height: 22px; font-size: 14px; color: var(--bad); margin: 0; }
+
+  /* dashboard */
+  .dash { padding: 34px 0 80px; }
+  .bar-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 18px; }
+  .dash h1 { font: 800 clamp(34px, 5vw, 52px)/.95 var(--display); letter-spacing: -0.04em; margin: 10px 0 0; }
+  .ranges { display: flex; border: 1px solid rgb(10 10 10 / .3); }
+  .ranges button { border: 0; background: none; height: 38px; padding: 0 14px; cursor: pointer; font-size: 14px; }
+  .ranges button + button { border-left: 1px solid rgb(10 10 10 / .18); }
+  .ranges button[aria-pressed="true"] { background: var(--ink); color: var(--canvas); }
+  .meta { margin-top: 12px; font: 12px var(--mono); color: var(--mute); display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: center; }
+  .live-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--good); margin-right: 6px; vertical-align: 1px; }
+
+  .kpis { margin-top: 26px; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  .kpi { background: var(--card); padding: 18px 18px 16px; }
+  .kpi b { display: block; font: 700 clamp(30px, 3.4vw, 40px)/1 var(--display); letter-spacing: -0.03em; margin: 12px 0 8px; font-variant-numeric: tabular-nums; }
+  .delta { font: 12px var(--mono); color: var(--mute); }
+  .delta.up { color: var(--good); } .delta.down { color: var(--bad); }
+
+  .panel { background: var(--card); border: 1px solid var(--line); padding: 20px 20px 16px; }
+  .chart-panel { margin-top: 16px; }
+  .panel h2 { font: 600 15px var(--sans); margin: 0 0 4px; }
+  .panel .sub { font-size: 13px; color: var(--mute); margin: 0 0 14px; }
+  .chart { position: relative; height: 240px; }
+  .chart svg { width: 100%; height: 100%; overflow: visible; display: block; }
+  .chart .grid line { stroke: rgb(10 10 10 / .1); stroke-width: 1; }
+  .chart .grid text, .chart .xlab text { font: 11px var(--mono); fill: var(--mute); }
+  .chart .bar { fill: var(--bar); pointer-events: none; }
+  .chart .hit { fill: transparent; cursor: default; }
+  .chart .hit:hover + .bar, .chart .bar.on { fill: #555; }
+  .tip { position: absolute; pointer-events: none; background: var(--ink); color: #f1f1f1; padding: 8px 10px; font-size: 12.5px; line-height: 1.4; white-space: nowrap; transform: translate(-50%, calc(-100% - 10px)); opacity: 0; transition: opacity .1s; z-index: 3; }
+  .tip.on { opacity: 1; }
+  .tip b { font-weight: 600; }
+
+  .grid2 { margin-top: 16px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .grid2 .wide { grid-column: span 2; }
+  .list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+  .list li { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 14px; align-items: center; padding: 7px 10px; font-size: 14px; }
+  .list li::before { content: ""; position: absolute; inset: 0 auto 0 0; width: var(--w, 0%); background: var(--track); border-radius: 0 4px 4px 0; z-index: 0; }
+  .list li > * { position: relative; z-index: 1; }
+  .list .k { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .list .n { font: 13px var(--mono); font-variant-numeric: tabular-nums; text-align: right; min-width: 2.5ch; }
+  .list .n2 { font: 12px var(--mono); color: var(--mute); text-align: right; min-width: 6ch; }
+  .list-head { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 14px; padding: 0 10px 6px; font: 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--mute); }
+  .list-head span:nth-child(3) { min-width: 6ch; text-align: right; }
+  .empty { color: var(--mute); font-size: 14px; padding: 8px 10px; margin: 0; }
+
+  table.recent { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  .recent th { text-align: left; font: 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--mute); font-weight: 400; padding: 0 10px 8px 0; border-bottom: 1px solid var(--ink); }
+  .recent td { padding: 9px 10px 9px 0; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  .recent td.t { font: 12.5px var(--mono); color: var(--ink-2); }
+  .scroll-x { overflow-x: auto; }
+
+  .foot { margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .foot .panel p { margin: 0 0 12px; color: var(--ink-2); font-size: 14px; }
+  .pass-form { display: grid; gap: 10px; }
+  .pass-form .row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .pass-form .field { flex: 1 1 200px; }
+  .ok { color: var(--good); }
+  [hidden] { display: none !important; }
+
+  @media (max-width: 960px) {
+    .kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid2 .wide { grid-column: span 2; }
+  }
+  @media (max-width: 640px) {
+    .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .kpis .kpi:last-child { grid-column: span 2; }
+    .grid2, .foot { grid-template-columns: 1fr; }
+    .grid2 .wide { grid-column: auto; }
+    .chart { height: 200px; }
+    .ranges button { padding: 0 10px; }
+    .recent .hide-s { display: none; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="brand" href="/">karthikravi.<span> stats</span></a>
+    <span class="tag">Private</span>
+  </div>
+</header>
+
+<main>
+  <section class="lock wrap" id="lock">
+    <form id="lock-form" autocomplete="off">
+      <p class="eyebrow">karthikravi.in</p>
+      <h1>Site stats</h1>
+      <p>Visitors, pages and where people come from. Enter your passcode to see them.</p>
+      <div class="field"><input id="pass" type="password" aria-label="Passcode" placeholder="Passcode" autocomplete="current-password" required></div>
+      <label class="check"><input type="checkbox" id="remember"> Remember on this device</label>
+      <button class="btn" type="submit" id="unlock">Unlock</button>
+      <p class="msg" id="lock-msg" role="alert"></p>
+    </form>
+  </section>
+
+  <section class="dash wrap" id="dash" hidden>
+    <div class="bar-top">
+      <div>
+        <p class="eyebrow">karthikravi.in · all pages</p>
+        <h1 id="dash-title">Last 30 days</h1>
+      </div>
+      <div class="ranges" role="group" aria-label="Date range">
+        <button type="button" data-days="1">Today</button>
+        <button type="button" data-days="7">7 days</button>
+        <button type="button" data-days="30" aria-pressed="true">30 days</button>
+        <button type="button" data-days="90">90 days</button>
+        <button type="button" data-days="365">1 year</button>
+      </div>
+    </div>
+    <div class="meta"><span id="live"></span><span id="alltime"></span><span id="updated"></span></div>
+
+    <div class="kpis">
+      <div class="kpi"><p class="eyebrow">Visitors</p><b id="k-visitors">0</b><span class="delta" id="d-visitors"></span></div>
+      <div class="kpi"><p class="eyebrow">Page views</p><b id="k-views">0</b><span class="delta" id="d-views"></span></div>
+      <div class="kpi"><p class="eyebrow">New visitors</p><b id="k-new">0</b><span class="delta" id="d-new"></span></div>
+      <div class="kpi"><p class="eyebrow">Pages per visit</p><b id="k-per">0</b><span class="delta">per session</span></div>
+      <div class="kpi"><p class="eyebrow">Bounce rate</p><b id="k-bounce">0%</b><span class="delta">left after one page</span></div>
+    </div>
+
+    <div class="panel chart-panel">
+      <h2 id="chart-title">Visitors per day</h2>
+      <p class="sub">Hover a bar for that day’s visitors and page views. Days in India time.</p>
+      <div class="chart" id="chart" role="img" aria-label="Visitors over time"></div>
+    </div>
+
+    <div class="grid2">
+      <div class="panel wide"><h2>Pages</h2><p class="sub">Which pages people opened</p><div class="list-head"><span>Page</span><span>Visitors</span><span>Views</span></div><ul class="list" id="l-pages"></ul></div>
+      <div class="panel"><h2>Came from</h2><p class="sub">The site that linked to you</p><ul class="list" id="l-referrers"></ul></div>
+      <div class="panel"><h2>Regions</h2><p class="sub">From the visitor’s time zone</p><ul class="list" id="l-zones"></ul></div>
+      <div class="panel"><h2>Devices</h2><p class="sub">Desktop, phone or tablet</p><ul class="list" id="l-devices"></ul></div>
+      <div class="panel"><h2>Browsers</h2><p class="sub">&nbsp;</p><ul class="list" id="l-browsers"></ul></div>
+      <div class="panel"><h2>Operating systems</h2><p class="sub">&nbsp;</p><ul class="list" id="l-os"></ul></div>
+      <div class="panel" id="p-langs"><h2>Languages</h2><p class="sub">Browser language</p><ul class="list" id="l-langs"></ul></div>
+      <div class="panel" id="p-sources"><h2>Campaign tags</h2><p class="sub">Links with ?utm_source= or ?ref=</p><ul class="list" id="l-sources"></ul></div>
+    </div>
+
+    <div class="panel" style="margin-top:16px">
+      <h2>Latest visits</h2><p class="sub">The 15 most recent page views in this range</p>
+      <div class="scroll-x"><table class="recent"><thead><tr><th>When</th><th>Page</th><th>Came from</th><th class="hide-s">Device</th><th class="hide-s">Region</th></tr></thead><tbody id="recent"></tbody></table></div>
+    </div>
+
+    <div class="foot">
+      <div class="panel">
+        <h2>Your own visits</h2>
+        <p id="ignore-text"></p>
+        <button class="btn btn--ghost" type="button" id="ignore-toggle"></button>
+      </div>
+      <div class="panel">
+        <h2>Passcode</h2>
+        <form class="pass-form" id="pass-form" autocomplete="off">
+          <div class="row">
+            <div class="field"><input id="old-pass" type="password" aria-label="Current passcode" placeholder="Current passcode" autocomplete="current-password" required></div>
+            <div class="field"><input id="new-pass" type="password" aria-label="New passcode" placeholder="New passcode, 10+ characters" autocomplete="new-password" minlength="10" required></div>
+          </div>
+          <div class="row"><button class="btn btn--ghost" type="submit">Change passcode</button><button class="btn btn--ghost" type="button" id="lock-btn">Lock this page</button></div>
+          <p class="msg" id="pass-msg" role="status"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+(() => {
+  const API = 'https://hqlvxgekstkwiixblqvs.supabase.co/rest/v1/rpc/';
+  const KEY = 'sb_publishable_ar_Knucicw2TINEezxnWhw_RTy7LtC-';
+  const $ = (id) => document.getElementById(id);
+  const store = { get(k) { try { return localStorage.getItem(k) || sessionStorage.getItem(k); } catch (e) { return null; } },
+                  set(k, v, keep) { try { (keep ? localStorage : sessionStorage).setItem(k, v); } catch (e) {} },
+                  del(k) { try { localStorage.removeItem(k); sessionStorage.removeItem(k); } catch (e) {} } };
+  const rpc = async (fn, body) => {
+    const r = await fetch(API + fn, { method: 'POST', headers: { apikey: KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return r.json();
+  };
+  const fmt = (n) => Number(n || 0).toLocaleString('en-IN');
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  let pass = store.get('kr_stats_pass');
+  let days = Number(store.get('kr_stats_days')) || 30;
+  let timer = null;
+
+  // time zone -> place people recognise
+  const ZONES = { 'Asia/Kolkata': 'India', 'Asia/Calcutta': 'India', 'America/New_York': 'US East', 'America/Chicago': 'US Central', 'America/Denver': 'US Mountain', 'America/Phoenix': 'US Mountain', 'America/Los_Angeles': 'US West', 'America/Toronto': 'Canada East', 'America/Vancouver': 'Canada West', 'Europe/London': 'United Kingdom', 'Europe/Dublin': 'Ireland', 'Europe/Paris': 'France', 'Europe/Berlin': 'Germany', 'Europe/Amsterdam': 'Netherlands', 'Europe/Madrid': 'Spain', 'Europe/Rome': 'Italy', 'Europe/Zurich': 'Switzerland', 'Europe/Stockholm': 'Sweden', 'Europe/Warsaw': 'Poland', 'Asia/Dubai': 'UAE', 'Asia/Riyadh': 'Saudi Arabia', 'Asia/Qatar': 'Qatar', 'Asia/Singapore': 'Singapore', 'Asia/Kuala_Lumpur': 'Malaysia', 'Asia/Tokyo': 'Japan', 'Asia/Seoul': 'South Korea', 'Asia/Shanghai': 'China', 'Asia/Hong_Kong': 'Hong Kong', 'Asia/Jakarta': 'Indonesia', 'Asia/Manila': 'Philippines', 'Asia/Bangkok': 'Thailand', 'Asia/Dhaka': 'Bangladesh', 'Asia/Karachi': 'Pakistan', 'Asia/Colombo': 'Sri Lanka', 'Asia/Kathmandu': 'Nepal', 'Australia/Sydney': 'Australia East', 'Australia/Melbourne': 'Australia East', 'Australia/Perth': 'Australia West', 'Pacific/Auckland': 'New Zealand', 'Africa/Lagos': 'Nigeria', 'Africa/Nairobi': 'Kenya', 'Africa/Johannesburg': 'South Africa', 'America/Sao_Paulo': 'Brazil', 'America/Mexico_City': 'Mexico' };
+  const zoneName = (z) => ZONES[z] || (z && z.includes('/') ? z.split('/').pop().replace(/_/g, ' ') : z || 'Unknown');
+  const LANGS = { en: 'English', hi: 'Hindi', ta: 'Tamil', te: 'Telugu', kn: 'Kannada', ml: 'Malayalam', mr: 'Marathi', bn: 'Bengali', de: 'German', fr: 'French', es: 'Spanish', ja: 'Japanese', zh: 'Chinese', pt: 'Portuguese', it: 'Italian', nl: 'Dutch', ko: 'Korean', ar: 'Arabic', ru: 'Russian' };
+
+  function showLock(msg) {
+    clearInterval(timer);
+    $('dash').hidden = true; $('lock').hidden = false;
+    $('lock-msg').textContent = msg || '';
+    $('pass').focus();
+  }
+
+  async function load() {
+    let d;
+    try { d = await rpc('site_stats', { p_pass: pass, p_days: days }); }
+    catch (e) { $('updated').textContent = 'Could not reach the database. Retrying in a minute.'; return false; }
+    if (!d || d.error) {
+      store.del('kr_stats_pass'); pass = null;
+      showLock(d && d.error === 'locked' ? 'Too many wrong tries. Wait an hour and try again.' : 'That passcode is not right.');
+      return false;
+    }
+    render(d);
+    return true;
+  }
+
+  function delta(el, now, before) {
+    if (!before) { el.textContent = days === 1 ? 'vs yesterday: no data' : 'no earlier data'; el.className = 'delta'; return; }
+    const p = Math.round(((now - before) / before) * 100);
+    el.textContent = (p > 0 ? '▲ ' : p < 0 ? '▼ ' : '') + Math.abs(p) + '% vs previous ' + (days === 1 ? 'day' : days + ' days');
+    el.className = 'delta ' + (p > 0 ? 'up' : p < 0 ? 'down' : '');
+  }
+
+  function list(id, rows, opts = {}) {
+    const el = $(id);
+    if (!rows || !rows.length) { el.innerHTML = '<li><p class="empty">Nothing yet in this range.</p></li>'; return; }
+    const max = Math.max(...rows.map((r) => r.visitors || 0), 1);
+    el.innerHTML = rows.map((r) => {
+      const label = opts.label ? opts.label(r.k) : r.k;
+      return `<li style="--w:${Math.max(2, (100 * (r.visitors || 0)) / max).toFixed(1)}%" title="${esc(r.k)}"><span class="k">${esc(label)}</span><span class="n">${fmt(r.visitors)}</span>${opts.views ? `<span class="n2">${fmt(r.views)}</span>` : '<span></span>'}</li>`;
+    }).join('');
+  }
+
+  function chart(series) {
+    const el = $('chart');
+    // group into weeks when the range is long, so bars stay readable
+    let pts = series.map((s) => ({ label: s.day, from: s.day, to: s.day, visitors: s.visitors, views: s.views }));
+    let unit = 'day';
+    if (pts.length > 92) {
+      unit = 'week'; const w = [];
+      pts.forEach((p, i) => { if (i % 7 === 0) w.push({ from: p.from, to: p.to, visitors: 0, views: 0 }); const c = w[w.length - 1]; c.to = p.to; c.visitors += p.visitors; c.views += p.views; });
+      pts = w;
+    }
+    $('chart-title').textContent = unit === 'week' ? 'Visitors per week' : 'Visitors per day';
+    const W = el.clientWidth || 800, H = el.clientHeight || 240, padL = 34, padB = 24, padT = 8;
+    const iw = W - padL, ih = H - padB - padT;
+    const max = Math.max(...pts.map((p) => p.visitors), 1);
+    const step = Math.max(1, Math.ceil(max / 4)); const top = step * Math.ceil(max / step) || 1;
+    const bw = iw / pts.length, gap = Math.min(2, bw * 0.25), barW = Math.max(1, bw - gap);
+    const y = (v) => padT + ih - (v / top) * ih;
+    const dfmt = (s, o) => new Date(s + 'T00:00:00').toLocaleDateString('en-IN', o || { day: 'numeric', month: 'short' });
+    let g = '<g class="grid">';
+    for (let v = 0; v <= top; v += step) g += `<line x1="${padL}" x2="${W}" y1="${y(v)}" y2="${y(v)}"/><text x="${padL - 8}" y="${y(v) + 4}" text-anchor="end">${v}</text>`;
+    g += '</g>';
+    const every = Math.ceil(pts.length / Math.max(2, Math.floor(iw / 70)));
+    let xl = '<g class="xlab">';
+    pts.forEach((p, i) => { if (i % every === 0 || i === pts.length - 1 && pts.length <= 7) xl += `<text x="${padL + i * bw + bw / 2}" y="${H - 6}" text-anchor="middle">${dfmt(p.from)}</text>`; });
+    xl += '</g>';
+    let bars = '';
+    pts.forEach((p, i) => {
+      const x = padL + i * bw + gap / 2, h = Math.max(p.visitors ? 2 : 0, (p.visitors / top) * ih), by = padT + ih - h, r = Math.min(4, barW / 2, h);
+      const path = h ? `M${x},${padT + ih} V${by + r} Q${x},${by} ${x + r},${by} H${x + barW - r} Q${x + barW},${by} ${x + barW},${by + r} V${padT + ih} Z` : '';
+      bars += `<rect class="hit" data-i="${i}" x="${padL + i * bw}" y="${padT}" width="${bw}" height="${ih}"/>${path ? `<path class="bar" data-b="${i}" d="${path}"/>` : ''}`;
+    });
+    el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">${g}${xl}<line x1="${padL}" x2="${W}" y1="${padT + ih}" y2="${padT + ih}" stroke="#0a0a0a" stroke-width="1"/>${bars}</svg><div class="tip" id="tip"></div>`;
+    el.setAttribute('aria-label', `${unit === 'week' ? 'Weekly' : 'Daily'} visitors. Highest ${max} in one ${unit}.`);
+    const tip = el.querySelector('#tip');
+    el.querySelectorAll('.hit').forEach((h) => {
+      h.addEventListener('mouseenter', () => {
+        const p = pts[+h.dataset.i]; const b = el.querySelector(`[data-b="${h.dataset.i}"]`);
+        el.querySelectorAll('.bar.on').forEach((x) => x.classList.remove('on')); if (b) b.classList.add('on');
+        const when = unit === 'week' ? `${dfmt(p.from)} – ${dfmt(p.to)}` : dfmt(p.from, { weekday: 'short', day: 'numeric', month: 'short' });
+        tip.innerHTML = `<b>${when}</b><br>${fmt(p.visitors)} visitor${p.visitors === 1 ? '' : 's'} · ${fmt(p.views)} view${p.views === 1 ? '' : 's'}`;
+        const bx = padL + (+h.dataset.i) * bw + bw / 2;
+        tip.style.left = Math.min(Math.max(bx, 80), W - 80) + 'px';
+        tip.style.top = y(p.visitors) + 'px';
+        tip.classList.add('on');
+      });
+    });
+    el.onmouseleave = () => { tip.classList.remove('on'); el.querySelectorAll('.bar.on').forEach((x) => x.classList.remove('on')); };
+  }
+
+  let last = null;
+  function render(d) {
+    last = d;
+    $('lock').hidden = true; $('dash').hidden = false;
+    const t = d.totals;
+    $('dash-title').textContent = days === 1 ? 'Today' : days === 365 ? 'Last 12 months' : `Last ${days} days`;
+    $('k-visitors').textContent = fmt(t.visitors);
+    $('k-views').textContent = fmt(t.views);
+    $('k-new').textContent = fmt(t.new_visitors);
+    $('k-per').textContent = t.per_visit ?? '0';
+    $('k-bounce').textContent = (t.bounce ?? 0) + '%';
+    delta($('d-visitors'), t.visitors, d.previous.visitors);
+    delta($('d-views'), t.views, d.previous.views);
+    $('d-new').textContent = t.visitors ? Math.round((100 * t.new_visitors) / t.visitors) + '% of visitors were new' : '';
+    $('live').innerHTML = `<span class="live-dot"></span>${fmt(t.live)} on the site in the last 5 minutes`;
+    $('alltime').textContent = t.since ? `All time: ${fmt(t.all_time_visitors)} visitors, ${fmt(t.all_time_views)} views since ${new Date(t.since).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}` : 'No visits recorded yet';
+    $('updated').textContent = 'Updated ' + new Date().toLocaleTimeString('en-IN', { hour: 'numeric', minute: '2-digit' });
+    chart(d.series);
+    list('l-pages', d.pages, { views: true, label: (k) => (k === '/' ? 'Home' : k) });
+    list('l-referrers', d.referrers, { label: (k) => (k === 'Direct' ? 'Direct or unknown' : k) });
+    list('l-zones', d.zones, { label: zoneName });
+    list('l-devices', d.devices);
+    list('l-browsers', d.browsers);
+    list('l-os', d.os);
+    list('l-langs', d.langs, { label: (k) => LANGS[k] || k });
+    $('p-sources').hidden = !d.sources.length;
+    $('p-langs').classList.toggle('wide', !d.sources.length);
+    list('l-sources', d.sources);
+    $('recent').innerHTML = d.recent.length ? d.recent.map((r) => `<tr><td class="t">${esc(new Date(r.at).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' }))}</td><td>${esc(r.path === '/' ? 'Home' : r.path)}</td><td>${esc(r.referrer || 'Direct')}</td><td class="hide-s">${esc(r.device || '')}${r.browser ? ' · ' + esc(r.browser) : ''}</td><td class="hide-s">${esc(zoneName(r.tz))}</td></tr>`).join('') : '<tr><td colspan="5" class="empty">No visits in this range yet.</td></tr>';
+  }
+
+  function ignoreUI() {
+    let on = false; try { on = localStorage.getItem('kr_ignore') === '1'; } catch (e) {}
+    $('ignore-text').textContent = on ? 'Visits from this browser are not counted, so your own checking doesn’t inflate the numbers.' : 'Visits from this browser are being counted.';
+    $('ignore-toggle').textContent = on ? 'Count my visits again' : 'Stop counting this browser';
+  }
+  $('ignore-toggle').addEventListener('click', () => {
+    try { localStorage.getItem('kr_ignore') === '1' ? localStorage.removeItem('kr_ignore') : localStorage.setItem('kr_ignore', '1'); } catch (e) {}
+    ignoreUI();
+  });
+
+  function start() {
+    document.querySelectorAll('.ranges button').forEach((b) => b.setAttribute('aria-pressed', String(Number(b.dataset.days) === days)));
+    load().then((ok) => {
+      if (!ok) return;
+      clearInterval(timer);
+      timer = setInterval(() => { if (!document.hidden) load(); }, 60000);
+    });
+  }
+
+  $('lock-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    pass = $('pass').value.trim();
+    $('unlock').disabled = true; $('lock-msg').textContent = '';
+    if (await load()) {
+      store.set('kr_stats_pass', pass, $('remember').checked);
+      try { if (localStorage.getItem('kr_ignore') === null) localStorage.setItem('kr_ignore', '1'); } catch (er) {}
+      ignoreUI(); $('pass').value = '';
+      start();
+    }
+    $('unlock').disabled = false;
+  });
+  document.querySelectorAll('.ranges button').forEach((b) => b.addEventListener('click', () => {
+    days = Number(b.dataset.days); store.set('kr_stats_days', String(days), true); start();
+  }));
+  $('lock-btn').addEventListener('click', () => { store.del('kr_stats_pass'); pass = null; showLock(''); });
+  $('pass-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const msg = $('pass-msg'); msg.className = 'msg'; msg.textContent = '';
+    try {
+      const r = await rpc('site_set_passcode', { p_old: $('old-pass').value, p_new: $('new-pass').value });
+      if (r.ok) {
+        pass = $('new-pass').value;
+        if (store.get('kr_stats_pass')) { let keep = false; try { keep = !!localStorage.getItem('kr_stats_pass'); } catch (er) {} store.del('kr_stats_pass'); store.set('kr_stats_pass', pass, keep); }
+        msg.className = 'msg ok'; msg.textContent = 'Passcode changed.'; e.target.reset();
+      } else msg.textContent = r.error === 'short' ? 'Use at least 10 characters.' : r.error === 'locked' ? 'Too many wrong tries. Wait an hour.' : 'Current passcode is not right.';
+    } catch (er) { msg.textContent = 'Could not reach the database.'; }
+  });
+  let rz; window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => last && chart(last.series), 150); });
+
+  ignoreUI();
+  if (pass) start(); else showLock('');
+})();
+</script>
+</body>
+</html>
