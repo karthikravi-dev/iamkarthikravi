@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Karthik Ravishankar · AI Engineer at Cisco</title>
+<meta name="description" content="Karthik Ravishankar builds AI platforms, MCP servers and network automation at Cisco CX, Bengaluru. SVS Pulse, SVS One, Topic Search MCP, NetAuto MCP, CX MoP Automation.">
+<link rel="canonical" href="https://karthikravi.in/v4/">
+<meta property="og:title" content="Karthik Ravishankar · AI Engineer at Cisco">
+<meta property="og:description" content="AI platforms, MCP servers and network automation that run in production.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#050B16">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23E8722A'/%3E%3Cstop offset='.5' stop-color='%23D94A8C'/%3E%3Cstop offset='1' stop-color='%2300BCEB'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%23050B16'/%3E%3Cpath d='M20 14h7v15l13-15h9L35 30l15 20h-9L30 35l-3 3v12h-7z' fill='url(%23g)'/%3E%3C/svg%3E">
+<style>
+:root {
+    --ink: #050B16;
+    --navy: #0B1830;
+    --navy-2: #102345;
+    --line: rgba(255,255,255,0.09);
+    --text: #C9D4E3;
+    --muted: #97A3B6;
+    --white: #FFFFFF;
+    --cyan: #00BCEB;
+    --blue: #049FD9;
+    --orange: #E8722A;
+    --pink: #D94A8C;
+    --green: #3CCB7F;
+    --paper: #F5F3EE;
+    --paper-ink: #14171C;
+    --font: 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --serif: Georgia, 'Times New Roman', serif;
+    --mono: Consolas, 'SF Mono', Menlo, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--ink); color: var(--text); font-family: var(--font); font-size: 17px; line-height: 1.7; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+a { color: var(--cyan); text-decoration: none; border-bottom: 1px solid rgba(0,188,235,0.35); }
+a:hover { border-bottom-color: var(--cyan); }
+strong { color: var(--white); font-weight: 600; }
+code { font-family: var(--mono); font-size: 0.88em; background: rgba(0,188,235,0.12); color: #8FE6FA; padding: 2px 7px; border-radius: 4px; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 32px; }
+.skip { position: absolute; left: 12px; top: -60px; z-index: 200; background: var(--cyan); color: var(--ink); padding: 10px 14px; border: 0; font-weight: 700; }
+.skip:focus { top: 12px; }
+
+/* progress + nav */
+.progress { position: fixed; top: 0; left: 0; height: 3px; width: 0; z-index: 100; background: linear-gradient(90deg, var(--orange), var(--pink), var(--cyan)); }
+.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 90; padding: 14px 0; background: rgba(5,11,22,0.72); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); transform: translateY(-100%); transition: transform .35s ease; }
+.nav.show { transform: translateY(0); }
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.nav .brand { font-weight: 700; color: var(--white); letter-spacing: .5px; font-size: 14px; white-space: nowrap; border: 0; }
+.nav .brand span { color: var(--cyan); }
+.nav ul { list-style: none; display: flex; gap: 22px; flex-wrap: wrap; justify-content: flex-end; }
+.nav a { border: none; color: var(--muted); font-size: 13px; letter-spacing: .3px; transition: color .2s; }
+.nav a:hover, .nav a.active { color: var(--white); }
+
+/* cover */
+.cover { position: relative; min-height: 100vh; min-height: 100svh; display: flex; align-items: center; overflow: hidden; background: var(--ink); }
+.orb { position: absolute; border-radius: 50%; filter: blur(70px); opacity: .55; animation: drift 22s ease-in-out infinite; pointer-events: none; }
+.orb.o1 { width: 560px; height: 560px; background: var(--orange); top: -140px; right: -80px; }
+.orb.o2 { width: 480px; height: 480px; background: var(--pink); top: 120px; right: 220px; animation-delay: -6s; opacity: .4; }
+.orb.o3 { width: 620px; height: 620px; background: var(--blue); bottom: -260px; right: -120px; animation-delay: -11s; }
+.orb.o4 { width: 380px; height: 380px; background: var(--cyan); bottom: -120px; left: -140px; animation-delay: -3s; opacity: .25; }
+@keyframes drift { 0%,100% { transform: translate(0,0) scale(1); } 33% { transform: translate(-40px,30px) scale(1.08); } 66% { transform: translate(30px,-25px) scale(.95); } }
+.cover .wrap { position: relative; z-index: 2; padding-top: 80px; padding-bottom: 130px; }
+.nameplate { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px 22px; padding-bottom: 18px; margin-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,.18); max-width: 1020px; }
+.np-title { font-family: var(--serif); font-size: 26px; font-weight: 700; font-style: italic; color: var(--white); letter-spacing: -.3px; }
+.np-meta { font-size: 12px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--text); }
+.cover h1 { font-size: clamp(38px, 6.2vw, 84px); line-height: 1.02; font-weight: 800; color: var(--white); letter-spacing: -2px; max-width: 1020px; }
+.cover h1 .grad { background: linear-gradient(100deg, var(--orange) 0%, var(--pink) 45%, var(--cyan) 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.cover .dek { font-size: clamp(18px, 2vw, 22px); color: var(--text); max-width: 640px; margin-top: 30px; line-height: 1.55; }
+.priorities { margin-top: 44px; max-width: 920px; display: grid; grid-template-columns: 128px repeat(3, minmax(0, 1fr)); grid-template-rows: auto auto; column-gap: 14px; }
+.pcap { display: none; }
+.prow-label { grid-column: 1; grid-row: 1; align-self: center; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); line-height: 1.5; }
+.prow-label.bottom { grid-row: 2; }
+.pcol { grid-row: 1 / span 2; display: grid; grid-template-rows: subgrid; border: 1px solid rgba(255,255,255,.16); background: rgba(255,255,255,.05); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-radius: 14px; overflow: hidden; transition: transform .25s, border-color .25s; }
+.pcol:hover { transform: translateY(-3px); border-color: rgba(255,255,255,.35); }
+.pcol b { grid-row: 1; padding: 18px 22px 14px; font-size: clamp(22px, 2.6vw, 32px); font-weight: 800; letter-spacing: -.5px; line-height: 1.1; }
+.pcol b.p1 { color: var(--orange); } .pcol b.p2 { color: #F07AB2; } .pcol b.p3 { color: var(--cyan); }
+.pcol span { grid-row: 2; padding: 14px 22px 18px; border-top: 1px solid rgba(255,255,255,.12); background: rgba(0,0,0,.22); font-size: 15px; font-weight: 600; color: var(--white); line-height: 1.35; }
+.cover .inside { margin-top: 46px; display: flex; flex-wrap: wrap; gap: 10px; }
+.chip { font-size: 13px; color: var(--white); border: 1px solid rgba(255,255,255,.22); background: rgba(255,255,255,.05); border-radius: 999px; padding: 7px 16px; transition: all .2s; }
+.chip:hover { background: rgba(255,255,255,.14); border-color: rgba(255,255,255,.5); }
+.scroll-cue { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 2; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); text-align: center; }
+.scroll-cue .line { width: 1px; height: 46px; margin: 10px auto 0; background: linear-gradient(var(--cyan), transparent); animation: cue 2s ease-in-out infinite; transform-origin: top; }
+@keyframes cue { 0% { transform: scaleY(0); opacity: 1; } 60% { transform: scaleY(1); opacity: 1; } 100% { transform: scaleY(1); opacity: 0; } }
+
+/* stats band */
+.stats { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--navy); }
+.stats .wrap { display: grid; grid-template-columns: repeat(4, 1fr); }
+.stat { padding: 46px 24px; border-right: 1px solid var(--line); }
+.stat:last-child { border-right: none; }
+.stat .num { font-size: clamp(36px, 4.6vw, 58px); font-weight: 800; color: var(--white); letter-spacing: -1.5px; line-height: 1; font-variant-numeric: tabular-nums; }
+.stat .num em { font-style: normal; color: var(--cyan); }
+.stat .lbl { font-size: 13px; color: var(--muted); margin-top: 12px; line-height: 1.45; }
+.stat .lbl b { color: var(--text); font-weight: 600; display: block; font-size: 14px; }
+
+/* sections */
+section { padding: 120px 0; position: relative; }
+h2 { font-size: clamp(34px, 5vw, 60px); line-height: 1.05; font-weight: 800; color: var(--white); letter-spacing: -1.5px; margin-bottom: 26px; max-width: 900px; }
+h3 { font-size: 20px; color: var(--white); font-weight: 700; line-height: 1.3; margin-bottom: 10px; }
+.lede { font-size: 20px; color: var(--text); max-width: 720px; line-height: 1.6; }
+p + p { margin-top: 16px; }
+
+/* 60 seconds */
+.glance { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; margin-top: 56px; }
+.g { background: var(--ink); padding: 34px 30px; transition: background .25s; }
+.g:hover { background: var(--navy); }
+.g h3 { font-size: 18px; }
+.g p { font-size: 15px; color: var(--muted); line-height: 1.6; }
+
+/* letter (paper) */
+.paper { background: var(--paper); color: #3A3F47; }
+.paper h2, .paper h3, .paper strong { color: var(--paper-ink); }
+.letter { display: grid; grid-template-columns: 1.5fr 1fr; gap: 70px; align-items: start; }
+.letter-body { font-family: var(--serif); font-size: 20px; line-height: 1.7; color: #33373E; }
+.letter-body p:first-of-type::first-letter { float: left; font-size: 84px; line-height: .8; padding: 8px 12px 0 0; font-weight: 700; color: #B4501A; font-family: var(--serif); }
+.letter-body strong { font-weight: 700; }
+.letter-body .sign { font-style: italic; color: #6D6A63; }
+.ledger { background: var(--white); border-radius: 14px; padding: 32px; box-shadow: 0 30px 60px -30px rgba(20,23,28,.25); position: sticky; top: 100px; }
+.ledger .tag { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #6F6A60; margin-bottom: 18px; display: block; }
+.ledger .row { display: flex; justify-content: space-between; align-items: baseline; padding: 14px 0; border-bottom: 1px dashed #DDD8CE; gap: 16px; }
+.ledger .row:last-of-type { border-bottom: none; }
+.ledger .row span { font-size: 14px; color: #6D6A63; }
+.ledger .row b { font-size: 17px; color: var(--paper-ink); font-variant-numeric: tabular-nums; text-align: right; }
+.ledger p { font-size: 13.5px; color: #6D6A63; margin-top: 16px; line-height: 1.55; }
+.ledger a { color: #0A60A8; border-bottom-color: rgba(10,96,168,.3); }
+
+/* feature */
+.feature { background: radial-gradient(ellipse at 85% 0%, rgba(0,188,235,.18), transparent 50%), radial-gradient(ellipse at 0% 100%, rgba(217,74,140,.14), transparent 50%), var(--navy); overflow: hidden; }
+.bigquote { font-size: clamp(28px, 4vw, 48px); line-height: 1.2; color: var(--white); font-weight: 300; letter-spacing: -.8px; max-width: 940px; margin: 70px 0 20px; position: relative; }
+.bigquote::before { content: '\201C'; position: absolute; left: -.55em; top: -.12em; font-family: var(--serif); font-size: 1.6em; color: var(--orange); line-height: 1; }
+.bigquote b { font-weight: 700; color: var(--white); background: linear-gradient(transparent 62%, rgba(232,114,42,.45) 62%); }
+.quote-by { font-size: 13px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+.pipeline { margin: 90px 0 30px; }
+.pipeline h3 { font-size: 15px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); font-weight: 600; margin-bottom: 26px; }
+.steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; position: relative; }
+.steps::before { content: ''; position: absolute; top: 33px; left: 8%; right: 8%; height: 2px; background: var(--line); }
+.steps .bar { position: absolute; top: 33px; left: 8%; height: 2px; width: 0; background: linear-gradient(90deg, var(--orange), var(--pink), var(--cyan)); transition: width 2.4s cubic-bezier(.65,0,.35,1); }
+.in .steps .bar, .steps.in .bar { width: 84%; }
+.step { text-align: center; position: relative; z-index: 1; }
+.step .ic { width: 68px; height: 68px; margin: 0 auto 16px; border-radius: 50%; background: var(--navy-2); border: 1px solid rgba(255,255,255,.16); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 15px; color: var(--white); transition: all .4s; }
+.in .step .ic { border-color: var(--cyan); background: #0E3A5C; }
+.in .step:nth-child(3) .ic { transition-delay: .5s; } .in .step:nth-child(4) .ic { transition-delay: 1s; } .in .step:nth-child(5) .ic { transition-delay: 1.5s; } .in .step:nth-child(6) .ic { transition-delay: 2s; }
+.step b { display: block; color: var(--white); font-size: 15px; }
+.step span { font-size: 13px; color: var(--muted); line-height: 1.45; display: block; margin-top: 4px; }
+.shift { margin-top: 70px; border-radius: 16px; overflow: hidden; border: 1px solid var(--line); display: grid; grid-template-columns: 1fr auto 1fr; align-items: stretch; }
+.shift .side { padding: 34px; }
+.shift .old { background: rgba(255,255,255,.02); }
+.shift .old h3 { color: var(--muted); text-decoration: line-through; text-decoration-color: rgba(232,114,42,.8); text-decoration-thickness: 2px; }
+.shift .new { background: linear-gradient(135deg, rgba(0,188,235,.14), rgba(4,159,217,.04)); }
+.shift .arrow { display: flex; align-items: center; justify-content: center; padding: 0 18px; font-size: 28px; color: var(--cyan); background: rgba(0,188,235,.06); }
+.shift ul { list-style: none; }
+.shift li { font-size: 15px; padding: 6px 0 6px 24px; position: relative; }
+.shift .old li { color: var(--muted); }
+.shift .old li::before { content: ''; position: absolute; left: 4px; top: 50%; width: 9px; height: 2px; background: var(--orange); }
+.shift .new li::before { content: ''; position: absolute; left: 4px; top: calc(50% - 3px); width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+.act { margin-top: 90px; display: grid; grid-template-columns: 1fr 1.1fr; gap: 50px; align-items: center; }
+.act h2 { font-size: clamp(32px, 4vw, 48px); }
+.todo { list-style: none; counter-reset: t; margin-top: 26px; }
+.todo li { counter-increment: t; position: relative; padding: 18px 0 18px 64px; border-top: 1px solid var(--line); font-size: 15.5px; }
+.todo li::before { content: counter(t, decimal-leading-zero); position: absolute; left: 0; top: 16px; font-family: var(--mono); font-size: 13px; color: var(--ink); background: var(--cyan); border-radius: 6px; padding: 3px 9px; font-weight: 700; }
+.todo li b { display: block; color: var(--white); font-size: 17px; margin-bottom: 2px; }
+.terminal { background: #02060D; border: 1px solid rgba(255,255,255,.12); border-radius: 12px; overflow: hidden; font-family: var(--mono); font-size: 14px; box-shadow: 0 40px 80px -30px rgba(0,0,0,.7); }
+.terminal .bar-t { display: flex; gap: 7px; padding: 12px 16px; background: rgba(255,255,255,.04); border-bottom: 1px solid rgba(255,255,255,.08); align-items: center; }
+.terminal .bar-t i { width: 11px; height: 11px; border-radius: 50%; display: block; }
+.terminal .bar-t i:nth-child(1) { background: #FF5F57; } .terminal .bar-t i:nth-child(2) { background: #FEBC2E; } .terminal .bar-t i:nth-child(3) { background: #28C840; }
+.terminal .bar-t span { margin-left: 10px; font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.terminal .bar-t em { margin-left: auto; font-style: normal; font-size: 11px; color: var(--muted); border: 1px solid var(--line); border-radius: 99px; padding: 1px 8px; }
+.terminal .body { padding: 22px 22px 26px; min-height: 268px; color: #DCE7F2; line-height: 1.9; white-space: pre-wrap; word-break: break-word; }
+.terminal .p { color: var(--orange); }
+.terminal .ok { color: var(--green); }
+.terminal .dim { color: var(--muted); }
+.terminal .c { color: var(--cyan); }
+.caret { display: inline-block; width: 9px; height: 17px; background: var(--cyan); vertical-align: -3px; animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* work bento */
+.wins { display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; margin-top: 60px; }
+.win { grid-column: span 2; border-radius: 18px; padding: 34px; background: var(--navy); border: 1px solid var(--line); position: relative; overflow: hidden; transition: transform .3s, border-color .3s; display: flex; flex-direction: column; }
+.win:hover { transform: translateY(-5px); border-color: rgba(255,255,255,.22); }
+.win.wide { grid-column: span 3; }
+.win.hero { grid-column: span 4; background: linear-gradient(135deg, #12305E 0%, #0B1830 70%); }
+.win.alert { background: linear-gradient(160deg, rgba(232,114,42,.22), var(--navy) 65%); }
+.win.spot { background: linear-gradient(135deg, rgba(60,203,127,.16) 0%, var(--navy) 70%); }
+.win .who { font-size: 12px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--cyan); margin-bottom: 18px; }
+.win.alert .who { color: #FFA066; }
+.win.pinkish .who { color: #E486B8; }
+.win.spot .who { color: var(--green); }
+.win .fig { font-size: 56px; font-weight: 800; color: var(--white); letter-spacing: -2px; line-height: 1; margin-bottom: 8px; }
+.win .fig small { font-size: 18px; color: var(--muted); font-weight: 500; letter-spacing: 0; margin-left: 6px; }
+.win h3 { font-size: 21px; }
+.win p { font-size: 15px; color: var(--text); }
+.win .thanks { margin-top: auto; padding-top: 18px; font-size: 13.5px; color: var(--muted); border-top: 1px solid var(--line); }
+.win .thanks-gap { height: 18px; }
+.mini { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; margin-top: 22px; background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.mini div { background: rgba(4,159,217,.07); padding: 16px 16px; }
+.mini b { display: block; font-size: 30px; font-weight: 800; color: var(--white); letter-spacing: -1px; line-height: 1; }
+.mini div:nth-child(3) b { color: var(--cyan); }
+.mini span { display: block; font-size: 13px; color: var(--muted); margin-top: 8px; line-height: 1.4; }
+
+/* awards (paper) */
+.kudos-feature { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 60px; }
+.kf { border-radius: 16px; padding: 30px; position: relative; background: #FFFFFF; border: 1px solid #E4DED3; box-shadow: 0 22px 40px -30px rgba(20,23,28,.35); }
+.kf .fig { font-size: 54px; font-weight: 800; letter-spacing: -2px; line-height: 1; margin-bottom: 14px; background: linear-gradient(100deg, var(--orange), var(--pink)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.kf .fig sup { font-size: .45em; vertical-align: top; position: relative; top: .25em; }
+.kf .name { font-size: 20px; font-weight: 700; color: var(--paper-ink); line-height: 1.3; margin-bottom: 4px; }
+.kf .award { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: #0A60A8; margin-bottom: 14px; font-weight: 700; }
+.kf p { font-size: 14.5px; color: #55524C; }
+.kudos-list { margin-top: 20px; border: 1px solid #E4DED3; border-radius: 16px; overflow: hidden; background: #FFFFFF; }
+.kl { display: grid; grid-template-columns: 300px 1fr auto; gap: 24px; padding: 18px 28px; border-bottom: 1px solid #EEE9DF; transition: background .2s; align-items: baseline; }
+.kl:last-child { border-bottom: none; }
+.kl:hover { background: #FAF8F4; }
+.kl b { color: var(--paper-ink); font-size: 15px; }
+.kl span { font-size: 14.5px; color: #55524C; }
+.kl em { font-style: normal; font-family: var(--mono); font-size: 13px; color: #6F6A60; }
+.paper .lede { color: #4A4F57; }
+
+/* talks */
+.tools { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 60px; }
+.tool { border-radius: 16px; padding: 30px; border: 1px solid var(--line); background: rgba(255,255,255,.02); transition: all .3s; display: flex; flex-direction: column; }
+.tool:hover { background: rgba(255,255,255,.05); border-color: rgba(0,188,235,.35); }
+.tool.span2 { grid-column: span 2; }
+.tool h3 { font-size: 18px; }
+.tool p { font-size: 15px; color: var(--muted); }
+.tool .by { align-self: flex-start; font-size: 12px; color: var(--text); margin-top: auto; padding: 4px 10px; border-radius: 99px; border: 1px solid var(--line); }
+.tool .by-gap { height: 16px; }
+.crowd { margin-top: 70px; text-align: center; }
+.crowd .lab { font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 18px; }
+.crowd .names { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+.crowd .names span { font-size: 14px; color: var(--white); padding: 8px 16px; border-radius: 99px; background: rgba(255,255,255,.05); border: 1px solid var(--line); transition: all .2s; }
+.crowd .names span:hover { background: rgba(232,114,42,.18); border-color: rgba(232,114,42,.5); }
+.crowd + .crowd { margin-top: 40px; }
+
+/* contact band */
+.deadline { background: linear-gradient(120deg, #C2410C 0%, #B8326F 100%); color: var(--white); padding: 70px 0; }
+.deadline .wrap { display: grid; grid-template-columns: auto 1fr auto; gap: 50px; align-items: center; }
+.deadline .days { font-size: clamp(80px, 11vw, 150px); font-weight: 800; line-height: .85; letter-spacing: -5px; }
+.deadline .days small { display: block; font-size: 15px; letter-spacing: 3px; text-transform: uppercase; font-weight: 700; margin-top: 12px; opacity: .9; }
+.deadline h2 { color: var(--white); font-size: clamp(28px, 3.4vw, 40px); margin-bottom: 12px; }
+.deadline p { color: var(--white); font-size: 16px; }
+.btn { display: inline-block; background: var(--ink); color: var(--white); padding: 16px 28px; border-radius: 999px; font-weight: 700; font-size: 15px; border: none; white-space: nowrap; transition: transform .2s, box-shadow .2s; }
+.btn:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -10px rgba(0,0,0,.5); border: none; }
+
+/* closing */
+.closing { text-align: center; padding: 140px 0 120px; background: radial-gradient(ellipse at 50% 120%, rgba(4,159,217,.3), transparent 60%), var(--ink); }
+.closing h2 { margin: 0 auto 30px; }
+.closing .lede { margin: 0 auto; }
+.closing .callout { max-width: 760px; margin: 50px auto 0; text-align: left; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.closing .callout div { border: 1px solid var(--line); border-radius: 16px; padding: 28px; background: rgba(255,255,255,.02); }
+.closing .callout b { display: block; color: var(--white); font-size: 17px; margin-bottom: 6px; }
+.closing .callout span { font-size: 15px; color: var(--muted); }
+.closing .callout a + a { margin-left: 16px; }
+.thanks-line { margin-top: 60px; font-size: 22px; color: var(--white); font-weight: 300; }
+.sig { margin-top: 34px; }
+.sig b { display: block; font-size: 22px; color: var(--white); letter-spacing: -.3px; }
+.sig span { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+footer { border-top: 1px solid var(--line); padding: 30px 0; font-size: 12px; color: var(--muted); text-align: center; line-height: 1.7; }
+footer a { color: var(--muted); }
+
+::selection { background: rgba(0,188,235,.35); color: var(--white); }
+.paper ::selection { background: rgba(232,114,42,.3); color: var(--paper-ink); }
+:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; border-radius: 4px; }
+.paper :focus-visible { outline-color: #0A60A8; }
+
+/* reveal */
+.js .reveal { opacity: 0; transform: translateY(34px); transition: opacity .9s cubic-bezier(.2,.8,.2,1), transform .9s cubic-bezier(.2,.8,.2,1); }
+.js .reveal.in { opacity: 1; transform: none; }
+.js .stagger > * { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .7s ease; }
+.js .stagger.in > * { opacity: 1; transform: none; }
+.js .stagger.in > *:nth-child(2) { transition-delay: .08s; } .js .stagger.in > *:nth-child(3) { transition-delay: .16s; } .js .stagger.in > *:nth-child(4) { transition-delay: .24s; } .js .stagger.in > *:nth-child(5) { transition-delay: .32s; } .js .stagger.in > *:nth-child(6) { transition-delay: .4s; } .js .stagger.in > *:nth-child(7) { transition-delay: .48s; } .js .stagger.in > *:nth-child(8) { transition-delay: .56s; } .js .stagger.in > *:nth-child(9) { transition-delay: .64s; }
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .js .reveal, .js .stagger > * { opacity: 1; transform: none; }
+    .steps .bar { width: 84%; }
+    html { scroll-behavior: auto; }
+}
+
+/* responsive */
+@media (max-width: 960px) {
+    .nav ul { display: none; }
+    .stats .wrap { grid-template-columns: 1fr 1fr; }
+    .stat:nth-child(2) { border-right: none; }
+    .stat:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+    .glance, .tools, .kudos-feature { grid-template-columns: 1fr 1fr; }
+    .letter, .act { grid-template-columns: 1fr; gap: 30px; }
+    .ledger { position: static; }
+    .wins { grid-template-columns: 1fr 1fr; }
+    .win, .win.wide, .win.hero { grid-column: span 2; }
+    .tool.span2 { grid-column: span 2; }
+    .deadline .wrap { grid-template-columns: 1fr; gap: 24px; }
+    .kl { grid-template-columns: 1fr auto; gap: 4px 16px; }
+    .kl span { grid-column: 1 / -1; grid-row: 2; }
+    .kudos-feature .kf:last-child { grid-column: span 2; }
+}
+@media (max-width: 640px) {
+    body { font-size: 16px; }
+    .wrap { padding: 0 22px; }
+    section { padding: 80px 0; }
+    .cover .wrap { padding-top: 64px; padding-bottom: 110px; }
+    .cover h1 { letter-spacing: -1.2px; }
+    .glance, .tools, .kudos-feature, .closing .callout { grid-template-columns: 1fr; }
+    .kudos-feature .kf:last-child { grid-column: auto; }
+    .tool.span2 { grid-column: span 1; }
+    .tools { grid-template-columns: minmax(0, 1fr); }
+    .mini div { padding: 14px 10px; }
+    .mini b { font-size: 24px; }
+    .steps { grid-template-columns: 1fr; gap: 18px; }
+    .steps::before, .steps .bar { display: none; }
+    .step { display: grid; grid-template-columns: 68px 1fr; gap: 16px; text-align: left; align-items: center; }
+    .step .ic { margin: 0; }
+    .shift { grid-template-columns: 1fr; }
+    .shift .arrow { padding: 10px; transform: rotate(90deg); }
+    .letter-body { font-size: 18px; }
+    .priorities { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 8px; }
+    .prow-label { display: none; }
+    .pcap { display: block; grid-column: 1 / -1; grid-row: 1; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; line-height: 1.5; }
+    .pcol { grid-row: 2; grid-template-rows: auto 1fr; }
+    .pcol b { padding: 14px 12px 10px; font-size: 19px; }
+    .pcol span { padding: 10px 12px 14px; font-size: 13px; }
+    .win { padding: 28px 24px; }
+    .win .fig { font-size: 46px; }
+    .kl { padding: 16px 20px; }
+    .bigquote { margin-left: 18px; }
+    .terminal { font-size: 12px; }
+    .terminal .bar-t em { flex: none; }
+    .terminal .body { min-height: 300px; padding: 18px 16px 22px; }
+    .deadline .days { letter-spacing: -3px; }
+}
+</style>
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/track.js"></script>
+</head>
+<body>
+<script>document.documentElement.classList.add('js');</script>
+<a class="skip" href="#glance">Skip to content</a>
+<div class="progress" id="progress"></div>
+<nav class="nav" id="nav" aria-label="Sections">
+    <div class="wrap">
+        <a class="brand" href="#top">KARTHIK RAVISHANKAR <span>/ AI ENGINEER</span></a>
+        <ul>
+            <li><a href="#glance">60 seconds</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#pulse">SVS Pulse</a></li>
+            <li><a href="#work">Work</a></li>
+            <li><a href="#awards">Awards</a></li>
+            <li><a href="#talks">Talks</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- ================= COVER ================= -->
+<header class="cover" id="top">
+    <div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div><div class="orb o4"></div>
+    <div class="wrap">
+        <div class="nameplate"><span class="np-title">Karthik Ravishankar</span><span class="np-meta">AI Engineer &nbsp;·&nbsp; Cisco CX &nbsp;·&nbsp; Bengaluru</span></div>
+        <h1>Building AI that runs in <span class="grad">production</span>, not just in demos.</h1>
+        <p class="dek">I’m a consulting engineer at Cisco. I build AI platforms, MCP servers and network automation that teams use every day, and I teach other engineers to do the same.</p>
+        <div class="priorities">
+            <div class="pcap">What I do, and where it shows up</div>
+            <div class="prow-label">What<br>I do</div>
+            <div class="prow-label bottom">Where it<br>shows up</div>
+            <div class="pcol"><b class="p1">Build</b><span>AI platforms and MCP servers</span></div>
+            <div class="pcol"><b class="p2">Automate</b><span>Network test automation</span></div>
+            <div class="pcol"><b class="p3">Teach</b><span>Talks, labs and bootcamps</span></div>
+        </div>
+        <div class="inside">
+            <a class="chip" href="#pulse">SVS Pulse, in production</a>
+            <a class="chip" href="#work">Topic Search MCP</a>
+            <a class="chip" href="#work">EcoVisionaries, 72% precision</a>
+            <a class="chip" href="#awards">11 awards since 2023</a>
+            <a class="chip" href="#talks">15+ talks and sessions</a>
+            <a class="chip" href="#contact">Get in touch</a>
+        </div>
+    </div>
+    <div class="scroll-cue" aria-hidden="true">Scroll<div class="line"></div></div>
+</header>
+
+<main>
+<!-- ================= STATS ================= -->
+<div class="stats">
+    <div class="wrap stagger">
+        <div class="stat"><div class="num"><span class="count" data-to="500">500</span><em>+</em></div><div class="lbl"><b>Projects in SVS Pulse</b>Across 60+ customers</div></div>
+        <div class="stat"><div class="num"><span class="count" data-to="26">26</span><em>K+</em></div><div class="lbl"><b>Test cases, one view</b>Asked in plain language</div></div>
+        <div class="stat"><div class="num"><span class="count" data-to="94">94</span><em>%</em></div><div class="lbl"><b>Fewer AI tokens</b>Per customer report</div></div>
+        <div class="stat"><div class="num"><span class="count" data-to="11">11</span></div><div class="lbl"><b>Awards and wins</b>Since 2023</div></div>
+    </div>
+</div>
+
+<!-- ================= 60 SECONDS ================= -->
+<section id="glance">
+    <div class="wrap">
+        <div class="reveal">
+            <h2>Short on time? Start here.</h2>
+        </div>
+        <div class="glance stagger">
+            <div class="g"><h3>SVS Pulse is in production</h3><p>An AI platform I started on my own. It answers delivery questions across 500+ projects, and report prep went from 30–40 minutes to one click.</p></div>
+            <div class="g"><h3>MCP servers teams use</h3><p>Topic Search MCP finds bugs, Techzone articles and docs in one call, and several Cisco teams use it. NetAuto MCP lets an agent run show commands safely.</p></div>
+            <div class="g"><h3>Network automation</h3><p>20+ automated test suites on IOS-XR and IOS-XE, and CX MoP Automation, which turns hours of migration prep into minutes.</p></div>
+            <div class="g"><h3>Awards and teaching</h3><p>First place at the CX Academy AI Hackathon, 11 awards in all, and 15+ technical sessions, including a five-day AI/ML bootcamp.</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= LETTER ================= -->
+<section id="about" class="paper">
+    <div class="wrap">
+        <div class="reveal">
+            <h2>Hi, I’m Karthik.</h2>
+        </div>
+        <div class="letter">
+            <div class="letter-body reveal">
+                <p>I joined Cisco as an intern in January 2024 and became a consulting engineer in Customer Experience that July. Most days I work on validation for a large enterprise network, and I build the AI tools around that work.</p>
+                <p>The tool I’m proudest of is <strong>SVS Pulse</strong>. I started it on my own, built it from scratch, and it now runs in production: every project in one view, and answers in plain language. A Pulse MCP server brings the same answers into Claude and AI coding tools.</p>
+                <p>I care about AI that earns its place in someone’s week. That means <strong>MCP servers</strong> that reach real systems safely, automation that saves hours, and teaching other engineers to build the same way.</p>
+                <p class="sign">Karthik</p>
+            </div>
+            <aside class="ledger reveal" aria-label="At a glance">
+                <span class="tag">At a glance</span>
+                <div class="row"><span>Role</span><b>Consulting Engineer, Cisco CX</b></div>
+                <div class="row"><span>At Cisco since</span><b>January 2024</b></div>
+                <div class="row"><span>Based in</span><b>Bengaluru, India</b></div>
+                <div class="row"><span>Degree</span><b>B.Tech, AI and Data Science, 2024</b></div>
+                <div class="row"><span>Certifications</span><b>5, all in 2026</b></div>
+                <div class="row"><span>Awards</span><b>11 since 2023</b></div>
+                <p>My final-year paper, <a href="https://doi.org/10.1109/ICCDS60734.2024.10560433">A Deep Learning Framework for Detecting Underwater Trash</a>, won Best Paper Presentation at IEEE ICCDS 2024.</p>
+            </aside>
+        </div>
+    </div>
+</section>
+
+<!-- ================= SVS PULSE FEATURE ================= -->
+<section id="pulse" class="feature">
+    <div class="wrap">
+        <div class="reveal">
+            <h2>From 40 minutes of report prep to <span style="color:var(--cyan)">one click</span>.</h2>
+            <p class="lede"><strong>SVS Pulse</strong> is an AI-powered delivery intelligence platform. It puts every CXTM project in one view, covering <strong>60+ customers, 500+ projects and 26K+ test cases</strong>, and lets people ask about them in plain language. Its PRD is approved by CX-PM, and I led its booth at an internal Cisco showcase.</p>
+        </div>
+
+        <blockquote class="bigquote reveal">Ask a delivery question in plain language and <b>get the answer</b>, not another spreadsheet.</blockquote>
+        <div class="quote-by reveal">The idea behind SVS Pulse</div>
+
+        <div class="pipeline reveal">
+            <h3>How SVS Pulse works</h3>
+            <div class="steps">
+                <div class="bar"></div>
+                <div class="step"><div class="ic">01</div><div><b>Collect</b><span>Every CXTM project in one place</span></div></div>
+                <div class="step"><div class="ic">02</div><div><b>Ask</b><span>A question in plain language</span></div></div>
+                <div class="step"><div class="ic">03</div><div><b>Answer</b><span>An LLM answers from the project records</span></div></div>
+                <div class="step"><div class="ic">04</div><div><b>Reach</b><span>The Pulse MCP server brings it into Claude</span></div></div>
+                <div class="step"><div class="ic">05</div><div><b>Report</b><span>A customer report in one click</span></div></div>
+            </div>
+        </div>
+
+        <div class="shift reveal">
+            <div class="side old">
+                <h3>Report prep by hand</h3>
+                <ul>
+                    <li>30–40 minutes per customer report</li>
+                    <li>Each report prepared by hand</li>
+                    <li>Many more AI tokens per report</li>
+                </ul>
+            </div>
+            <div class="arrow" aria-hidden="true">→</div>
+            <div class="side new">
+                <h3>With SVS Pulse</h3>
+                <ul>
+                    <li>One click per report, every project in one view</li>
+                    <li>Questions answered in plain language</li>
+                    <li>About 94% fewer AI tokens per report</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="act">
+            <div class="reveal">
+                <h2>What it’s built on.</h2>
+                <ol class="todo">
+                    <li><b>Python and FastAPI</b>The service layer and the API that the app and the MCP server share.</li>
+                    <li><b>PostgreSQL</b>Project and test-case records from CXTM, in one place.</li>
+                    <li><b>React and TypeScript</b>The single view that delivery teams and managers open.</li>
+                    <li><b>MCP and an LLM</b>Plain-language answers in Pulse, and the same answers inside Claude.</li>
+                </ol>
+            </div>
+            <div class="terminal reveal" id="term" role="img" aria-label="Illustrative terminal session: asking SVS Pulse a question from Claude through the Pulse MCP server">
+                <div class="bar-t"><i></i><i></i><i></i><span>Claude Code · pulse-mcp</span><em>Illustrative</em></div>
+                <div class="body" id="termBody" aria-hidden="true"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= WORK ================= -->
+<section id="work">
+    <div class="wrap">
+        <div class="reveal">
+            <h2>Things I’ve built.</h2>
+            <p class="lede">Platforms, MCP servers and tools that people use, from Cisco teams to a 40,000-person climate community.</p>
+        </div>
+        <div class="wins stagger">
+            <article class="win hero">
+                <div class="who">SVS One · 2026 · Live</div>
+                <h3>One governed platform instead of scattered Excel trackers</h3>
+                <p>SVS One brings team certifications, individual contributions and project allocations into one place, with a QBR dashboard for managers. <strong>Ask SVS One</strong> answers from the team’s records and 430+ learning resources, using RAG over 8.1K transcript chunks from past session recordings. The same agent works in Cisco Circuit and Claude Code through MCP.</p>
+                <div class="thanks-gap"></div>
+                <div class="thanks">Next.js · TypeScript · PostgreSQL · Prisma · MCP · RAG</div>
+            </article>
+            <article class="win alert">
+                <div class="who">Topic Search MCP · 2025</div>
+                <div class="fig">1<small>call</small></div>
+                <h3>Bugs, Techzone and docs together</h3>
+                <p>A containerised MCP server that lets an AI assistant search all three at once. Several Cisco teams use it.</p>
+            </article>
+            <article class="win pinkish">
+                <div class="who">EcoVisionaries · 2026</div>
+                <div class="fig">72%<small>precision</small></div>
+                <h3>Matchmaking for a 40,000-person Slack</h3>
+                <p>A five-stage pipeline for Work on Climate that beat naive RAG’s 33%. First runner-up at CX Tech4Social Good.</p>
+            </article>
+            <article class="win">
+                <div class="who">NetAuto MCP · 2026</div>
+                <h3>A safe way into network devices</h3>
+                <p>An MCP server that lets an AI agent run show commands over Netmiko and answer in plain language. Built for the Innovation League AI Hackathon.</p>
+                <div class="thanks">Python · MCP · Netmiko · Claude</div>
+            </article>
+            <article class="win">
+                <div class="who">MCP AI Studio · 2025</div>
+                <h3>Network operations in plain English</h3>
+                <p>Engineers ask in plain English, Claude picks MCP tools that talk to devices and enterprise systems, and RAG pipelines bring in the documentation.</p>
+                <div class="thanks">Python · Claude · MCP · RAG</div>
+            </article>
+            <article class="win wide spot">
+                <div class="who">CX MoP Automation · 2024</div>
+                <div class="fig">Hours<small>→ minutes</small></div>
+                <h3>Migration prep, written for you</h3>
+                <p>A web app that collects data from devices over SSH, parses the interfaces, and writes the port map in Excel and the Method of Procedure in Word.</p>
+            </article>
+            <article class="win wide">
+                <div class="who">Webex Knowledge Assistant · 2026</div>
+                <h3>Answers from what the team already said</h3>
+                <p>An AI assistant that answers questions from a team’s own Webex spaces, and shows the messages it used as sources.</p>
+                <div class="thanks">Python · RAG · Circuit API · Webex APIs</div>
+            </article>
+            <article class="win wide">
+                <div class="who">Test automation · Cisco CX</div>
+                <h3>20+ test suites on IOS-XR and IOS-XE</h3>
+                <p>Optics validation, EPNM monitoring and L2/L3 services for a large enterprise network, written and maintained by me.</p>
+                <div class="mini">
+                    <div><b>20+</b><span>automated test suites</span></div>
+                    <div><b>16+</b><span>projects wired into Splunk</span></div>
+                    <div><b>16</b><span>projects on one status dashboard</span></div>
+                </div>
+            </article>
+            <article class="win wide">
+                <div class="who">Splunk and dashboards</div>
+                <h3>Splunk Enterprise, set up from scratch</h3>
+                <p>Test projects and network devices wired in, with dashboards for test KPIs, automation adoption and test-case reuse. Plus a Project Timeline Estimator built from historical benchmarks.</p>
+                <div class="thanks">Splunk Core Certified User, 2026</div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<!-- ================= AWARDS ================= -->
+<section id="awards" class="paper">
+    <div class="wrap">
+        <div class="reveal">
+            <h2>Eleven awards since 2023.</h2>
+            <p class="lede">Hackathon wins, team awards at Cisco, and a best paper.</p>
+        </div>
+        <div class="kudos-feature stagger">
+            <div class="kf"><div class="fig">1<sup>st</sup></div><div class="name">CX Academy AI Hackathon</div><div class="award">Cisco CX · First place</div><p>First place at the AI hackathon run by Cisco CX Academy.</p></div>
+            <div class="kf"><div class="fig">2<sup>nd</sup></div><div class="name">CX Tech4Social Good</div><div class="award">Cisco CX · First runner-up, 2026</div><p>For EcoVisionaries: 72% matching precision for a 40,000-member climate community.</p></div>
+            <div class="kf"><div class="fig">Won</div><div class="name">AI Challenge</div><div class="award">Cisco WISE India · 2025</div><p>Winner of the WISE India AI Challenge.</p></div>
+        </div>
+        <div class="kudos-list reveal">
+            <div class="kl"><b>AI Ideation Award</b><span>Cisco SVS</span><em>2026</em></div>
+            <div class="kl"><b>AI Adoption Award</b><span>Cisco SVS</span><em></em></div>
+            <div class="kl"><b>SVS Rising Star Award</b><span>Cisco SVS</span><em>2025</em></div>
+            <div class="kl"><b>Best Team Impact Award</b><span>Cisco SVS, for the Verizon project</span><em>2025</em></div>
+            <div class="kl"><b>Automation Genie Award</b><span>Cisco SVS</span><em>2025</em></div>
+            <div class="kl"><b>IC Champion Award</b><span>Cisco SVS</span><em>2025</em></div>
+            <div class="kl"><b>Best Paper Presentation</b><span>IEEE ICCDS, for the underwater trash detection paper</span><em>2024</em></div>
+            <div class="kl"><b>First place</b><span>Verve-a-thon Gen AI hackathon</span><em>2023</em></div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= TALKS ================= -->
+<section id="talks">
+    <div class="wrap">
+        <div class="reveal">
+            <h2>On stage and in the room.</h2>
+            <p class="lede">15+ technical sessions on AI, Splunk and automation, plus the labs and bootcamps behind them.</p>
+        </div>
+        <div class="tools stagger">
+            <div class="tool span2"><h3>Five-day AI/ML bootcamp</h3><p>Five days of AI and machine learning for 50+ new hires and interns.</p><div class="by-gap"></div><span class="by">Bootcamp · 50+ people</span></div>
+            <div class="tool"><h3>“AI for your Future”</h3><p>WISE India’s flagship event, April 2026.</p><div class="by-gap"></div><span class="by">Talk · 2026</span></div>
+            <div class="tool"><h3>Cisco Security Summit</h3><p>A lightning talk: the prompt is visible, the full context is not.</p><div class="by-gap"></div><span class="by">Lightning talk</span></div>
+            <div class="tool"><h3>CX Lighthouse AI Labs</h3><p>Wrote five hands-on labs covering MCP, Copilot, APIs and agents.</p><div class="by-gap"></div><span class="by">Labs · 5</span></div>
+            <div class="tool"><h3>SVS Pulse booth</h3><p>Led the SVS Pulse booth at an internal Cisco showcase.</p><div class="by-gap"></div><span class="by">Showcase</span></div>
+            <div class="tool"><h3>Tech Bytes</h3><p>AI enablement sessions for APJC engineers.</p><div class="by-gap"></div><span class="by">Enablement</span></div>
+            <div class="tool"><h3>Splunk enablement</h3><p>An enablement series for SVS engineers.</p><div class="by-gap"></div><span class="by">Series</span></div>
+            <div class="tool"><h3>Team enablement</h3><p>Claude Code and Splunk enablement for my whole team, and sessions on AI, Splunk and automation for the Verizon programme.</p><div class="by-gap"></div><span class="by">Team</span></div>
+        </div>
+        <div class="crowd reveal">
+            <div class="lab">Certifications, 2026</div>
+            <div class="names"><span>CCNP Automation</span><span>DevNet Specialist, Core (DEVCOR)</span><span>DevNet Specialist, Service Provider (SPAUTO)</span><span>Splunk Core Certified User</span><span>AI Tech Practitioner</span></div>
+        </div>
+        <div class="crowd reveal">
+            <div class="lab">Tools I use most</div>
+            <div class="names"><span>Python</span><span>TypeScript</span><span>MCP servers</span><span>RAG pipelines</span><span>Agentic AI</span><span>FastAPI</span><span>Next.js</span><span>React</span><span>PostgreSQL</span><span>Claude Code</span><span>LangChain</span><span>Google ADK</span><span>Splunk</span><span>Docker</span><span>Netmiko</span></div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= CONTACT BAND ================= -->
+<div class="deadline" id="contact">
+    <div class="wrap">
+        <div class="days">Hi.<small>Say hello</small></div>
+        <div>
+            <h2>Working on AI agents, MCP or network automation?</h2>
+            <p>I’m happy to talk about building AI that teams actually use, from MCP servers to production platforms. Email is the fastest way to reach me.</p>
+        </div>
+        <a class="btn" href="mailto:karthikravi141@gmail.com">Email Karthik →</a>
+    </div>
+</div>
+
+<!-- ================= CLOSING ================= -->
+<section class="closing">
+    <div class="wrap">
+        <div class="reveal">
+            <h2>Thanks for scrolling.</h2>
+            <p class="lede">If something here is useful to your team, or you’d like to build something together, I’d like to hear about it.</p>
+        </div>
+        <div class="callout stagger">
+            <div><b>Email</b><span><a href="mailto:karthikravi141@gmail.com">karthikravi141@gmail.com</a></span></div>
+            <div><b>Elsewhere</b><span><a href="https://github.com/karthikravi-dev">GitHub</a><a href="https://linkedin.com/in/karthikraviii">LinkedIn</a></span></div>
+        </div>
+        <p class="thanks-line reveal">Built in Bengaluru.</p>
+        <div class="sig reveal"><b>Karthik Ravishankar</b><span>Consulting Engineer · Cisco CX</span></div>
+    </div>
+</section>
+</main>
+
+<footer>
+    <div class="wrap">© 2026 Karthik Ravishankar. Product names are trademarks of their owners. The terminal session above is illustrative.</div>
+</footer>
+
+<script>
+(() => {
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const nav = document.getElementById('nav');
+    const bar = document.getElementById('progress');
+    const cover = document.querySelector('.cover');
+    const links = [...nav.querySelectorAll('ul a')];
+    const secs = links.map((a) => document.querySelector(a.getAttribute('href')));
+
+    // progress bar, nav reveal and active link
+    const onScroll = () => {
+        const h = document.documentElement;
+        const max = h.scrollHeight - innerHeight;
+        bar.style.width = (max > 0 ? (scrollY / max) * 100 : 0) + '%';
+        nav.classList.toggle('show', scrollY > cover.offsetHeight * 0.6);
+        let cur = -1;
+        secs.forEach((s, i) => { if (s && s.getBoundingClientRect().top < innerHeight * 0.35) cur = i; });
+        links.forEach((a, i) => a.classList.toggle('active', i === cur));
+    };
+    addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // count-up
+    const countUp = (el) => {
+        const to = Number(el.dataset.to);
+        if (reduce) { el.textContent = to; return; }
+        const t0 = performance.now(), dur = 1400;
+        const tick = (t) => {
+            const k = Math.min(1, (t - t0) / dur);
+            el.textContent = Math.round(to * (1 - Math.pow(1 - k, 3)));
+            if (k < 1) requestAnimationFrame(tick);
+        };
+        el.textContent = '0';
+        requestAnimationFrame(tick);
+    };
+
+    // terminal (illustrative)
+    const lines = [
+        ['p', '> '], ['', 'Which projects are trending down this week?\n'],
+        ['dim', '  → pulse-mcp.search_projects(trend="down")\n'],
+        ['ok', '  ✓ '], ['', '3 projects found in 0.4s\n\n'],
+        ['c', '  L2VPN services  '], ['', '72%  ↓9 pts\n'],
+        ['c', '  Campus rollout  '], ['', '88%  ↓4 pts\n'],
+        ['c', '  Core migration  '], ['', '91%  ↓2 pts\n\n'],
+        ['p', '> '], ['', 'Make the weekly report for these three.\n'],
+        ['ok', '  ✓ '], ['', 'Report ready in one click.\n']
+    ];
+    let typed = false;
+    const typeTerm = () => {
+        if (typed) return; typed = true;
+        const body = document.getElementById('termBody');
+        if (reduce) { body.innerHTML = lines.map(([c, t]) => c ? `<span class="${c}">${t}</span>` : t).join(''); return; }
+        let i = 0, j = 0, span = null;
+        const caret = document.createElement('span'); caret.className = 'caret';
+        body.appendChild(caret);
+        const step = () => {
+            if (i >= lines.length) return;
+            const [c, t] = lines[i];
+            if (j === 0) { span = document.createElement('span'); if (c) span.className = c; body.insertBefore(span, caret); }
+            const fast = c === 'dim' || c === 'c' || i > 0 && lines[i - 1][0] === 'ok';
+            const n = fast ? 3 : 1;
+            span.textContent += t.slice(j, j + n); j += n;
+            if (j >= t.length) { i++; j = 0; setTimeout(step, t.endsWith('\n') ? 260 : 40); }
+            else setTimeout(step, c === 'p' || c === '' && lines[i - 1] && lines[i - 1][0] === 'p' ? 28 : 12);
+        };
+        setTimeout(step, 400);
+    };
+
+    // reveal on scroll
+    const targets = document.querySelectorAll('.reveal, .stagger');
+    const fire = (el) => {
+        el.classList.add('in');
+        el.querySelectorAll('.count').forEach(countUp);
+        if (el.id === 'term' || el.querySelector && el.querySelector('#term')) typeTerm();
+    };
+    if (!('IntersectionObserver' in window) || reduce) {
+        targets.forEach(fire);
+    } else {
+        const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { fire(e.target); io.unobserve(e.target); } }), { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+        targets.forEach((t) => io.observe(t));
+    }
+})();
+</script>
+</body>
+</html>
